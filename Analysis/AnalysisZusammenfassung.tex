@@ -1,0 +1,657 @@
+\documentclass[a4paper, 9pt, DIV=24]{scrartcl}
+\usepackage[utf8]{inputenc}
+
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{fancyhdr}
+
+\usepackage{enumitem}
+
+%opening
+\title{Analysis II -- Zusammenfassung}
+\author{Tim Taubner}
+
+\DeclareMathOperator{\arcsinh}{arcsinh}
+\DeclareMathOperator{\arccosh}{arccosh}
+\DeclareMathOperator{\arctanh}{arctanh}
+
+\newcommand{\N}{\N}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\begin{document}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[L]{Zusammenfassung Analysis I, HS 2012, Analysis II, FS 2013}
+\fancyhead[R]{Tim Taubner, B.\ Sc.\ ETH Informatik, Legi-Nr.: 12-937-546}
+
+\begin{twocolumn}
+\tableofcontents
+\end{twocolumn}
+
+\clearpage
+
+\section{Einfaches}
+
+\subsection{Vollständige Induktion}
+Kann für ein Prädikat $P(n)$ bewiesen werden, dass $P(n_0)$ und $\forall n\in\N: n > n_0 \wedge P(n) \rightarrow P(n+1)$ gilt,
+dann folgt daraus $\forall n\in\N: n \geq n_0 \rightarrow P(n)$.
+\paragraph{Induktionannahme (IA)} bezeichnet das Prädikat $P(n)$.
+\paragraph{Induktionsverankerung (IV)} ist der Beweis von $P(n_0)$.
+\paragraph{Induktionsschritt (IS)} ist der Beweis von $P(n) \rightarrow P(n+1)$.
+
+\subsection{Logik}
+\paragraph{Wahrheitstafel als Definition gängiger, bool'scher Operatoren}
+\[
+\begin{array}{ccccccc}
+A&B&\neg A&A \wedge B&A \vee B & A \rightarrow B & A \leftrightarrow B \\\hline
+0&0&1&0&0&1&1\\\hline
+0&1&1&0&0&1&0\\\hline
+1&0&0&0&1&0&0\\\hline
+1&1&0&1&1&1&1\\
+\end{array}
+\]
+
+\subsection{Mengen}
+\subsubsection{Definitionen}
+Seien im Folgenden $A, B$ Mengen.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $A \cup B := \{x\, |\, x \in A \wedge x \in B\}$ -- \emph{Vereinigung}
+ \item $A \cap B := \{x\, |\, x \in A \vee x \in B\}$ -- \emph{Durchschnitt}
+ \item $A \backslash B := A - B := \{x\, |\, x \in A \wedge x \notin B\}$ -- \emph{Differenz}
+ \item $A^C := \overline{A} := {x\, |\, x \notin A} = M \backslash A$ -- \emph{Komplement (bzgl. $M$)}
+ \item $A \subseteq B := \forall x \in A: x \in B.$ -- \emph{Teilmenge}
+\end{enumerate}
+\subsubsection{Rechenregeln}
+Diese Beweise (und ähnliche) können durch Einsetzen der obigen Definitionen und logisches Umformen geführt werden.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $A \cup B = B \cup A, \\ A \cap B = B \cap A.$
+ \item $A \cup (B \cup C) = (A \cup B) \cup C, \\ A \cap (B \cap C) = (A \cap B) \cap C.$
+ \item $A \cup (B \cap C) = (A \cap B) \cup (A \cap C), \\ A \cap (B \cup C) = (A \cup B) \cap (A \cup C).$
+ \item $(A\backslash B) \cup C = (A \cup B) \cap (B^C \cup C), \\ (A\backslash B) \cap C = A \backslash (B \cup C^C).$
+ \item $(A \cup B)^C = A^C \cap B^C, \\ (A \cap B)^C = A^C \cup B^C.$
+ \item $(A\backslash B) = A \cap B^C.$
+ \item $(A\backslash B) \backslash C = A \backslash (B \cup C).$
+\end{enumerate}
+\subsubsection{Wichtige Mengen}
+\begin{description}
+ \item[$\N_0$, natürliche Zahlen mit 0] $\N := \{0,1,2,3,\dots\}.$
+ \item[$\N$, natürliche Zahlen] $\N := \{1,2,3,\dots\} = \N\backslash\{0\}.$
+ \item[$\mathbb{Z}$, ganze Zahlen] $\mathbb{Z} := \{\dots,-2,-1,0,1,2,\dots\}.$
+ \item[$\mathbb{Q}$, rationale Zahlen] $\mathbb{Q} := \{\frac{p}{q}\, |\, p \in \mathbb{Z}, q \in \N_0\}.$
+ \item[$\mathbb{R}$, reelle Zahlen] $\mathbb{R} := $ rationale und irrationale Zahlen, $\mathbb{Q} \subseteq \mathbb{R}$.
+ \item[$\mathbb{C}$, reelle Zahlen] $\mathbb{C} := \{a - bi\, |\, a, b \in \mathbb{R}\}, $ mit $i^2 = -1$.
+\end{description}
+\subsubsection{Intervalle}
+\begin{tabular}{ll}
+$[a,b] := \{x\in\mathbb{R}\, |\, a \leq x \leq b\}$ & abgeschlossen \\
+$]a,b] := \{x\in\mathbb{R}\, |\, a \leq x < b\} := (a,b]$ & halboffen (links) \\
+$[a,b[\ := \{x\in\mathbb{R}\, |\, a < x \leq b\} := [a,b)$ & halboffen (rechts) \\
+$]a,b[\ := \{x\in\mathbb{R}\, |\, a < x < b\} := (a,b)$ & offen \\
+\end{tabular}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item Offene Intervalle sind offene Mengen
+ \item Abgeschlossen Intervalle sind abgeschlossene Mengen
+ \item Abgeschlossene beschränkte Intervalle ($a,b \neq \infty$) sind kompakt.
+\end{enumerate}
+\subsubsection{Mächtigkeit}
+Zwei Mengen $A, B$ heißen \emph{gleichmächtig}, wenn es eine bijektive Abbildung $f: A \rightarrow B$ gibt.
+Wir schreiben $|A| = |B|$. \\
+Es gilt $|\N| = |\mathbb{Z}| = |\mathbb{Q}| < |\mathbb{R}| = |[a,b]| = |\mathbb{C}|$.
+
+\clearpage
+\section{Mittleres}
+
+\subsection{Zwischenwertsatz}
+\subsection{Folgen}
+\subsubsection{Definitionen}
+Falls nicht anders angegeben, ist $(a_n)_{n\in\N}$ eine Folge.
+Der \textbf{Grenzwert} $a$ einer Folge existiert genau dann,
+wenn $\forall \epsilon > 0, \epsilon\in\mathbb{R} \exists n_0 \in\N \forall n\in\N: |a - a_n| < \epsilon$
+Wir schreiben dann $a = \lim_{n\rightarrow\infty} a_n$ oder auch $a_n \rightarrow a$.
+\begin{description}
+ \item[konvergent] Der Grenzwert existiert.
+ \item[divergent] Der Grenzwert existiert nicht.
+ \item[Nullfolge] $a = 0$.
+ \item[beschränkt] $\exists C\in\mathbb{R}: |a_n| \leq C$.
+ \item[unbeschränkt] Falls nicht beschränkt. Immer \emph{divergent}!
+ \item[monoton wachsend] $a_n \geq a_{n+1}, \forall{n\in\N}$
+ \item[monoton fallend] $a_n \leq a_{n+1}, \forall{n\in\N}$
+ \item[streng monoton wachsend] $a_n > a_{n+1}, \forall{n\in\N}$
+ \item[streng monoton fallend] $a_n < a_{n+1}, \forall{n\in\N}$
+ \item[alternierend] $a_n < 0 \implies a_{n+1} > 0, \forall{n\in\N}$
+ \item[bestimmt divergent / uneigentlich konvergent] $a = \pm \infty$
+ \item[Teilfolge] Durch Weglassen von Gliedern aus $(a_n)_{n\in\N}$ entstandene, unendliche Folge.
+ \item[Häufungspunkt] $b = \lim_{n\rightarrow\infty} b_n$, $(b_n)_{n\in\N}$ Teilfolge.
+ \item[$\limsup$] $\max\{b_n\text{ konvergente Teilfolge } | \lim_{n\rightarrow\infty} b_n\}$.
+ \item[$\liminf$] $\min\{b_n\text{ konvergente Teilfolge } | \lim_{n\rightarrow\infty} b_n\}$.
+\end{description}
+
+\subsubsection{Konvergenzkriterien}
+\begin{enumerate}[label={(}\arabic*{)}]
+\item $a_n \rightarrow a \implies a_n - a \rightarrow 0 \implies |a_n - a| \rightarrow 0$.
+\item Jede Teilfolge einer konvergenten Folge konvergiert gegen ihren Grenzwert.
+      Eine konvergente Folge hat also genau einen Häufungspunkt.
+\item $(a_n)$ monoton wachsend und nach oben beschränkt $\implies$ $(a_n)$ konvergent.
+\item $(a_n)$ monoton fallend und nach unten beschränkt $\implies$ $(a_n)$ konvergent.
+\item $(\sum_{n=0}^{\infty} a_n)$ konvergent $\implies$ $a = 0$, siehe Reihen.
+\item $\exists f, f(n) = a_n \wedge \lim_{x\rightarrow\infty} f(x) = a \implies \lim_{n\rightarrow\infty} a_n = a$.
+\item $\exists (a_n), (b_n), (c_n) \text{ mit } a_n \leq b_n \leq c_n \wedge a = c \implies b = a,$\\
+      sogenanntes \textbf{Einschließungskriterium}.
+\end{enumerate}
+
+\paragraph{Cauchy-Kriterium}
+Eine Folge $(a_n)_{n\in\N}$ heißt \emph{Cauchy-Folge}, falls
+ \[ \forall \epsilon > 0: \exists n_0 \in\N: \forall n,l \geq n_0: |a_n - a_l| < \epsilon \]
+Insbesondere gilt, $(a_n)_{n\in\N}$ konvergent $\iff (a_n)$ Cauchy-Folge.\\[.2em]
+Siehe auch \textbf{Tipps an Beispielen} für angewandte Kriterien.
+
+\subsubsection{Rechenregeln für Eigenschaften}
+\paragraph{Addition}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $(a_n), (b_n)$ konvergent $\implies (a_n + b_n)$ konvergent.
+ \item $(a_n), (b_n)$ beschränkt $\implies (a_n + b_n)$ beschränkt.
+ \item $(a_n)$ konvergent, $(b_n)$ divergent $\implies (a_n + b_n)$ divergent.
+ \item $(a_n)$ beschränkt, $(b_n)$ unbeschränkt $\implies (a_n + b_n)$ unbeschränkt.
+ \item $(a_n)$ beschränkt, $(b_n) \rightarrow \pm \infty \implies (a_n + b_n) \rightarrow \pm \infty$.
+ \item $(a_n) \rightarrow \pm\infty$, $(b_n) \rightarrow \pm\infty \implies (a_n + b_n) \rightarrow \pm\infty$.
+\end{enumerate}
+\paragraph{Multiplikation}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $(a_n)$ Nullfolge, $(b_n)$ beschränkt $\implies (a_n \cdot b_n)$ Nullfolge.
+ \item $(a_n), (b_n)$ konvergent $\implies (a_n \cdot b_n)$ konvergent.
+ \item $(a_n), (b_n)$ beschränkt $\implies (a_n \cdot b_n)$ beschränkt.
+ \item $(a_n) \rightarrow a, a \neq 0$, $(b_n)$ divergent $\implies (a_n \cdot b_n)$ divergent.
+\end{enumerate}
+\paragraph{Grenzwerte} Wir setzen $a := \lim_{n\rightarrow\infty} a_n, b := \lim_{n\rightarrow\infty} b_n.$
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\lim_{n\rightarrow\infty}(a_n \pm b_n) = a \pm b.$
+ \item $\lim_{n\rightarrow\infty}(c\cdot a_n) = c\cdot a.$
+ \item $\lim_{n\rightarrow\infty}(a_n \cdot b_n) = a \cdot b.$
+ \item $\lim_{n\rightarrow\infty}((a_n)^c) = a^c, c$ konstant.
+ \item $\lim_{n\rightarrow\infty}(\frac{a_n}{b_n}) = \frac{a}{b}, b \neq 0.$
+\end{enumerate}
+
+\subsubsection{Hilfsmethoden}
+\paragraph{Referenzfolgen}
+Für folgende Folgen gilt: weiter rechts stehende wachsen schneller gegen $+\infty$.
+\[1, \ln(n), n^a (a > 0), q^n (q > 1), n!, n^n\]
+
+\paragraph{Bernoullische Ungleichung}
+$(1+x)^n \geq 1 + nx, x \geq -1, n \in \N.$
+
+\paragraph{Stirlingformel -- Abschätzungen für $n!$}
+\[\sqrt{2\pi n}(\frac{n}{e})^n \leq n! \leq \sqrt{2\pi n}(\frac{n}{e})^n \cdot e^{\frac{1}{12n}}, \] insbesondere gilt 
+$\sqrt{2\pi n}(\frac{n}{e})^n \approx n!$
+
+\subsubsection{Tipps an Beispielen}
+\paragraph{Gruppieren von Gliedern}
+\paragraph{Wurzel}
+\paragraph{Bruch}
+\paragraph{$n$ im Exponent}
+\paragraph{Satz von l'Hospital}
+
+\subsection{Reihen}
+\subsubsection{Definitionen}
+Eine \emph{Reihe} $\sum_{k = 1}^\infty a_k$ heißt \emph{konvergent} mit Grenzwert $s$, wenn die Folge der \emph{Partialsummen}
+$(S_n)_{n \in \N}$, $S_n := \sum_{k=1}^n a_k$ gegen $s$ konvergiert. Es gilt also wie folgt.
+\[ \sum_{k=1}^\infty a_k = s \iff \lim_{n\rightarrow\infty} \sum_{k=1}^n a_k = s \]
+
+\subsubsection{Konvergenzkriterien}
+
+\paragraph{Nullfolge als Notwendigkeit}
+Konvergiert $\sum_{n=1}^\infty a_n$, so muss $\lim_{n \to \infty} a_n = 0$ gelten.
+Ist $(a_n)$ also keine Nullfolge, konvergiert auch obige Reihe nicht!
+
+\paragraph{$\epsilon$-Kriterium}
+$\forall \epsilon > 0: \exists n_0 \in \N: \forall n \geq n_0: | \sum_{k=1}^n a_k - s | < \epsilon$
+
+\paragraph{Absolute Konvergenz}
+Konvergiert $\sum_{n=1}^\infty |a_n|$, so sagen wir die Reihe konvergiert absolut.
+Es gilt $\sum_{n=1}^\infty |a_n|$ konvergent $ \implies \sum_{n=1}^\infty a_n$ konvergent.
+Die Umkehrung gilt i. A. nicht.
+
+\paragraph{Majoranten- und Minorantenkriterium}
+
+\paragraph{Leibnizkriterium}
+\paragraph{Wurzelkriterium}
+\paragraph{Quotientenkriterium}
+
+\subsection{Rechenregeln}
+Für \underline{konvergente} Reihen gilt:
+\[
+	\sum_{n=1}^\infty a_n = a, \sum_{n=1}^\infty b_n = b \Rightarrow
+	\sum_{n=1}^\infty (\alpha a_n + \beta b_n) = \alpha a + \beta b
+\]
+Für \underline{absolut konvergente} Reihen gilt:
+\[
+	\sum_{k,l=1}^\infty a_k b_l = \sum_{k=1}^\infty a_k \cdot \sum_{l=1}^\infty b_l
+\]
+und es konvergiert die Reihe der Produkte absolut, unabhängig von der Summationsreihenfolge.
+
+
+\subsubsection{Kriterien}
+	Die nachfolgenden Kriterien sagen nur aus, ob die Reihen konvergiert oder nicht. Sie sagen \underline{nicht} aus, gegen was sie konvergieren.
+
+	\paragraph{Quotientenkriterium}
+		\[
+		\left| \frac{a_{n+1}}{a_n} \right| \to q. \quad \text{Dann gilt} \begin{cases}
+		q < 1 & \Rightarrow \sum_{n=1}^\infty a_n \text{ konvergiert absolut} \\
+		q = 1 & \Rightarrow \text{keine Aussage}\\
+		q > 1 & \Rightarrow \sum_{n=1}^\infty a_n \text{ divergiert}
+		\end{cases}
+		\]
+
+	\paragraph{Wurzelkriterium}
+		\[
+		\sqrt[n]{\left | a_n \right |} \to q. \quad \text{Dann gilt} \begin{cases}
+		q < 1 & \Rightarrow \sum_{n=1}^\infty a_n \text{ konvergiert absolut}\\
+		q = 1 & \Rightarrow \text{keine Aussage}\\
+		q > 1 & \Rightarrow \sum_{n=1}^\infty a_n \text{ divergiert}
+		\end{cases}
+		\]
+
+	\paragraph{Leibnizkriterium}
+		Wenn gilt:
+		\begin{itemize}
+			\item $(a_n)$ ist alternierende Folge, d.h die Vorzeichen wechseln jedes Mal
+			\item $a_n \to 0$ oder $|a_n| \to 0$
+			\item $(|a_n|)$ ist monoton fallend
+		\end{itemize}
+		\ldots dann konvergiert $\sum_{n=1}^\infty a_n$
+
+	\paragraph{Majorantenkriterium}
+		Ist $|a_n| \leq b_n$ und $\sum_{n=1}^\infty b_n$ konvergent, so konvergiert
+		$\sum_{n=1}^\infty a_n$ absolut.
+
+	\paragraph{Minorantenkriterium}
+		Ist $a_n \geq b_n \geq 0$ und $\sum_{n=1}^\infty b_n$ divergent, so divergiert
+		$\sum_{n=1}^\infty a_n$
+
+\subsection{Potenzreihe}
+	Die Potenzreihe hat die allgemeine Form
+	\[
+	\sum_{n=0}^\infty a_n (x - x_0)^n
+	\]
+	bzw.
+	\[
+	\sum_{n=0}^\infty a_n z^n
+	\]
+
+	$x_0$ ist der Entwicklungspunkt der Potenzreihe und $(a_n)_{n \in \N}$ eine beliebige Folge.
+
+	\subsubsection{Konvergenzradius}
+		Die Berechnung des Konvergenzradius ist für solche Reihen einfacher, da der Faktor $(x - x_0)$ nicht analysiert werden muss. Entsprechend gilt für den Konvergenzradius $r$:
+		$r = \frac{1}{\limsup_{n\to\infty} \sqrt[n]{|a_n|}}$ (Wurzelkriterium) bzw.
+		$r = \lim_{n\to\infty} \left | \frac{a_n}{a_{n+1}} \right |$ (Quotientenkriterium, nur wenn ab einem bestimmten Index alle $a_n$ von 0 verschieden sind und der Limes existiert, nicht immer anwendbar).\\
+		Konvergiert für alle $|z| < r$, divergiert für alle $|z| > r$
+		
+	\subsubsection{Randpunkte}
+		\begin{itemize}
+			\item Für das Konvergenzverhalten der Randpunkte bedarf es weiterer Untersuchungen.
+			\item Dabei müssen die Randpunkte einzeln in die vorgegebene Reihe eingesetzt werden. Wenn die Reihe divergiert, ist der Randpunkt ebenfalls divergent und umgekehrt.
+		\end{itemize}
+
+\subsubsection{Rechenregeln}
+
+\subsubsection{Potenzreihen}
+\paragraph{Konvergenzradius}
+\paragraph{Randpunkte}
+
+\subsection{Funktionen}
+\subsubsection{Grenzwerte}
+\subsubsection{Stetigkeit}
+\subsubsection{Folgen von Funktionen}
+\subsubsection{Differentialrechnung}
+
+\subsection{Topologie}
+\subsection{Taylorreihe \& -entwicklung}
+
+\clearpage
+\section{Schweres}
+
+\subsection{Integration}
+Im Folgenden seien $F, f$ definiert auf $]a,b[$.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $F$ heißt Stammfunktion von $f$ falls $F' = f$.
+ \item Für Stammfunktionen $F_1, F_2$ von f gilt: $F_1 - F_2$ konstant.
+ \item $\int_{x_0}^{x_1}f(x)dx := F(x_1) - F(x_0)$ heißt Integral von $f$ über $[x_0, x_1]$.
+   Dabei ist $a < x_0 <= x_1 < b$ und $F' = f$.
+ \item \textbf{Hauptsatz:} $F(y) = \int_{a}^{y}f(x)dx, y \in\ ]a,b[ \implies F' = f.$
+\end{enumerate}
+%\subsubsection{Riemannsummen \& -integral}
+%Das R-Integral, hier einfach nur als Integral bezeichnet, wird über die Riemannsummen eingeführt,
+%auf die deswegen kurz eingegangen werden soll.
+% TODO: Uneigentliches Integral
+\subsubsection{Rechenregeln}
+Das Integral ist ein \emph{lineares} und \emph{monotones} Funktional, wie folgende zwei Sätze zeigen!
+\paragraph{Linearität}
+$\int_{x_0}^{x_1}\alpha f(x) + \beta g(x) dx = \alpha\int_{x_0}^{x_1}f(x)dx + \beta\int_{x_0}^{x_1}g(x)dx.$
+\paragraph{Monotonie}
+Sei $f,g : ]a,b[ \rightarrow \mathbb{R}$ beschränkt und R-integrabel dann gilt
+$ f \leq g \implies \int_{x_0}^{x_1}f(x)dx \leq \int_{x_0}^{x_1}g(x)dx. $
+\paragraph{Gebietsadditivität}
+$\int_{x_0}^{x_2}f(x)dx = \int_{x_0}^{x_1}f(x)dx + \int_{x_1}^{x_2}f(x)dx$, wobei $x_0 \leq x_1 \leq x_2$.
+
+\paragraph{Substitution}
+Ausgehend von der Ableitungsregel $\frac{d}{dx}f(g(x)) = f'(g(x))g'(x)$ können wir folgende Integrationsregel herleiten.
+\[ \int_{x_0}^{x_1}f'(g(x))g'(x)dx = f(g(x))|_{x_0}^{x_1} = \int_{g(x_0)}^{g(x_1)}f'(u)du \]
+Substituiert man $u := g(x)$, ergibt sich $\frac{du}{dx} = g'(x) \iff du = g'(x)dx$.
+Bleibt noch ein Restterm $i(x)$, löse $u = g(x)$ nach $x = h(u)$ auf und ersetzte $i(x)$ durch $h(i(x))$.
+
+Die neuen Grenzen -- nur bei bestimmten Integralen -- sind nun $g(x_0)$ und $g(x_1)$.
+Bei unbestimmten Integralen müssen keine Grenzen angepasst werden!
+
+Nach Berechnung des Integrals resubstituiere $u$ durch $g(x)$.
+
+\paragraph{Partielle Integration}
+So ähnlich lässt sich auch aus der Ableitungsregel $\frac{d}{dx}f(x)g(x) = f'(x)g(x) + f(x)g'(x)$ eine Integrationsregel aufstellen.
+\[ \int_{x_0}^{x_1}(f'(x)g(x)+f(x)g'(x))dx = f(x)g(x)|_{x_0}^{x_1} \]
+\[ = \int_{x_0}^{x_1}f'(x)g(x)dx + \int_{x_0}^{x_1}f(x)g'(x)dx \]
+\[ \iff \int_{x_0}^{x_1}f'(x)g(x)dx = f(x)g(x)|_{x_0}^{x_1} - \int_{x_0}^{x_1}f(x)g'(x)dx. \]
+
+\subsection{Differentialgleichungen}
+
+\subsubsection{DGL erster Ordnung}
+\paragraph{Definition}
+Eine Gleichung, in der (ausschließlich) die Unbekannten $y = y(x), y' = y'(x)$ und $x$ vorkommen, heißen \emph{Differentialgleichung erster Ordnung}.
+\paragraph{Seperation der Variablen}
+$y' = g(y)f(x)$ lässt sich mittels \emph{Seperation der Variablen} lösen.
+Dazu bringen wir die ``ys auf die eine, die xs auf die andere Seite'' der Gleichung.
+Anschließend integrieren wir auf beiden Seiten nach $dx$ und erhalten so Folgendes.
+\[ y' = g(y)f(x) \iff \frac{y'}{g(y)} = f(x) \iff \int\frac{dy}{dx g(y)}dx = \int f(x)dx \]
+\[ \iff \int\frac{1}{g(y)}dy = F(x) + C_0 \iff ln |g(y)| = F(x) + C_1. \]
+Durch Anwenden von $exp$ auf beiden Seiten und anschließendes Umformen der Konstanten, erhalten wir schließlich.
+\[ g(y) = C\cdot e^{F(x)} \iff y = g^{-1}(C\cdot e^{F(x)}) \]
+\emph{Bemerke,} dass es zusätzliche konstante Lösungen für $y$ geben kann, nämlich für alle $y$ mit $g(y) = 0$.
+
+\paragraph{Variation der Konstanten}
+Für $y' = y + x$ betrachte die Lösung der linearen, homogenen DGL $y' - y = 0$. Diese hat ungefähr die Form $y = C_1 e^{\lambda_1 x} + C_2 e^{\lambda_2 x}$.
+Nun ersetze $C_1 := u_1(x), C_2 := u_2(x)$ und löse anschließend das Gleichungssystem.
+\[
+\begin{pmatrix}
+ b \\ c \\
+\end{pmatrix}
+\]
+
+
+\subsubsection{DGL zweiter Ordnung}
+
+\subsubsection{Lineare, homogene DGL beliebiger Ordnung}
+\paragraph{Definition} Eine lineare, homogene DGL der Ordnung $n$ über eine Funktion $f \in C^{n}$ ist eine Gleichung der Form
+\[ a_n f^{(n)}(x) + a_{n-1} f^{(n-1)}(x) + \dots + a_1 f'(x) + a_0 f(x) = 0. \]
+\paragraph{Lösungsansatz}
+Der Lösungsansatz für homogene DGL basiert auf einer Eigenwertberechnung über das charakteristische Polynom.
+Man berechne die Eigenwerte $\lambda_1, \dots, \lambda_l$ mit Vielfachheiten $c_1, \dots, c_l$ durch Lösen von $a_n\lambda^n + \dots + a_0\lambda^0 = 0$.
+Es gilt jetzt:
+\[ f(x) = \sum_{i=1}^{l}\sum_{j=1}^{c_l}k_{i,j}x^{j-1}e^{\lambda_l x} \]
+\[ = k_{1,0}e^{\lambda_1 x} + k_{1,1}xe^{\lambda_1 x} + \dots + k_{1,c_1-1}x^{c_1-1}e^{\lambda_l x} + \cdots \]
+\paragraph{Partikuläre Lösung für Anfangswertproblem}
+Haben wir auch $f(0) = w_0, f'(0) = w_1, \dots, f^{(n)}(0) = w_n$ gegeben,
+können wir die Koeffizienten $k_{i,j}$ wie folgt ausrechnen.
+% TODO: Check LA for easier method (?)
+Durch Lösen des folgenden Gleichungssystems erhalten wir dann die entsprechenden Koeffizienten.
+\[
+ \begin{pmatrix}
+  f(0) \\
+  \vdots \\
+  f^{(n)}(0) \\
+ \end{pmatrix}
+  =
+ \begin{pmatrix}
+  w_0 \\
+  \vdots \\
+  w_n \\
+ \end{pmatrix}
+\]
+
+\subsection{Differentialrechnung in $\mathbb{R}^n$}
+
+\clearpage
+\section{Formeln und Tafeln}
+Hier ist alles nur aufgelistet, für Begründungen an der jeweiligen Stelle nachgucken!
+\subsection{Rechentricks}
+\subsubsection{Fakultät, Binomialkoeffizienten}
+\[ n! = n\cdot(n-1)\cdot\dots\cdot1, n\in\N \]
+\[ \binom{n}{k} = \frac{n!}{k!(n-k!)} = \binom{n}{n-k},\ 0 \leq k \leq n \]
+
+\subsubsection{Mitternachtsformel}
+\[ ax^2 + bx + c = 0 \iff x_{1,2} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} \]
+
+\subsubsection{Partialbruchzerlegung}
+\paragraph{Sonderfall Nenner Grad zwei}
+\[
+ B = \dfrac{a_zx+b_z}{(a_1x+b_1)(a_2x+b_2)} = \dfrac{u}{(a_1x+b_1)} + \dfrac{v}{(a_2x+b_2)},
+\]
+mit $ua_1 + va_2 = a_z \wedge ub_1 + vb_2 = b_z$.
+\paragraph{Allgemeiner Fall}
+Betrachte den Bruch $\dfrac{z(x)}{n(x)}$, wobei $z,n$ Polynome mit Grad $n,m$ sind.
+\subparagraph{Fall 1: $n \geq m$}
+Dividiere $\dfrac{z(x)}{n(x)} = v(x) + \dfrac{u(x)}{n(x)}$.
+Ist $u(x) \neq 0$, so fahre mit $\dfrac{u(x)}{n(x)}$ wie in \emph{Fall 2} weiter, sonst sind wir fertig.
+\subparagraph{Fall 2: $n < m$}
+Faktorisiere $n(x)$ in seine $i$ Nullstellen: $n(x) = (x-x_1)^{r_1} \cdot (x-x_2)^{r_2} \cdot \dots \cdot (x-x_i)^{r_i}.$
+Jetzt lösen wir das folgende Gleichungssystem durch Ausmultiplikation.
+\[ \frac{a_1}{(x-x_1)^{r_1}} + \frac{a_2}{(x-x_2)^{r_2}} + \dots + \frac{a_i}{(x-x_i)^{r_i}} = \frac{z(x)}{n(x)} \]
+
+\subsubsection{Ungleichungen}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $a < b \iff a + c < b + c$, genauso für $\leq,=,>,\geq$
+ \item $a < b \wedge c > 0 \iff \frac{a}{c} < \frac{b}{c}$
+ \item $a < b \wedge c < 0 \iff \frac{a}{c} > \frac{b}{c}$
+ \item $|a+b| \leq |a| + |b|$ -- \emph{Dreiecksungleichung}
+ \item $|x\cdot y| \leq \|x\|\cdot\|y\|, x,y \in \mathbb{R}^n$ -- \emph{Cauchy-Schwarz-Ungleichung}
+ \item $2|x\cdot y| \leq \epsilon x^2 + \frac{1}{\epsilon}y^2, \epsilon > 0$ -- \emph{Young-Ungleichung}
+\end{enumerate}
+
+\subsubsection{Exponentialfunktion und Potenzen}
+\paragraph{Exponentialfunktion} Im Folgenden gilt $x \in\mathbb{R}$.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $e^x := Exp(x)$, definiert über Reihe, siehe unten.
+ \item $e^x > 0, \forall x\in\mathbb{R}$
+ \item $e^{-x} = \frac{1}{e^x}$
+ \item $e^0 = 1, e^1 = e \approx 2.718281$
+ \item $e^{-\infty} = 0, e^{\infty} = \infty$
+ \item $e^{ix} = \cos(x) + i\sin(x)$ – \emph{Eulerformel}
+ \item $e^{i\pi} = -1$ – \emph{Euleridentität}
+ \item $e^{-1}(x) = \ln(x)$ also $e^{\ln(x)} = x = \ln(e^x)$.
+\end{enumerate}
+\paragraph{Potenzen} Im Folgenden gilt $a,b,n,m \in\mathbb{R}$.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $a^x = e^{ln(a)^{x}} = e^{ln(a)x}$
+ \item $a^{n+m} = a^na^m$
+ \item $a^{nm} = (a^n)^m = a^{(n^m)}$
+ \item $(ab)^n = a^nb^n$
+ \item $(\frac{a}{b})^n = \frac{a^n}{b^n}$
+\end{enumerate}
+\paragraph{Wurzeln} Im Folgenden gilt $a,b,n,m \in\mathbb{R}$.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\sqrt[n]{a} := a^{\frac{1}{n}}$
+ \item $\sqrt[n]{ab} = \sqrt[n]{a}\sqrt[n]{b}$
+ \item $\sqrt[m]{\sqrt[n]{a}} = \sqrt[nm]{a}$
+ \item $\sqrt[n]{\frac{a}{b}} = \frac{\sqrt[n]{a}}{\sqrt[n]{b}}$
+\end{enumerate}
+
+\subsubsection{Logarithmen} Im Folgenden gilt $a,r,x,y \in\mathbb{R}$.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\ln(x) := Exp^{-1}(x)$, also $x > 0$.
+ \item $\ln(1) = 0, \ln(e) = 1$
+ \item $\log_a(x) := \frac{\ln(x)}{\ln(a)}$
+ \item $\log_a(\infty) = \infty$
+ \item $\log_a(xy) = \log_a(x)+\log_a(y)$
+ \item $\log_a(\frac{1}{x}) = -\log_a(x)$
+ \item $\log_a(x^r) = n\log_a(x)$
+ \item $\log_a(x \pm y) = \log_a(x) + \log_a(1 \pm \frac{y}{x})$
+\end{enumerate}
+
+\subsubsection{Komplexe Zahlen $\mathbb{C}$}
+Sei $a,b \in \mathbb{R}, c \in \mathbb{C}$.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $c := a + ib = \Re(a) + i\Im(b)$
+ \item $\overline{c} = a - ib$
+ \item $z_0 + z_1 := (a_0 + a_1) + i(b_0 + b_1)$
+ \item $z_0 \cdot z_1 := (a_0a_1 - b_0b_1) + i(a_0b_1 + a_1b_0)$
+ \item $|z|^2 = z\cdot\overline{z} = a^2 + b^2$
+\end{enumerate}
+
+
+\subsection{Trigonometrische Funktionen}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\sin(x) := \sum_0^\infty (-1)^n\frac{x^{2n+1}}{(2n+1)!}$
+ \item $\cos(x) := \sum_0^\infty (-1)^n\frac{x^{2n}}{(2n)!}$
+ \item $\tan(x) := \frac{\sin(x)}{\cos(x)}$
+ \item $\cos(x) + i\sin(x) = e^{ix}$
+ \item $\sin(a)^2 + \cos(a)^2 = 1$
+ \item $\sin(a \pm b) = \sin(a)\cos(b) \pm \cos(a)\sin(b)$
+ \item $\cos(a \pm b) = \cos(a)\cos(b) \mp \sin(a)\sin(b)$
+ \item $\tan(a \pm b) = \frac{\tan(a)\pm\tan(b)}{1\mp\tan(a)\tan(b)}$
+ \item $\sin(2a) = 2\sin(a)\cos(a)$
+ \item $\cos(2a) = 2\sin(a)\cos(a)$
+ \item $\tan(2a) = \cos(a)^2 - \sin(a)^2 = 2\cos(a)^2 - 1 = 1 - 2\sin(a)^2$
+ \item $\sin(a \pm \frac{\tau}{4}) = \sin(a\pm\frac{\pi}{2}) = \pm\cos(a)$
+ \item $\cos(a \pm \frac{\tau}{4}) = \cos(a\pm\frac{\pi}{2}) = \mp\sin(a)$
+ \item $\sin(a \pm \frac{\tau}{2}) = \sin(a\pm\pi) = -\sin(a)$
+ \item $\cos(a \pm \frac{\tau}{2}) = \cos(a\pm\pi) = -\cos(a)$
+\end{enumerate}
+\subsection{Hyperbelfunktionen}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\sinh(x) := \frac{1}{2}(e^x-e^{-x}) = -i\sin(ix)$
+ \item $\cosh(x) := \frac{1}{2}(e^x+e^{-x}) = \cos(ix)$
+ \item $\tan(x) := \frac{\sin(x)}{\cos(x)} = 1 - \frac{2}{e^{2x}+1}$
+ \item $\arcsinh(x) := \sinh^{-1}(x) = \ln(x + \sqrt{x^2+1})$
+ \item $\arccosh(x) := \cosh^{-1}(x) = \ln(x + \sqrt{x^2-1})$
+ \item $\arctanh(x) := \tanh^{-1}(x) = \frac{1}{2}\ln(\frac{1+x}{1-x})$
+\end{enumerate}
+
+\subsection{Folgen mit Grenzwerten}
+Folgende Folgen sind sortiert nach ``Wachstumsschnelligkeit''.
+\[ (1), (\ln(n)), (n^{a}), (q^n), (n!), (n^n) \text{ mit } a > 0, q > 1.\]
+Im Folgenden ist $a_n \rightarrow a$ gleichbedeutend mit $\lim_{n\rightarrow\infty} a_n = a$.
+Außerdem seien $a,k\in\mathbb{R}$ Konstanten.
+\paragraph{Konvergente Folgen}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\sqrt[n]{a} \rightarrow 1, \sqrt[n]{n} \rightarrow 1, a \geq 0$
+ \item $\frac{n}{\sqrt[n]{n!}} \rightarrow e, \frac{\sqrt[n]{n!}}{n} \rightarrow \frac{1}{e}$
+ \item $(\frac{n+1}{n})^n \rightarrow e$
+ \item $(1 + \frac{a}{n})^n \rightarrow e^a$
+ \item $(a^nn^k)^n \rightarrow 0, |a| < 1$
+ \item $n(\sqrt[n]{a}-1) \rightarrow ln(a), a > 0$
+\end{enumerate}
+\paragraph{Divergente Folgen}
+\[ (\sqrt[n]{n!}), (\frac{n^n}{n!}), (\frac{a^n}{n^k}) \]
+\paragraph{Bernoullische Ungleichung}
+\[ \forall x\geq -1, n\in\N: (1+x)^n \geq 1 + nx \]
+
+\subsection{Reihen mit Grenzwerten}
+Sei mal $\sum_{n_0}$ Abkürzung für $\sum_{n=n_0}^\infty$.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\sum_1 \frac{1}{n}$ divergiert -- \emph{harmonische Reihe}
+ \item $\sum_1 (-1)^n\frac{1}{n} = \ln(\frac{1}{2})$ -- \emph{alternierende harmonische Reihe}
+ \item $\sum_1 \frac{1}{n^a}$ konvergiert für $a > 1$, sonst divergent.
+ \item $\sum_0 q^n = \frac{1}{1-q}, |q| < 1$ -- \emph{geometrische Reihe}
+ \item $\sum_0 q^n = \frac{1}{1+q}, |q| < 1$ -- \emph{alternierende geometrische Reihe}
+ \item $\sum_1 \frac{1}{n^2} = \frac{\pi^2}{6}$
+\end{enumerate}
+\paragraph{Partialsummen}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\sum_{i=0}^n i = \frac{n(n-1)}{2}$ -- \emph{kleiner Gauß}
+ \item $\sum_{i=0}^n i^2 = \frac{1}{6}n(n+1)(2n+1)$
+ \item $\sum_{i=0}^n i^3 = \frac{1}{4}n^2(n+1)^2$
+ \item $\sum_{i=0}^n q^n = \frac{1-q^{n+1}}{1-q}$
+\end{enumerate}
+
+\clearpage
+
+\subsection{Ableitungen}
+\subsubsection{Rechenregeln}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $(f(x)+g(x))' = f'(x) + g'(x)$
+ \item $(f(x)g(x))' = f'(x)g(x) + f(x)g'(x)$
+ \item $(\frac{z(x)}{n(x)})' = \frac{z(x)n'(x) - z'(x)n(x)}{n(x)^2}$
+ \item $(g \circ f)'(x) = (g(f(x)))' = f'(x)g'(f(x))$
+\end{enumerate}
+\subsection{Ableitungstafel}
+\subsubsection{Polynome und Wurzeln}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $x^a \rightarrow ax^{a-1}$
+ \item $\frac{1}{x^a} = x^{-a} \rightarrow -ax^{-a-1} = \frac{-a}{x^{a+1}}$
+ \item $\sqrt[a]{x^b} = x^{\frac{b}{a}} \rightarrow \frac{b}{a}x^{\frac{b}{a}-1}$
+\end{enumerate}
+\subsubsection{Exponenten und Logarithmen}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $e^{ax} \rightarrow ae^{ax}$
+ \item $e^{x^{a}} \rightarrow ax^{a-1}e^{x^{a}}$
+ \item $a^{x} = e^{ln(a)^{x}} = e^{\ln(a)x} \rightarrow \ln(a)\cdot a^x$
+ \item $x^{x} \rightarrow (1+\ln(x))x^{x}$
+ \item $x^{x^a} \rightarrow (1+a\ln(x))x^{x^a+a-1}$
+ \item $\ln(x) \rightarrow \frac{1}{x}$
+ \item $\log_a(x) = \frac{1}{\ln(a)}\ln(x) \rightarrow \frac{1}{\ln(a)x}$
+\end{enumerate}
+\subsubsection{Trigonometrische Funktionen}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\sin(x) \rightarrow \cos(x)$
+ \item $\cos(x) \rightarrow -\sin(x)$
+ \item $\sin(ax+b) \rightarrow a\cos(ax+b)$
+ \item $\tan(x) \rightarrow \frac{1}{(\cos(x))^2}$
+ \item $\arcsin(x) \rightarrow \frac{1}{\sqrt{1-x^2}}$
+ \item $\arccos(x) \rightarrow \frac{-1}{\sqrt{1-x^2}}$
+ \item $\arctan(x) \rightarrow \frac{1}{x^2+1}$
+ \item $\sinh(x) \rightarrow \cosh(x)$
+ \item $\cosh(x) \rightarrow \sinh(x) \neq -\sinh(x)$!
+ \item $\tanh(x) \rightarrow \frac{1}{(\cosh(x))^2}$
+ \item $\arcsinh(x) \rightarrow \frac{1}{\sqrt{x^2+1}}$
+ \item $\arccosh(x) \rightarrow \frac{1}{\sqrt{x-1}\sqrt{x+1}}$
+ \item $\arctanh(x) \rightarrow \frac{1}{1-x^2}$
+\end{enumerate}
+
+\subsection{Unbestimmte Integrale}
+\subsubsection{Rechenregeln}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\int(f(x)+g(x))dx = \int f(x)dx + \int g(x)dx$
+ \item $\int af(x)dx = a\int f(x)dx$
+ \item $\int u'(x)v(x)dx = u(x)v(x) - \int u(x)v'(x)dx$
+ \item $\int f(g(x))g'(x)dx = \int f(x)dx$
+ \item $\int f(ax+b)dx = \frac{1}{a}F(x+b)$
+ \item $\int \frac{f'(x)}{f(x)}dx = \ln(|f(x)|)$
+ \item $\int f'(x)f(x)dx = \frac{1}{2}f(x)^2$
+ \item $\int |f(x)|dx = |\int f(x)dx|$
+\end{enumerate}
+\subsubsection{Polynome und Wurzeln}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\int x^a dx = \frac{x^{a+1}}{a+1}$
+ \item $\int \frac{1}{x^a} dx = \int x^{-a} dx = \frac{x^{-a+1}}{-a+1} = -\frac{a-1}{x^{a-1}}, a \neq 1$
+ \item $\int \sqrt[a]{x^b} dx = \int x^{\frac{b}{a}} dx \rightarrow \frac{x^{\frac{b}{a}+1}}{\frac{b}{a}+1} = \frac{a}{b+a}\sqrt[a]{x^{b+a}}$
+\end{enumerate}
+\subsubsection{Exponenten und Logarithmen}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\int e^{ax} dx = \frac{1}{a}e^{ax}$
+ \item $\int xe^{x} dx = (x-1)e^{x}$
+ \item $\int a^{x} dx = \int e^{ln(a)x} dx = \frac{1}{ln(a)}a^x$
+ \item $\int \frac{1}{x} dx = \ln(x)$
+ \item $\int \ln(x) dx = x(\ln(x)-1)$
+\end{enumerate}
+\subsubsection{Trigonometrische Funktionen}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\int \sin(x) dx = -\cos(x)$
+ \item $\int \cos(x) dx = \sin(x)$
+ \item $\int \sin(ax+b) dx = -\frac{1}{a}\cos(ax+b)$
+ \item $\int \tan(x) dx = -\ln(|\cos(x)|)$
+ \item $\int \arcsin(x) dx = x\arcsin(x) + \sqrt{1-x^2}$
+ \item $\int \arccos(x) dx = x\arccos(x) - \sqrt{1-x^2}$
+ \item $\int \arctan(x) dx = x\arctan(x) - \frac{1}{2}\ln{1+x^2}$
+ \item $\int \sinh(x) dx = \cosh(x)$
+ \item $\int \cosh(x) dx = \sinh(x) \neq -\sinh(x)$
+ \item $\int \tanh(x) dx = \ln(\cosh(x))$
+ \item $\int \arcsinh(x) dx = x\arcsinh(x) + \sqrt{x^2+1}$
+ \item $\int \arccosh(x) dx = x\arccosh(x) + \sqrt{x-1}\sqrt{x+1}$
+ \item $\int \arctanh(x) dx = x\arctanh(x) + \frac{1}{2}\ln(1-x^2)$
+\end{enumerate}
+
+\clearpage
+\subsection{Hilfen für Diff'rechnung in $\mathbb{R}^n$}
+
+
+\end{document}
