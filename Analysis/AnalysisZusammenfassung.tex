@@ -18,15 +18,15 @@
 \DeclareMathOperator{\arccosh}{arccosh}
 \DeclareMathOperator{\arctanh}{arctanh}
 
-\newcommand{\N}{\N}
+\newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
 
 \begin{document}
 \pagestyle{fancy}
-\fancyhead{}
+\fancyhf{}
 \fancyhead[L]{Zusammenfassung Analysis I, HS 2012, Analysis II, FS 2013}
-\fancyhead[R]{Tim Taubner, B.\ Sc.\ ETH Informatik, Legi-Nr.: 12-937-546}
+\fancyhead[R]{Tim Taubner, B.\ Sc.\ ETH Informatik, Legi-Nr.: 12-937-546 -- S. \thepage}
 
 \begin{twocolumn}
 \tableofcontents
@@ -101,6 +101,8 @@ $]a,b[\ := \{x\in\mathbb{R}\, |\, a < x < b\} := (a,b)$ & offen \\
 Zwei Mengen $A, B$ heißen \emph{gleichmächtig}, wenn es eine bijektive Abbildung $f: A \rightarrow B$ gibt.
 Wir schreiben $|A| = |B|$. \\
 Es gilt $|\N| = |\mathbb{Z}| = |\mathbb{Q}| < |\mathbb{R}| = |[a,b]| = |\mathbb{C}|$.
+
+\subsubsection{Topologie}
 
 \clearpage
 \section{Mittleres}
@@ -203,8 +205,8 @@ $(S_n)_{n \in \N}$, $S_n := \sum_{k=1}^n a_k$ gegen $s$ konvergiert. Es gilt als
 \subsubsection{Konvergenzkriterien}
 
 \paragraph{Nullfolge als Notwendigkeit}
-Konvergiert $\sum_{n=1}^\infty a_n$, so muss $\lim_{n \to \infty} a_n = 0$ gelten.
-Ist $(a_n)$ also keine Nullfolge, konvergiert auch obige Reihe nicht!
+Falls $(a_n)$ keine Nullfolge, gilt Folgendes nicht und somit konvergiert auch nicht folgende Reihe.
+\[ \sum_{n=1}^\infty a_n \text{ konvergent} \implies \lim_{n \to \infty} a_n = 0 \]
 
 \paragraph{$\epsilon$-Kriterium}
 $\forall \epsilon > 0: \exists n_0 \in \N: \forall n \geq n_0: | \sum_{k=1}^n a_k - s | < \epsilon$
@@ -214,92 +216,65 @@ Konvergiert $\sum_{n=1}^\infty |a_n|$, so sagen wir die Reihe konvergiert absolu
 Es gilt $\sum_{n=1}^\infty |a_n|$ konvergent $ \implies \sum_{n=1}^\infty a_n$ konvergent.
 Die Umkehrung gilt i. A. nicht.
 
-\paragraph{Majoranten- und Minorantenkriterium}
+\paragraph{Majorantenkriterium}
+Ist $|a_n| \leq b_n$ und die \emph{Majorante} $\sum_{n=1}^\infty b_n$ konvergent, so konvergiert $\sum_{n=1}^\infty a_n$ absolut.
+
+\paragraph{Minorantenkriterium}
+Ist $a_n \geq b_n \geq 0$ und die \emph{Minorante} $\sum_{n=1}^\infty b_n$ divergent, so divergiert $\sum_{n=1}^\infty a_n$.
 
 \paragraph{Leibnizkriterium}
+Wenn folgende 3 Kriterien erfüllt sind, konvergiert $\sum_{n=1}^\infty a_n$.
+\begin{enumerate}[label={(}\arabic*{)}]
+  \item $(a_n)$ ist alternierend, also $\forall n\in\N: a_n < 0 \implies a_{n+1} > 0$
+  \item $a_n \to 0$ oder $|a_n| \to 0$
+  \item $(|a_n|)$ ist monoton fallend
+\end{enumerate}
+
 \paragraph{Wurzelkriterium}
+\[
+  \sqrt[n]{\left | a_n \right |} \to q \implies
+  \begin{cases}
+    q < 1 & \implies \sum_{n=1}^\infty a_n \text{ konvergiert absolut}\\
+    q = 1 & \implies \text{keine Aussage}\\
+    q > 1 & \implies \sum_{n=1}^\infty a_n \text{ divergiert}
+  \end{cases}
+\]
 \paragraph{Quotientenkriterium}
-
-\subsection{Rechenregeln}
-Für \underline{konvergente} Reihen gilt:
 \[
-	\sum_{n=1}^\infty a_n = a, \sum_{n=1}^\infty b_n = b \Rightarrow
-	\sum_{n=1}^\infty (\alpha a_n + \beta b_n) = \alpha a + \beta b
+\left| \frac{a_{n+1}}{a_n} \right| \to q \implies
+\begin{cases}
+  q < 1 & \implies \sum_{n=1}^\infty a_n \text{ konvergiert absolut} \\
+  q = 1 & \implies \text{keine Aussage}\\
+  q > 1 & \implies \sum_{n=1}^\infty a_n \text{ divergiert}
+\end{cases}
 \]
-Für \underline{absolut konvergente} Reihen gilt:
-\[
-	\sum_{k,l=1}^\infty a_k b_l = \sum_{k=1}^\infty a_k \cdot \sum_{l=1}^\infty b_l
-\]
-und es konvergiert die Reihe der Produkte absolut, unabhängig von der Summationsreihenfolge.
 
+\subsubsection{Potenzreihe}
+Die \emph{Potenzreihe} hat die allgemeine Form \[ \sum_{n=0}^\infty a_n (x - x_0)^n = \sum_{n=0}^\infty a_n z^n, \]
+dabei nennt man $x_0$ den \emph{Entwicklungspunkt}.
 
-\subsubsection{Kriterien}
-	Die nachfolgenden Kriterien sagen nur aus, ob die Reihen konvergiert oder nicht. Sie sagen \underline{nicht} aus, gegen was sie konvergieren.
+\paragraph{Konvergenzradius} Wir definieren den \emph{Konvergenzradius} wie folgt.
+\[ r:=\sup \{ |z|\ \left|\ \sum_{n=0}^{\infty}a_n z^n\ \text{ist konvergent}\right.\}\]
+Es gilt also insbesondere, dass die Reihe für alle $|z| < r$ konvergiert und für für alle $|z| > r$ divergiert.
+Er kann mit der \emph{Formel von Cauchy-Hadamard} wie folgt berechnet werden.
+\[ r = \frac{1}{\limsup_{n\to\infty} \sqrt[n]{|a_n|}} \]
+Gilt außerdem, dass ab einem $n_0\in\N$ für alle $n \geq n_0$ $a_n \neq 0$ gilt, so können wir auch wie folgt $r$ berechnen.
+\[ r = \lim_{n\to\infty} \left | \frac{a_n}{a_{n+1}} \right | \]
 
-	\paragraph{Quotientenkriterium}
-		\[
-		\left| \frac{a_{n+1}}{a_n} \right| \to q. \quad \text{Dann gilt} \begin{cases}
-		q < 1 & \Rightarrow \sum_{n=1}^\infty a_n \text{ konvergiert absolut} \\
-		q = 1 & \Rightarrow \text{keine Aussage}\\
-		q > 1 & \Rightarrow \sum_{n=1}^\infty a_n \text{ divergiert}
-		\end{cases}
-		\]
-
-	\paragraph{Wurzelkriterium}
-		\[
-		\sqrt[n]{\left | a_n \right |} \to q. \quad \text{Dann gilt} \begin{cases}
-		q < 1 & \Rightarrow \sum_{n=1}^\infty a_n \text{ konvergiert absolut}\\
-		q = 1 & \Rightarrow \text{keine Aussage}\\
-		q > 1 & \Rightarrow \sum_{n=1}^\infty a_n \text{ divergiert}
-		\end{cases}
-		\]
-
-	\paragraph{Leibnizkriterium}
-		Wenn gilt:
-		\begin{itemize}
-			\item $(a_n)$ ist alternierende Folge, d.h die Vorzeichen wechseln jedes Mal
-			\item $a_n \to 0$ oder $|a_n| \to 0$
-			\item $(|a_n|)$ ist monoton fallend
-		\end{itemize}
-		\ldots dann konvergiert $\sum_{n=1}^\infty a_n$
-
-	\paragraph{Majorantenkriterium}
-		Ist $|a_n| \leq b_n$ und $\sum_{n=1}^\infty b_n$ konvergent, so konvergiert
-		$\sum_{n=1}^\infty a_n$ absolut.
-
-	\paragraph{Minorantenkriterium}
-		Ist $a_n \geq b_n \geq 0$ und $\sum_{n=1}^\infty b_n$ divergent, so divergiert
-		$\sum_{n=1}^\infty a_n$
-
-\subsection{Potenzreihe}
-	Die Potenzreihe hat die allgemeine Form
-	\[
-	\sum_{n=0}^\infty a_n (x - x_0)^n
-	\]
-	bzw.
-	\[
-	\sum_{n=0}^\infty a_n z^n
-	\]
-
-	$x_0$ ist der Entwicklungspunkt der Potenzreihe und $(a_n)_{n \in \N}$ eine beliebige Folge.
-
-	\subsubsection{Konvergenzradius}
-		Die Berechnung des Konvergenzradius ist für solche Reihen einfacher, da der Faktor $(x - x_0)$ nicht analysiert werden muss. Entsprechend gilt für den Konvergenzradius $r$:
-		$r = \frac{1}{\limsup_{n\to\infty} \sqrt[n]{|a_n|}}$ (Wurzelkriterium) bzw.
-		$r = \lim_{n\to\infty} \left | \frac{a_n}{a_{n+1}} \right |$ (Quotientenkriterium, nur wenn ab einem bestimmten Index alle $a_n$ von 0 verschieden sind und der Limes existiert, nicht immer anwendbar).\\
-		Konvergiert für alle $|z| < r$, divergiert für alle $|z| > r$
-		
-	\subsubsection{Randpunkte}
-		\begin{itemize}
-			\item Für das Konvergenzverhalten der Randpunkte bedarf es weiterer Untersuchungen.
-			\item Dabei müssen die Randpunkte einzeln in die vorgegebene Reihe eingesetzt werden. Wenn die Reihe divergiert, ist der Randpunkt ebenfalls divergent und umgekehrt.
-		\end{itemize}
+\paragraph{Randpunkte}
+Der Konvergenzradius gibt keine Hinweise auf das Konvergenzverhalten der Reihe an den sogenannten \emph{Randpunkten} $\pm r$.
+Hierzu können z. B. die Randpunkte in die Reihe eingesetzt werden und anschließend die Konvergenz überprüft bzw. widerlegt werden.
 
 \subsubsection{Rechenregeln}
-
-\subsubsection{Potenzreihen}
-\paragraph{Konvergenzradius}
-\paragraph{Randpunkte}
+Für \emph{konvergente} Reihen gilt Folgendes.
+\[
+  \sum_{n=1}^\infty a_n = a, \sum_{n=1}^\infty b_n = b \implies
+  \sum_{n=1}^\infty (\alpha a_n + \beta b_n) = \alpha a + \beta b
+\]
+Für \emph{absolut konvergente} Reihen gilt außerdem, dass folgende Reihe absolut und unabhängig von der Summationsreihenfolge konvergiert.
+\[
+  \sum_{k,l=1}^\infty a_k b_l = \sum_{k=1}^\infty a_k \cdot \sum_{l=1}^\infty b_l
+\]
 
 \subsection{Funktionen}
 \subsubsection{Grenzwerte}
@@ -307,7 +282,6 @@ und es konvergiert die Reihe der Produkte absolut, unabhängig von der Summation
 \subsubsection{Folgen von Funktionen}
 \subsubsection{Differentialrechnung}
 
-\subsection{Topologie}
 \subsection{Taylorreihe \& -entwicklung}
 
 \clearpage
