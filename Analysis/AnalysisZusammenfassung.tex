@@ -115,6 +115,7 @@ Sei im Folgenden $\Omega, A \subseteq \R^d$.
  \item $\Omega^{o} := \Int(\Omega) = \bigcup_{U\subseteq\Omega,U \text{offen}} U$ heißt \emph{offener Kern} von $\Omega$.
  \item $\clos(\Omega) := \bigcap_{A\supseteq \Omega}, A \text{abgeschlossen} A$ heißt \emph{Abschluss} von $\Omega$.
  \item $\partial\Omega := \clos(\Omega)\backslash\Int(\Omega)$ heißt \emph{Rand} von $\Omega$.
+ \item $\Omega$ heißt \emph{kompakt}, falls alle Folgen $(x_n) \subseteq \Omega$ ein Häufungs\-punkt (s. u.) in $K$ haben.
 \end{enumerate}
 
 \paragraph{Sätze}
@@ -240,10 +241,10 @@ Es gilt $\sum_{n=1}^\infty |a_n|$ konvergent $ \implies \sum_{n=1}^\infty a_n$ k
 Die Umkehrung gilt i. A. nicht.
 
 \paragraph{Majorantenkriterium}
-Ist $|a_n| \leq b_n$ und die \emph{Majorante} $\sum_{n=1}^\infty b_n$ konvergent, so konvergiert $\sum_{n=1}^\infty a_n$ absolut.
+Ist $|a_n| \leq b_n$ und gibt es eine konvergente \emph{Majorante} $\sum_{n=1}^\infty b_n$, so konvergiert $\sum_{n=1}^\infty a_n$ absolut.
 
 \paragraph{Minorantenkriterium}
-Ist $a_n \geq b_n \geq 0$ und die \emph{Minorante} $\sum_{n=1}^\infty b_n$ divergent, so divergiert $\sum_{n=1}^\infty a_n$.
+Ist $a_n \geq b_n \geq 0$ und gibt es eine divergente \emph{Minorante} $\sum_{n=1}^\infty b_n$, so divergiert $\sum_{n=1}^\infty a_n$.
 
 \paragraph{Leibnizkriterium}
 Wenn folgende 3 Kriterien erfüllt sind, konvergiert $\sum_{n=1}^\infty a_n$.
@@ -276,7 +277,7 @@ Wenn folgende 3 Kriterien erfüllt sind, konvergiert $\sum_{n=1}^\infty a_n$.
 Die \emph{Potenzreihe} hat die allgemeine Form \[ \sum_{n=0}^\infty a_n (x - x_0)^n = \sum_{n=0}^\infty a_n z^n, \]
 dabei nennt man $x_0$ den \emph{Entwicklungspunkt}.
 
-\paragraph{Konvergenzradius} Wir definieren den \emph{Konvergenzradius} wie folgt.
+\paragraph{Konvergenzradius} Der \emph{Konvergenzradius} sei wie folgt definiert.
 \[ r:=\sup \{ |z|\ \left|\ \sum_{n=0}^{\infty}a_n z^n\ \text{ist konvergent}\right.\}\]
 Es gilt also insbesondere, dass die Reihe für alle $|z| < r$ konvergiert und für für alle $|z| > r$ divergiert.
 Er kann mit der \emph{Formel von Cauchy-Hadamard} wie folgt berechnet werden.
@@ -300,10 +301,51 @@ Für \emph{absolut konvergente} Reihen gilt außerdem, dass folgende Reihe absol
 \]
 
 \subsection{Funktionen}
+Falls nicht angegeben, ist $f$ Abkürzung für $f: \Omega \mapsto \R^n$.
 \subsubsection{Grenzwerte}
 \subsubsection{Stetigkeit}
+\paragraph{$\epsilon$-$\delta$-Kriterium} $\lim_{x\rightarrow x_0} f(x) = a, $ wenn Folgendes gilt.
+\[\forall\epsilon>0:\exists\delta>0: \forall x \in \Omega: |x-x_0| < \delta \implies |f(x) - f(x_0)| < \epsilon \]
+\paragraph{Definition}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\lim_{x\rightarrow x_0} f(x) = f(x_0) \implies f(x)$ \emph{stetig} im Punkt $x_0$.
+ \item $\lim_{x\rightarrow x_0} f(x) = a \implies f(x)$ \emph{stetig ergänzbar} in $x_0$.
+ \item $\forall x_0\in\Omega: f(x) $ stetig in $x_0 \implies f(x)$ \emph{stetig}.
+\end{enumerate}
+
+\paragraph{Sätze über punktweise Stetigkeit}
+Sei $f$ stetig in $x_0$.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\lim_{x\rightarrow x_0} f(x) = f(\lim_{x\rightarrow x_0} x)$.
+ \item $\lim_{x\nearrow x_0} f(x) = f(x_0) = f(\lim_{x\searrow x_0} x)$ wenn existent.
+ \item $\lim_{n\rightarrow \infty} x_n = x_0 \implies \lim_{n\rightarrow \infty} f(x_n) = f(x_0)$, für alle Folgen $(x_n)$. -- \emph{Folgenkriterium}.
+\end{enumerate}
+
+\paragraph{Gleichmäßige Stetigkeit}
+$f$ heißt \emph{gleichmäßig stetig}, wenn gilt:
+\[\forall\epsilon>0\exists\delta>0: \forall x,y \in \Omega: |x-y| < \delta \implies |f(x) - f(y)| < \epsilon \]
+Unterschied zur punktweisen Stetigkeit ist, dass $\delta$ unabhängig von der Wahl von $y$ bzw. $x_0$ ist.
+
+\paragraph{Lipschitz-Stetigkeit}
+$f: \Omega \subseteq \R^d \rightarrow \R^n$ heißt \emph{Lipschitz-stetig} mit \emph{Lipschitz-Konstante} $L$, wenn gilt:
+\[ \forall x,y\in\Omega: \|f(x)-f(y)\| \leq L\|x-y\|\]
+
+\paragraph{Lokale Lipschitz-Stetigkeit}
+$f: \Omega \subseteq \R^d \rightarrow \R^n$ heißt \emph{lokal Lipschitz-stetig},
+falls zu jedem $x_0\in\Omega$ eine Umgebung $U = B_r(x_0)\cap\Omega$ existiert,
+so dass $f|_U : x \in U \mapsto f(x) \in \R^n$ Lipschitz-stetig ist.
+
+
+\paragraph{Sätze über gleichmäßige und Lipschitz-Stetigkeit}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item Ist $f$ Lipschitz-stetig mit Konstante $L$, so ist $f$ gleichmäßig stetig, z. B. mit $\delta = \epsilon/L$.
+ \item Ist $f$ gleichmäßig stetig, dann ist $f$ in $\Omega^C$ stetig ergänzbar.
+ \item Ist umgekehrt $\Omega$ beschränkt, $f$ stetig und in $\Omega^C$ stetig ergänzbar, so ist $f$ auch gleichmäßig stetig.
+\end{enumerate}
+
 \subsubsection{Folgen von Funktionen}
 \subsubsection{Differentialrechnung}
+
 
 \subsection{Taylorreihe \& -entwicklung}
 
@@ -328,7 +370,7 @@ Das Integral ist ein \emph{lineares} und \emph{monotones} Funktional, wie folgen
 \paragraph{Linearität}
 $\int_{x_0}^{x_1}\alpha f(x) + \beta g(x) dx = \alpha\int_{x_0}^{x_1}f(x)dx + \beta\int_{x_0}^{x_1}g(x)dx.$
 \paragraph{Monotonie}
-Sei $f,g : ]a,b[ \rightarrow \mathbb{R}$ beschränkt und R-integrabel dann gilt
+Sei $f,g : ]a,b[ \mapsto \mathbb{R}$ beschränkt und R-integrabel dann gilt
 $ f \leq g \implies \int_{x_0}^{x_1}f(x)dx \leq \int_{x_0}^{x_1}g(x)dx. $
 \paragraph{Gebietsadditivität}
 $\int_{x_0}^{x_2}f(x)dx = \int_{x_0}^{x_1}f(x)dx + \int_{x_1}^{x_2}f(x)dx$, wobei $x_0 \leq x_1 \leq x_2$.
@@ -359,7 +401,7 @@ Eine Gleichung, in der (ausschließlich) die Unbekannten $y = y(x), y' = y'(x)$ 
 $y' = g(y)f(x)$ lässt sich mittels \emph{Seperation der Variablen} lösen.
 Dazu bringen wir die ``ys auf die eine, die xs auf die andere Seite'' der Gleichung.
 Anschließend integrieren wir auf beiden Seiten nach $dx$ und erhalten so Folgendes.
-\[ y' = g(y)f(x) \iff \frac{y'}{g(y)} = f(x) \iff \int\frac{dy}{dx g(y)}dx = \int f(x)dx \]
+\[ y' = g(y)f(x) \iff \frac{y'}{g(y)} = f(x) \iff \int\frac{y'}{g(y)}dx = \int f(x)dx \]
 \[ \iff \int\frac{1}{g(y)}dy = F(x) + C_0 \iff ln |g(y)| = F(x) + C_1. \]
 Durch Anwenden von $exp$ auf beiden Seiten und anschließendes Umformen der Konstanten, erhalten wir schließlich.
 \[ g(y) = C\cdot e^{F(x)} \iff y = g^{-1}(C\cdot e^{F(x)}) \]
