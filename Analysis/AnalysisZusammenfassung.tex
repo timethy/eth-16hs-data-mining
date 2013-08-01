@@ -19,6 +19,9 @@
 \DeclareMathOperator{\arcsinh}{arcsinh}
 \DeclareMathOperator{\arccosh}{arccosh}
 \DeclareMathOperator{\arctanh}{arctanh}
+\DeclareMathOperator{\grad}{grad}
+\DeclareMathOperator{\rot}{rot}
+\DeclareMathOperator{\Div}{div}
 
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
@@ -431,23 +434,57 @@ Es gilt jetzt:
 \paragraph{Partikuläre Lösung für Anfangswertproblem}
 Haben wir auch $f(0) = w_0, f'(0) = w_1, \dots, f^{(n)}(0) = w_n$ gegeben,
 können wir die Koeffizienten $k_{i,j}$ wie folgt ausrechnen.
-% TODO: Check LA for easier method (?)
 Durch Lösen des folgenden Gleichungssystems erhalten wir dann die entsprechenden Koeffizienten.
 \[
  \begin{pmatrix}
   f(0) \\
+  f'(0) \\
   \vdots \\
   f^{(n)}(0) \\
  \end{pmatrix}
   =
  \begin{pmatrix}
   w_0 \\
+  w_1 \\
   \vdots \\
   w_n \\
  \end{pmatrix}
 \]
 
+\subsubsection{Lineare, inhomogene DGL beliebiger Ordnung}
+% TODO: Check LA for easier method (?)
+
+\clearpage
 \subsection{Differentialrechnung in $\mathbb{R}^n$}
+\paragraph{Definitionen}
+Sei im Folgenden $\Omega \subseteq \R^n, F: \Omega \mapsto \R^m$ und $f: \Omega \mapsto \R$. \\
+Betrachte $f$ als $f(x_1,x_2\dots,x_n)$, dann heißt $f$ \emph{partiell differenzierbar} in Richtung $(0,\dots,e_i,\dots,0)$ bzw. nach $x_i$,
+wenn die Funktion $g: x \mapsto f(x_1,\dots,x_{i-1},x,x_{i+1},\dots,x_n)$ differenzierbar ist. Wir betrachten dabei $x_0,\dots,x_{i-1},x_{i+1},\dots,x_n$ als Konstanten.
+
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $F$ wie oben heißt \emph{Vektorfunktion}.
+ \item Bei $m = 1$ sprechen wir von einem \emph{Skalarfeld}.
+ \item Bei $n = m$ sprechen wir von einem \emph{Vektorfeld}.
+ \item Ist $v = \grad(f)$, heißt $f$ das \emph{Potential} oder die \emph{Stammfunktion} zu dem \emph{Potentialfeld} $v$.
+\end{enumerate}
+
+\paragraph{$\nabla$-Operator, Gradient, Divergenz, Rotation}
+\begin{description}
+ \item[Nabla-Operator] $\nabla := (\frac{\partial}{\partial x_1},\dots,\frac{\partial}{\partial x_n})$, nur im Kartesischem!
+ \item[Gradient(enfeld)] $\grad(f) := \nabla f = \begin{pmatrix}\frac{\partial f}{\partial x_1} \\\vdots\\ \frac{\partial f}{\partial x_n}\end{pmatrix}$
+ \item[Divergenz] $\Div(F) := \sum_{i=1}^n\frac{\partial F_1}{\partial x_i},\, \Div(F) = \langle \nabla, F \rangle$
+ \item[Rotation] $\rot(F) := \begin{pmatrix}
+\frac{\partial F_3}{\partial x_2} - \frac{\partial F_2}{\partial x_3} \\
+\frac{\partial F_1}{\partial x_3} - \frac{\partial F_3}{\partial x_1} \\
+\frac{\partial F_2}{\partial x_1} - \frac{\partial F_1}{\partial x_2} \\
+\end{pmatrix},\, \rot(F) = \nabla \times F, n = 3$
+\end{description}
+
+\paragraph{konservative Vektorfelder}
+
+\subsubsection{Ableitung und Integration}
+
+\subsubsection{Koordinatentransformation}
 
 \clearpage
 \section{Formeln und Tafeln}
@@ -605,6 +642,7 @@ Sei mal $\sum_{n_0}$ Abkürzung für $\sum_{n=n_0}^\infty$.
 \clearpage
 
 \subsection{Ableitungen}
+Im Folgenden sei $f(x) \rightarrow g(x)$ Abkürzung für $\frac{d}{dx} f(x) = g(x)$.
 \subsubsection{Rechenregeln}
 \begin{enumerate}[label={(}\arabic*{)}]
  \item $(f(x)+g(x))' = f'(x) + g'(x)$
@@ -612,7 +650,6 @@ Sei mal $\sum_{n_0}$ Abkürzung für $\sum_{n=n_0}^\infty$.
  \item $(\frac{z(x)}{n(x)})' = \frac{z(x)n'(x) - z'(x)n(x)}{n(x)^2}$
  \item $(g \circ f)'(x) = (g(f(x)))' = f'(x)g'(f(x))$
 \end{enumerate}
-\subsection{Ableitungstafel}
 \subsubsection{Polynome und Wurzeln}
 \begin{enumerate}[label={(}\arabic*{)}]
  \item $x^a \rightarrow ax^{a-1}$
@@ -691,6 +728,7 @@ Sei mal $\sum_{n_0}$ Abkürzung für $\sum_{n=n_0}^\infty$.
 
 \clearpage
 \subsection{Hilfen für Diff'rechnung in $\mathbb{R}^n$}
+
 
 
 \end{document}
