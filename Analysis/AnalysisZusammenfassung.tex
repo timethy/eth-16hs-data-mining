@@ -480,11 +480,25 @@ wenn die Funktion $g: x \mapsto f(x_1,\dots,x_{i-1},x,x_{i+1},\dots,x_n)$ differ
 \end{pmatrix},\, \rot(F) = \nabla \times F, n = 3$
 \end{description}
 
+\paragraph{Jacobi-Matrix}
+
+
+\paragraph{hesse'sche Matrix}
+
 \paragraph{konservative Vektorfelder}
 
-\subsubsection{Ableitung und Integration}
-
 \subsubsection{Koordinatentransformation}
+\paragraph{Diffeomorphismus}
+$\Phi: \Omega \mapsto \Phi(\Omega) \subseteq \R^n$ heißt Diffeomorphismus, wenn $\Phi$ bijektiv und $\Phi^{-1}$ differenzierbar ist.
+
+\paragraph{Transformationssatz}
+$f: \Phi(\Omega) \mapsto \R^n$ ist genau dann integrierbar, wenn $g(x) = f(\Phi(x))|\det(D(\Phi(x))|$ integrierbar ist.
+Es gilt:
+\[ \int_{\Phi(\Omega)} f(x)dx = \int_{\Omega} f(\Phi(x))|\det(D(\Phi(x)))|dx\]
+Dies nutzen wir aus, um Integrale durch geignete Wahl von $\Phi$ zu vereinfachen.
+Für Kugel- und Zylinderkoordinaten, siehe Anhang \emph{Formeln und Tafeln}.
+
+\subsubsection{Ableitung und Integration}
 
 \clearpage
 \section{Formeln und Tafeln}
@@ -728,7 +742,66 @@ Im Folgenden sei $f(x) \rightarrow g(x)$ Abkürzung für $\frac{d}{dx} f(x) = g(
 
 \clearpage
 \subsection{Hilfen für Diff'rechnung in $\mathbb{R}^n$}
+\subsubsection{Koordinatentransformationen}
+\paragraph{Kugelkoordinaten in $\R^3$}
+\[
+\begin{pmatrix}
+ x \\ y \\ z \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+ r\sin(\theta)\cos(\varphi) \\
+ r\sin(\theta)\sin(\varphi) \\
+ r\cos(\theta)
+\end{pmatrix}
+\]
+\[
+\begin{pmatrix}
+  r \\ \theta \\ \varphi \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+  \sqrt{x^2 + y^2 + z^2} \\
+  \arccos(\frac{z}{r}) \\
+  \operatorname{atan2} (y, x) \\
+\end{pmatrix}
+\]
+Wobei $\operatorname{atan2} (y, x) = \operatorname{atan2} (y, x)= 2 \arctan \dfrac{y}{\sqrt{x^2+y^2}+x}$\\
+Jacobi-Matrix:
+\[
+J =
+\begin{pmatrix}
+ \sin(\theta)\cos(\varphi) & r\cos(\theta)\cos(\varphi) & -r\sin(\theta)\sin(\varphi) \\
+ \sin(\theta)\sin(\varphi) & r\cos(\theta)\sin(\varphi) & r\sin(\theta)\cos(\varphi) \\
+ \cos(\theta) & r\sin(\theta) & 0 \\
+\end{pmatrix}
+\]
+Jacobi-Determinante: $\det(J) = r^2\sin(\theta)$\\
+Volumenelement: $dV = r^2\sin(\theta)\, d\varphi\, d\theta\, dr$
 
+\paragraph{Zylinderkoordinaten in $\R^3$}
+\[
+\begin{pmatrix}
+ x \\ y \\ z \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+ r\cos(\varphi) \\
+ r\sin(\varphi) \\
+ z
+\end{pmatrix}
+\]
+Jacobi-Matrix:
+\[
+J =
+\begin{pmatrix}
+ \cos(\varphi) & -r\sin(\varphi) & 0 \\
+ \sin(\varphi) &  r\cos(\varphi) & 0 \\
+ 0 & 0 & 1 \\
+\end{pmatrix}
+\]
+Jacobi-Determinante: $\det(J) = r\cos(\varphi)^2+r\sin(\varphi)^2 = r$\\
+Volumenelement: $dV = r\, dr\, d\varphi\, dz$
 
 
 \end{document}
