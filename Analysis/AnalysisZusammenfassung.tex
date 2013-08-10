@@ -379,7 +379,7 @@ $ f \leq g \implies \int_{x_0}^{x_1}f(x)dx \leq \int_{x_0}^{x_1}g(x)dx. $
 $\int_{x_0}^{x_2}f(x)dx = \int_{x_0}^{x_1}f(x)dx + \int_{x_1}^{x_2}f(x)dx$, wobei $x_0 \leq x_1 \leq x_2$.
 
 \paragraph{Substitution}
-Ausgehend von der Ableitungsregel $\frac{d}{dx}f(g(x)) = f'(g(x))g'(x)$ können wir folgende Integrationsregel herleiten.
+Ausgehend von der Ableitungsregel $f'(g(x)) = f'(g(x))g'(x)$ können wir folgende Integrationsregel herleiten.
 \[ \int_{x_0}^{x_1}f'(g(x))g'(x)dx = f(g(x))|_{x_0}^{x_1} = \int_{g(x_0)}^{g(x_1)}f'(u)du \]
 Substituiert man $u := g(x)$, ergibt sich $\frac{du}{dx} = g'(x) \iff du = g'(x)dx$.
 Bleibt noch ein Restterm $i(x)$, löse $u = g(x)$ nach $x = h(u)$ auf und ersetzte $i(x)$ durch $h(i(x))$.
@@ -408,7 +408,7 @@ Anschließend integrieren wir auf beiden Seiten nach $dx$ und erhalten so Folgen
 \[ \iff \int\frac{1}{g(y)}dy = F(x) + C_0 \iff ln |g(y)| = F(x) + C_1. \]
 Durch Anwenden von $exp$ auf beiden Seiten und anschließendes Umformen der Konstanten, erhalten wir schließlich.
 \[ g(y) = C\cdot e^{F(x)} \iff y = g^{-1}(C\cdot e^{F(x)}) \]
-\emph{Bemerke,} dass es zusätzliche konstante Lösungen für $y$ geben kann, nämlich für alle $y$ mit $g(y) = 0$.
+\emph{Bemerke,} dass es zusätzliche, konstante Lösungen für $y$ geben kann, nämlich für alle $y$ mit $g(y) = 0$.
 
 \paragraph{Variation der Konstanten}
 Für $y' = y + x$ betrachte die Lösung der linearen, homogenen DGL $y' - y = 0$. Diese hat ungefähr die Form $y = C_1 e^{\lambda_1 x} + C_2 e^{\lambda_2 x}$.
@@ -456,7 +456,7 @@ Durch Lösen des folgenden Gleichungssystems erhalten wir dann die entsprechende
 
 \clearpage
 \subsection{Differentialrechnung in $\mathbb{R}^n$}
-\paragraph{Definitionen}
+\subsubsection{Definitionen}
 Sei im Folgenden $\Omega \subseteq \R^n, F: \Omega \mapsto \R^m$ und $f: \Omega \mapsto \R$. \\
 Betrachte $f$ als $f(x_1,x_2\dots,x_n)$, dann heißt $f$ \emph{partiell differenzierbar} in Richtung $(0,\dots,e_i,\dots,0)$ bzw. nach $x_i$,
 wenn die Funktion $g: x \mapsto f(x_1,\dots,x_{i-1},x,x_{i+1},\dots,x_n)$ differenzierbar ist. Wir betrachten dabei $x_0,\dots,x_{i-1},x_{i+1},\dots,x_n$ als Konstanten.
@@ -465,10 +465,10 @@ wenn die Funktion $g: x \mapsto f(x_1,\dots,x_{i-1},x,x_{i+1},\dots,x_n)$ differ
  \item $F$ wie oben heißt \emph{Vektorfunktion}.
  \item Bei $m = 1$ sprechen wir von einem \emph{Skalarfeld}.
  \item Bei $n = m$ sprechen wir von einem \emph{Vektorfeld}.
- \item Ist $v = \grad(f)$, heißt $f$ das \emph{Potential} oder die \emph{Stammfunktion} zu dem \emph{Potentialfeld} $v$.
+ \item Es gilt $\dfrac{\partial^2 f}{\partial x\partial y} = \dfrac{\partial^2 f}{\partial y\partial x}$. -- \emph{Satz von Schwarz}
 \end{enumerate}
 
-\paragraph{$\nabla$-Operator, Gradient, Divergenz, Rotation}
+\subsubsection{$\nabla$-Operator, Gradient, Divergenz, Rotation}
 \begin{description}
  \item[Nabla-Operator] $\nabla := (\frac{\partial}{\partial x_1},\dots,\frac{\partial}{\partial x_n})$, nur im Kartesischem!
  \item[Gradient(enfeld)] $\grad(f) := \nabla f = \begin{pmatrix}\frac{\partial f}{\partial x_1} \\\vdots\\ \frac{\partial f}{\partial x_n}\end{pmatrix}$
@@ -480,25 +480,77 @@ wenn die Funktion $g: x \mapsto f(x_1,\dots,x_{i-1},x,x_{i+1},\dots,x_n)$ differ
 \end{pmatrix},\, \rot(F) = \nabla \times F, n = 3$
 \end{description}
 
-\paragraph{Jacobi-Matrix}
+\subsubsection{Gradienten- /Potentialfeld und konservative Vektorfelder}
+Ist $v = \grad(f)$, heißt $f$ das \emph{Potential} oder die \emph{Stammfunktion} zu dem \emph{Gradientenfeld} bzw. dem \emph{Potentialfeld} $v$.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $v$ heißt \emph{konservatives Vektorfeld}.
+ \item $v$ ist \emph{wirbelfrei}: $\rot(\grad f) = \vec{0}$.
+ \item Kurvenintegrale über $v$ sind nur abhängig von Anfangs- und Endpunkt.
+ \item Kurvenintegrale über $v$ mit Anfangspunkt $=$ Endpunkt sind $0$.
+\end{enumerate}
 
+\subsubsection{Jacobi-Matrix}
+Die Ableitungsmatrix einer differenzierbaren Funktion $f: \R^n \rightarrow \R^m$ ist die $m\times n$-Matrix der einfachen partiellen Ableitungen.
+\[
+ J_f(a) := (\dfrac{\partial f_i}{\partial x_j})_{i = 1,\dots,m, j = 1,\dots,n}
+ \begin{pmatrix}
+  \dfrac{\partial f_1}{\partial x_1} & \dfrac{\partial f_1}{\partial x_2} & \dots & \dfrac{\partial f_1}{\partial x_n} \\
+  \vdots & \vdots & \ddots & \vdots \\
+  \dfrac{\partial f_m}{\partial x_1} & \dfrac{\partial f_m}{\partial x_2} & \dots & \dfrac{\partial f_m}{\partial x_n} \\
+ \end{pmatrix}\]
 
-\paragraph{hesse'sche Matrix}
+\subsubsection{Hesse-Matrix}
+Die Hesse-Matrix ist das Analogn im $\R^n$ zur zweiten Ableitung einer eindimensionalen Funktion.
+Ist $f(x_1,\dots,x_n), f: D \subseteq \R^n \rightarrow \R$ zweimal stetig diff'bar, definieren wir die quadratische Matrix $H_f$ wie folgt.
+\[ H_f := (\dfrac{\partial^2 f}{\partial x_i\partial x_j})_{i,j=1,\dots,n} = \begin{pmatrix}
+ \dfrac{\partial^2 f}{\partial x_1\partial x_1} & \dots & \dfrac{\partial^2 f}{\partial x_1\partial x_n} \\
+ \vdots & \ddots & \vdots \\
+ \dfrac{\partial^2 f}{\partial x_n\partial x_1} & \dots & \dfrac{\partial^2 f}{\partial x_n\partial x_n} \\
+\end{pmatrix}
+\]
+Wegen des Satzes von Schwarz ist $H_f$ auch symmetrisch.
+Insbesondere ist für eine Funktion $f(x,y)$
+\[ H_f = \begin{pmatrix}
+\dfrac{\partial^2 f}{\partial^2 x} & \dfrac{\partial^2 f}{\partial x\partial y} \\
+\dfrac{\partial^2 f}{\partial x\partial y} & \dfrac{\partial^2 f}{\partial^2 y} \\
+\end{pmatrix}. \]
 
-\paragraph{konservative Vektorfelder}
+\subsubsection{Kritische Punkte}
+Im Prinzip wie im eindimensionalem, wir bestimmen Minima und Maxima durch finden der Nullstellen der Ableitung.
+Allerdings müssen wir den Rand natürlich speziell betrachten, insbesondere für das Finden globaler Extrema.
+
+\paragraph{Vorgehen}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\grad(f) = \nabla f = \vec{0}$ ergibt die Menge kritischen Punkte $K$.
+ \item Hesse-Matrix $H_f$ berechnen.
+ \item $det(H_f)$ berechnen.
+ \item Für jedes $k\in K$ in $det(H_f)$ einsetzen:
+ \item Gilt $det < 0: k$ ist Sattelpunkt von $f$.
+ \item Gilt $det > 0 \wedge (H_f)_{1,1} > 0: k$ ist Minimum von $f$.
+ \item Gilt $det > 0 \wedge (H_f)_{1,1} < 0: k$ ist Maximum von $f$.
+ \item Gilt $det = 0$, keine Aussage, weiteres Vorgehen nötig.
+\end{enumerate}
+
+\subsection{Integration im $\R^m$}
+
 
 \subsubsection{Koordinatentransformation}
 \paragraph{Diffeomorphismus}
 $\Phi: \Omega \mapsto \Phi(\Omega) \subseteq \R^n$ heißt Diffeomorphismus, wenn $\Phi$ bijektiv und $\Phi^{-1}$ differenzierbar ist.
 
 \paragraph{Transformationssatz}
-$f: \Phi(\Omega) \mapsto \R^n$ ist genau dann integrierbar, wenn $g(x) = f(\Phi(x))|\det(D(\Phi(x))|$ integrierbar ist.
+$f: \Phi(\Omega) \mapsto \R^n$ ist genau dann integrierbar, wenn $g(x) = f(\Phi(x))|\det(J_\Phi(x)|$ integrierbar ist.
 Es gilt:
-\[ \int_{\Phi(\Omega)} f(x)dx = \int_{\Omega} f(\Phi(x))|\det(D(\Phi(x)))|dx\]
-Dies nutzen wir aus, um Integrale durch geignete Wahl von $\Phi$ zu vereinfachen.
+\[ \int_{\Phi(\Omega)} f(x)dx = \int_{\Omega} f(\Phi(x))|\det(J_\Phi(x))|dx\]
+Dies nutzen wir aus, um Integrale durch geeignete Wahl von $\Phi$ zu vereinfachen.
+Dabei ist $J_\Phi(x)$ die Jacobi-Matrix von $\Phi$, siehe oben.
 Für Kugel- und Zylinderkoordinaten, siehe Anhang \emph{Formeln und Tafeln}.
 
-\subsubsection{Ableitung und Integration}
+\subsubsection{Satz von Stokes}
+
+
+\subsubsection{Satz von Gauß}
+\subsubsection{Satz von Fubini}
 
 \clearpage
 \section{Formeln und Tafeln}
@@ -553,7 +605,7 @@ Jetzt lösen wir das folgende Gleichungssystem durch Ausmultiplikation.
 \begin{enumerate}[label={(}\arabic*{)}]
  \item $a^x = e^{ln(a)^{x}} = e^{ln(a)x}$
  \item $a^{n+m} = a^na^m$
- \item $a^{nm} = (a^n)^m = a^{(n^m)}$
+ \item $a^{nm} = (a^n)^m \neq a^{(n^m)}$
  \item $(ab)^n = a^nb^n$
  \item $(\frac{a}{b})^n = \frac{a^n}{b^n}$
 \end{enumerate}
@@ -766,7 +818,7 @@ Im Folgenden sei $f(x) \rightarrow g(x)$ Abkürzung für $\frac{d}{dx} f(x) = g(
   \operatorname{atan2} (y, x) \\
 \end{pmatrix}
 \]
-Wobei $\operatorname{atan2} (y, x) = \operatorname{atan2} (y, x)= 2 \arctan \dfrac{y}{\sqrt{x^2+y^2}+x}$\\
+Mit $\operatorname{atan2} (y, x)= 2 \arctan \dfrac{y}{\sqrt{x^2+y^2}+x} = \arctan(\dfrac{y}{x}) \\$\\
 Jacobi-Matrix:
 \[
 J =
