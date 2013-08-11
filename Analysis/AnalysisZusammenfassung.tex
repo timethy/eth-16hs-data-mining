@@ -218,9 +218,13 @@ $\sqrt{2\pi n}(\frac{n}{e})^n \approx n!$
 
 \subsubsection{Tipps an Beispielen}
 \paragraph{Gruppieren von Gliedern}
+
 \paragraph{Wurzel}
+
 \paragraph{Bruch}
+
 \paragraph{$n$ im Exponent}
+
 \paragraph{Satz von l'Hospital}
 
 \subsection{Reihen}
@@ -347,10 +351,82 @@ so dass $f|_U : x \in U \mapsto f(x) \in \R^n$ Lipschitz-stetig ist.
 \end{enumerate}
 
 \subsubsection{Folgen von Funktionen}
+Eine \emph{Funktionsfolge} $(f_n)_{n\in\N}$ \emph{konvergiert punktweise} auf $I \subseteq \R$ gegen $f$, wenn $\forall x\in I: f_n(x) \rightarrow f(x)$:
+\[ \forall \epsilon > 0: \forall x \in I: \exists n_0 \in \N: n \geq n_0 \implies |f_n(x)-f(x)| < \epsilon \]
+Sie \emph{konvergiert gleichmäßig} auf $I$ gegen $f$, wenn $sup_{x\in I} |f_n(x) - f(x)| \rightarrow 0$ gilt.
+Insbesondere ist also das $n_0$ nicht mehr abhängig von einem $x$.
+\[ \forall \epsilon > 0: \exists n_0 \in \N: \forall x \in I: n \geq n_0 \implies |f_n(x)-f(x)| < \epsilon \]
+
+\emph{Tipp: } Gleichmäßige Konvergenz kann häufig durch Setzen von $x := n$, oder $x := \frac{1}{n}$ widerlegt werden.
+Denn $|f_n(x) - f(x)|$ muss gegen Null streben, was dann aber nicht der Fall ist.
+
 \subsubsection{Differentialrechnung}
 
+\paragraph{Definition}
+Wir sagen $f: I \rightarrow \R$ ist in $x_0 \in I$ \emph{differenzierbar}, wenn folgender Grenzwert existiert.
+\[
+ \lim_{x\rightarrow x_0} \dfrac{f(x) - f(x_0)}{x - x_0} =: \dfrac{f}{fx} f(x_0) =: f'(x_0)
+\]
+Ist $f$ für alle $x_0 \in I$ differenzierbar, heißt die Funktion selbst \emph{differenzierbar}.
+Dann ist die Funktion $f'(x)$ die \emph{Ableitung} von $f$.
+Gilt außerdem, dass $f'(x)$ stetig ist, so ist $f$ \emph{stetig differenzierbar}.
+
+\paragraph{Mittelwertsatz -- Satz von Lagrange}
+Ist $f$ auf $[a,b]$ stetig und in $]a,b[$ differenzierbar, so gibt es ein $c \in ]a,b[$ mit
+\[ \dfrac{f(b) - f(a)}{b-a} = f'(c) \]
+Anders gesagt gibt es ein $c$, an dem die Steigung gerade die mittlere Steigung beträgt.\\
+\emph{Bemerkung:} Der Mittelwertsatz kommt häufig bei Ungleichungen zur Anwendung.
+
+\paragraph{Monotonie}
+Das Monotonie-Verhaltens lässt sich anhand der 1. Ableitung bestimmen.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $f' > 0 \implies $ f streng monoton steigend.
+ \item $f' < 0 \implies $ f streng monoton fallend.
+ \item $f' \geq 0 \iff $ f monoton steigend.
+ \item $f' \leq 0 \iff $ f monoton fallend.
+\end{enumerate}
+
+\paragraph{Konvexität}
+Die Konvexität lässt sich anhand der 2. Ableitung bestimmen.
+Dabei heißt eine Funktion $f$ \emph{konvex}, wenn $\forall a,b: f(\frac{a+b}{2}) \leq \frac{f(a)+f(b)}{2}$
+und \emph{konkav}, wenn $\forall a,b: f(\frac{a+b}{2}) \geq \frac{f(a)+f(b)}{2}$.
+Insbesondere ist der Graph einer konvexen Funktion \emph{linksgekrümmt} und der einer konkaven \emph{rechtsgekrümmt}.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $f'' \geq 0 \iff $ f konvex.
+ \item $f'' \leq 0 \iff $ f konkav.
+\end{enumerate}
+
+\paragraph{Extremstellen}
+Für Extremstellen -- also Sattelpunkte, Minima und Maxima -- von $f$ gilt $f'(x_0) = 0$.
+Weitere Eigenschaften sind folgend zusammengefasst.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $f''(x_0) > 0 \implies$ \emph{Minimum} bei $x_0$.
+ \item $f''(x_0) < 0 \implies$ \emph{Maximum} bei $x_0$.
+ \item $f''(x_0) = 0 \vee f'''(x_0) \neq 0 \implies$ \emph{Sattelpunkt} bei $x_0$.
+\end{enumerate}
+
+Aus $(3)$ folgt ohne der Voraussetzung von $f'(x_0) = 0$ übrigens, dass bei $x_0$ ein \emph{Wendepunkt} vorliegt,
+also die Funktion von konvex nach konkav bzw. anders herum wechselt.
 
 \subsection{Taylorreihe \& -entwicklung}
+Funktionen lassen sich in der Umgebung eines Punktes durch eine Potenzreihe annähern.
+
+Die \emph{Taylorreihe} von $f$ um den Punkt $x_0$ ist definiert durch:
+\[ T f(x) = \sum_{n=0}^{\infty} \dfrac{f^{(n)}\cdot a}{n!}(x-x_0)^n \]
+Insbesondere nennen wir die \emph{Linearisierung der Taylorreihe} mit Grad $m$ das \emph{$m$-te Taylorpolynom}.
+Es ist also:
+\[ T_m f(x) = \sum_{i=0}^{m} \dfrac{f^{(n)}\cdot a}{n!}(x-x_0)^n = f(x_0) + \dfrac{f'(x_0)}{1} + \dfrac{f''(x_0)}{2} + \cdots\]
+
+\paragraph{Restglied}
+
+\[ R_{m}(x) = \frac{f^{(m+1)}(x)}{(m+1)!}(x-a)^{m+1} \]
+
+\paragraph{Rechenregeln}
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $T_m(f+g)(x) = T_m f(x) + T_m g(x)$ -- \emph{Addition}
+ \item $T_m(f\cdot g)(x) = T_m f(x) \cdot T_m g(x)$, entferne alle Terme der Ordnung $> m$ -- \emph{Multiplikation}
+ \item Im Allgemeinen gilt $f(x) = T f(x)$ nicht. Außerdem kann der Konvergenzradius $0$ betragen.
+\end{enumerate}
 
 \clearpage
 \section{Schweres}
@@ -364,10 +440,7 @@ Im Folgenden seien $F, f$ definiert auf $]a,b[$.
    Dabei ist $a < x_0 <= x_1 < b$ und $F' = f$.
  \item \textbf{Hauptsatz:} $F(y) = \int_{a}^{y}f(x)dx, y \in\ ]a,b[ \implies F' = f.$
 \end{enumerate}
-%\subsubsection{Riemannsummen \& -integral}
-%Das R-Integral, hier einfach nur als Integral bezeichnet, wird über die Riemannsummen eingeführt,
-%auf die deswegen kurz eingegangen werden soll.
-% TODO: Uneigentliches Integral
+
 \subsubsection{Rechenregeln}
 Das Integral ist ein \emph{lineares} und \emph{monotones} Funktional, wie folgende zwei Sätze zeigen!
 \paragraph{Linearität}
@@ -419,9 +492,6 @@ Nun ersetze $C_1 := u_1(x), C_2 := u_2(x)$ und löse anschließend das Gleichung
 \end{pmatrix}
 \]
 
-
-\subsubsection{DGL zweiter Ordnung}
-
 \subsubsection{Lineare, homogene DGL beliebiger Ordnung}
 \paragraph{Definition} Eine lineare, homogene DGL der Ordnung $n$ über eine Funktion $f \in C^{n}$ ist eine Gleichung der Form
 \[ a_n f^{(n)}(x) + a_{n-1} f^{(n-1)}(x) + \dots + a_1 f'(x) + a_0 f(x) = 0. \]
@@ -451,9 +521,6 @@ Durch Lösen des folgenden Gleichungssystems erhalten wir dann die entsprechende
  \end{pmatrix}
 \]
 
-\subsubsection{Lineare, inhomogene DGL beliebiger Ordnung}
-% TODO: Check LA for easier method (?)
-
 \clearpage
 \subsection{Differentialrechnung in $\mathbb{R}^n$}
 \subsubsection{Definitionen}
@@ -472,7 +539,7 @@ wenn die Funktion $g: x \mapsto f(x_1,\dots,x_{i-1},x,x_{i+1},\dots,x_n)$ differ
 \begin{description}
  \item[Nabla-Operator] $\nabla := (\frac{\partial}{\partial x_1},\dots,\frac{\partial}{\partial x_n})$, nur im Kartesischem!
  \item[Gradient(enfeld)] $\grad(f) := \nabla f = \begin{pmatrix}\frac{\partial f}{\partial x_1} \\\vdots\\ \frac{\partial f}{\partial x_n}\end{pmatrix}$
- \item[Divergenz] $\Div(F) := \sum_{i=1}^n\frac{\partial F_1}{\partial x_i},\, \Div(F) = \langle \nabla, F \rangle$
+ \item[Divergenz] $\Div(F) := \sum_{i=1}^n\frac{\partial F_i}{\partial x_i},\, \Div(F) = \langle \nabla, F \rangle$
  \item[Rotation] $\rot(F) := \begin{pmatrix}
 \frac{\partial F_3}{\partial x_2} - \frac{\partial F_2}{\partial x_3} \\
 \frac{\partial F_1}{\partial x_3} - \frac{\partial F_3}{\partial x_1} \\
@@ -484,15 +551,15 @@ wenn die Funktion $g: x \mapsto f(x_1,\dots,x_{i-1},x,x_{i+1},\dots,x_n)$ differ
 Ist $v = \grad(f)$, heißt $f$ das \emph{Potential} oder die \emph{Stammfunktion} zu dem \emph{Gradientenfeld} bzw. dem \emph{Potentialfeld} $v$.
 \begin{enumerate}[label={(}\arabic*{)}]
  \item $v$ heißt \emph{konservatives Vektorfeld}.
- \item $v$ ist \emph{wirbelfrei}: $\rot(\grad f) = \vec{0}$.
- \item Kurvenintegrale über $v$ sind nur abhängig von Anfangs- und Endpunkt.
- \item Kurvenintegrale über $v$ mit Anfangspunkt $=$ Endpunkt sind $0$.
+ \item $v$ ist \emph{wirbelfrei}: $\rot(\grad f) = \vec{0}$. -- \emph{hinreichendes Kriterium}
+ \item Kurvenintegrale nur abhängig von Anfangs- und Endpunkt.
+ \item Kurvenintegrale mit Anfangspunkt $=$ Endpunkt sind $0$.
 \end{enumerate}
 
 \subsubsection{Jacobi-Matrix}
 Die Ableitungsmatrix einer differenzierbaren Funktion $f: \R^n \rightarrow \R^m$ ist die $m\times n$-Matrix der einfachen partiellen Ableitungen.
 \[
- J_f(a) := (\dfrac{\partial f_i}{\partial x_j})_{i = 1,\dots,m, j = 1,\dots,n}
+ J_f(a) := (\dfrac{\partial f_i}{\partial x_j})_{i = 1,\dots,m, j = 1,\dots,n} =
  \begin{pmatrix}
   \dfrac{\partial f_1}{\partial x_1} & \dfrac{\partial f_1}{\partial x_2} & \dots & \dfrac{\partial f_1}{\partial x_n} \\
   \vdots & \vdots & \ddots & \vdots \\
@@ -525,14 +592,72 @@ Allerdings müssen wir den Rand natürlich speziell betrachten, insbesondere fü
  \item Hesse-Matrix $H_f$ berechnen.
  \item $det(H_f)$ berechnen.
  \item Für jedes $k\in K$ in $det(H_f)$ einsetzen:
- \item Gilt $det < 0: k$ ist Sattelpunkt von $f$.
- \item Gilt $det > 0 \wedge (H_f)_{1,1} > 0: k$ ist Minimum von $f$.
- \item Gilt $det > 0 \wedge (H_f)_{1,1} < 0: k$ ist Maximum von $f$.
- \item Gilt $det = 0$, keine Aussage, weiteres Vorgehen nötig.
+ \item Gilt $det(H_f) < 0: k$ ist Sattelpunkt von $f$.
+ \item Gilt $det(H_f) > 0 \wedge Spur(H_f) > 0: k$ ist Minimum von $f$.
+ \item Gilt $det(H_f) > 0 \wedge Spur(H_f) < 0: k$ ist Maximum von $f$.
+ \item Gilt $det(H_f) = 0$, keine Aussage, weiteres Vorgehen nötig.
 \end{enumerate}
 
-\subsection{Integration im $\R^m$}
+\subsubsection{Globale Extrema}
+Angenommen, wir haben bereits alle lokale Extrema berechnet (wie oben).
 
+\subsubsection{Tangentialebene}
+Zusätzlich zu den kritischen Punkten, kann gefordert sein, die sogenannte \emph{Tangentialebene} durch den Punkt $(x_1, x_2, \dots, x_n)$ zu bestimmen.
+Hier ist das Verfahren im $\R^2$ angegeben.
+Sei $f(x,y) = z$ und der Punkt $(x_0, y_0, f(x_0, y_0)) = (x_0, y_0, z_0)$ gegeben.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item Bestimme $\grad(f) = (\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y})^T := (f_x, f_y)^T$.
+ \item Bilde $z(x_0, y_0), z_x(x_0, y_0)$ und $z_y(x_0, y_0)$.
+ \item Stelle die \emph{Tangentialgleichung} $z = f(x_0, y_0) + f_x(x_0, y_0)(x - x_0) + f_y(x_0, y_0)(y - y_0)$ auf.
+\end{enumerate}
+Setzt man $F(x,y,z) = f(x,y) - z = 0$, lässt sich die \emph{Tangentialgleichung} auch wie folgt (in Normalform) darstellen.
+\[ \langle (r - (x_0, y_0, z_0)), \grad(F) \rangle = 0, \grad(F) = \begin{pmatrix}f_x \\ f_y \\ -1\end{pmatrix} \]
+
+\subsection{Potentialbestimmung}
+Im Prinzip ist das Bestimmen eines Potential auch eine Art Integration.
+
+\paragraph{Bestimmen eines Potentials im $\R^2$}
+Ist ein dreidimensionales Vektorfeld $F(x,y): M \subseteq \R^2 \rightarrow \R^3$ gegeben und es soll bestimmt werden ob
+es ein -- und wenn ja, welches -- Potential $f$ besitzt so dass $F = grad f$.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item Prüfe ob $\dfrac{\partial F_y}{\partial x} - \dfrac{\partial F_x}{\partial y} = 0$ ergibt.
+ \item Ist dies nicht der Fall, so gibt es kein Potential.
+ \item Sonst $f_1 = \int F_xdx + c_1$ und $f_2 = \int F_ydy$.
+ \item Gleichsetzen von $f_1 = f_2$ ergibt die Konstanten $c_1, c_2$.
+\end{enumerate}
+
+\paragraph{Bestimmen eines Potentials im $\R^3$}
+Ist ein dreidimensionales Vektorfeld $F(x,y,z): M \subseteq \R^3 \rightarrow \R^3$ gegeben und es soll bestimmt werden ob
+es ein -- und wenn ja, welches -- Potential $f$ besitzt so dass $F = grad f$.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item Ist $F$ wirbelfrei? Also zeige, dass $rot F = 0$.
+ \item Falls $rot F \neq 0$ sind wir fertig, denn es gibt kein Potential.
+ \item Sonst $f_1 = \int F_xdx + c_1$, $f_2 = \int F_ydy + c_2$, $f_3 = \int F_zdz + c_3$.
+ \item Setze nun $f_1 = f_2 = f_3$ gleich und berechne die Integrationskonstanten $c_1, c_2, c_3$.
+\end{enumerate}
+\emph{Bemerkung:} $M$ muss einfach zusammenhängend sein, was bei $M = \R^3$ gegeben ist.
+
+\subsection{Kurvenintegrale}
+\subsubsection{1. Art -- Wegintegral über Skalarfeld}
+Das \emph{Wegintegral 1. Art} über ein stetiges Skalarfeld $f: \R^n\rightarrow\R$ entlang des stetig differenzierbaren Weges $\gamma: [a,b]\rightarrow\R^n$
+ist definiert durch
+\[ \int_\gamma f(s)ds := \int_a^b f(\gamma(t))\|\gamma'(t)\|_2dt. \]
+Dabei ist $\|a\|_2 = \sqrt{\sum_{i=1}^n a_i^2}$ die Euklidische Norm.
+
+\subsubsection{2. Art -- Wegintegral über Vektorfeld}
+Das \emph{Wegintegral 2. Art} über ein stetiges Vektorfeld $F: \R^n\rightarrow\R^n$ entlang eines stetig differenzierbaren Weges $\gamma: [a,b]\rightarrow\R^n$
+ist definiert durch
+\[ \int_\gamma F(s)ds := \int_a^b\langle F(\gamma(t)), \gamma'(t) \rangle dt\]
+Dabei ist $\langle a,b \rangle = a^Tb = \sum_{i=0}{n} = a_ib_i$ das (euklidische) Skalarprodukt.
+
+\subsubsection{Rechenregeln}
+Kurvenintegrale sind genauso wie ``normale'' Integrale linear.
+\begin{enumerate}[label={(}\arabic*{)}]
+ \item $\int_\gamma F(s) + G(s)ds = \int_\gamma F(s)ds + \int_\gamma G(s)ds$.
+ \item $\int_\gamma \alpha F(s)ds = \alpha\int_\gamma F(s)ds$
+\end{enumerate}
+
+\subsection{Volumen- und Flächenintegrale im $\R^n$}
 
 \subsubsection{Koordinatentransformation}
 \paragraph{Diffeomorphismus}
@@ -546,11 +671,24 @@ Dies nutzen wir aus, um Integrale durch geeignete Wahl von $\Phi$ zu vereinfache
 Dabei ist $J_\Phi(x)$ die Jacobi-Matrix von $\Phi$, siehe oben.
 Für Kugel- und Zylinderkoordinaten, siehe Anhang \emph{Formeln und Tafeln}.
 
-\subsubsection{Satz von Stokes}
-
-
 \subsubsection{Satz von Gauß}
-\subsubsection{Satz von Fubini}
+Sei $\Omega \subseteq \R^n$ eine kompakte Menge mit ``glattem'' Rand $S := \partial\Omega$.
+Sei weiter $F: \Omega \rightarrow \R^n$ ein stetig differenzierbares Vektorfeld. Es gilt
+\[ \int_\Omega \Div FdV = \int_S F\cdot N dS \]
+Wobei $N$ die Normale (an der jeweiligen Stelle) ist.
+
+\subsubsection{Massenmittelpunkt im $\R^n$}
+Sei der Vektor $r$, der \emph{Massenmittelpunkt} oder auch \emph{Schwerpunkt} eines Körpers $K$ mit \emph{Dichtefunktion} $\rho(v)$.
+Dann gilt für seine Komponenten:
+\[ r_x = 1/M\cdot\int_K x\cdot \rho(v)dV \]
+\[ r_y = 1/M\cdot\int_K y\cdot \rho(v)dV \]
+\[ r_z = 1/M\cdot\int_K z\cdot \rho(v)dV \]
+
+Wobei die Masse $M$ gegeben ist durch:
+\[ M = \int_K \rho(v) dV \]
+
+\emph{Bemerkung} Bei homogen-dichten Körpern, also Körper, bei dem überall die gleiche Dichte gegeben ist,
+lässt sich $\rho$ vor das Integral ziehen.
 
 \clearpage
 \section{Formeln und Tafeln}
@@ -633,7 +771,7 @@ Jetzt lösen wir das folgende Gleichungssystem durch Ausmultiplikation.
 Sei $a,b \in \mathbb{R}, c \in \mathbb{C}$.
 \begin{enumerate}[label={(}\arabic*{)}]
  \item $c := a + ib = \Re(a) + i\Im(b)$
- \item $\overline{c} = a - ib$
+ \item $\overline{c} = a - ib$ -- \emph{konjugiert-komplexe Zahl}
  \item $z_0 + z_1 := (a_0 + a_1) + i(b_0 + b_1)$
  \item $z_0 \cdot z_1 := (a_0a_1 - b_0b_1) + i(a_0b_1 + a_1b_0)$
  \item $|z|^2 = z\cdot\overline{z} = a^2 + b^2$
@@ -641,23 +779,36 @@ Sei $a,b \in \mathbb{R}, c \in \mathbb{C}$.
 
 
 \subsection{Trigonometrische Funktionen}
+\paragraph{Wichtige Werte}
+\begin{center}
+\begin{tabular}[m]{r|ccccccccc}
+Winkel & $\frac{1}{6}\pi$ & $\frac{1}{4}\pi$ & $\frac{1}{3}\pi$ & $\frac{1}{2}\pi$ & $\frac{2}{3}\pi$ & $\frac{3}{4}\pi$ & $\pi$ & $\frac{3}{2}\pi$ & $2\pi$ \\[.1em]
+in Grad & $30$ & $45$ & $60$ & $90$ & $120$ & $135$ & $180$ & $270$ & $360$ \\\hline
+$\sin(x)$ & $\frac{\sqrt{1}}{2}$ & $\frac{\sqrt{2}}{2}$ & $\frac{\sqrt{3}}{2}$ & $1$ & $\frac{\sqrt{3}}{2}$ & $\frac{\sqrt{2}}{2}$ & $0$ & $-1$ & $0$ \\[.1em]
+$\cos(x)$ & $\frac{\sqrt{3}}{2}$ & $\frac{\sqrt{2}}{2}$ & $\frac{\sqrt{1}}{2}$ & $0$ & $-\frac{\sqrt{1}}{2}$ & $-\frac{\sqrt{2}}{2}$ & $-1$ & $0$ & $1$ \\[.1em]
+$\tan(x)$ & $\frac{1}{\sqrt{3}}$ & $1$ & $\sqrt{3}$ & $0$ & $-\sqrt{3}$ & $-1$ & $0$ & $\times$ & $0$ \\
+\end{tabular}
+\end{center}
+
+\paragraph{Rechenregeln}
 \begin{enumerate}[label={(}\arabic*{)}]
  \item $\sin(x) := \sum_0^\infty (-1)^n\frac{x^{2n+1}}{(2n+1)!}$
  \item $\cos(x) := \sum_0^\infty (-1)^n\frac{x^{2n}}{(2n)!}$
  \item $\tan(x) := \frac{\sin(x)}{\cos(x)}$
  \item $\cos(x) + i\sin(x) = e^{ix}$
- \item $\sin(a)^2 + \cos(a)^2 = 1$
- \item $\sin(a \pm b) = \sin(a)\cos(b) \pm \cos(a)\sin(b)$
- \item $\cos(a \pm b) = \cos(a)\cos(b) \mp \sin(a)\sin(b)$
- \item $\tan(a \pm b) = \frac{\tan(a)\pm\tan(b)}{1\mp\tan(a)\tan(b)}$
- \item $\sin(2a) = 2\sin(a)\cos(a)$
- \item $\cos(2a) = 2\sin(a)\cos(a)$
- \item $\tan(2a) = \cos(a)^2 - \sin(a)^2 = 2\cos(a)^2 - 1 = 1 - 2\sin(a)^2$
- \item $\sin(a \pm \frac{\tau}{4}) = \sin(a\pm\frac{\pi}{2}) = \pm\cos(a)$
- \item $\cos(a \pm \frac{\tau}{4}) = \cos(a\pm\frac{\pi}{2}) = \mp\sin(a)$
- \item $\sin(a \pm \frac{\tau}{2}) = \sin(a\pm\pi) = -\sin(a)$
- \item $\cos(a \pm \frac{\tau}{2}) = \cos(a\pm\pi) = -\cos(a)$
+ \item $\sin(x)^2 + \cos(x)^2 = 1$
+ \item $\sin(x \pm y) = \sin(x)\cos(y) \pm \cos(x)\sin(y)$
+ \item $\cos(x \pm y) = \cos(x)\cos(y) \mp \sin(x)\sin(y)$
+ \item $\tan(x \pm y) = \frac{\tan(x)\pm\tan(y)}{1\mp\tan(x)\tan(y)}$
+ \item $\sin(2x) = 2\sin(x)\cos(x)$
+ \item $\cos(2x) = 2\sin(x)\cos(x)$
+ \item $\tan(2x) = \cos(x)^2 - \sin(x)^2 = 2\cos(x)^2 - 1 = 1 - 2\sin(x)^2$
+ \item $\sin(x \pm \frac{\tau}{4}) = \sin(x\pm\frac{\pi}{2}) = \pm\cos(x)$
+ \item $\cos(x \pm \frac{\tau}{4}) = \cos(x\pm\frac{\pi}{2}) = \mp\sin(x)$
+ \item $\sin(x \pm \frac{\tau}{2}) = \sin(x\pm\pi) = -\sin(x)$
+ \item $\cos(x \pm \frac{\tau}{2}) = \cos(x\pm\pi) = -\cos(x)$
 \end{enumerate}
+
 \subsection{Hyperbelfunktionen}
 \begin{enumerate}[label={(}\arabic*{)}]
  \item $\sinh(x) := \frac{1}{2}(e^x-e^{-x}) = -i\sin(ix)$
@@ -855,5 +1006,21 @@ J =
 Jacobi-Determinante: $\det(J) = r\cos(\varphi)^2+r\sin(\varphi)^2 = r$\\
 Volumenelement: $dV = r\, dr\, d\varphi\, dz$
 
+\subsubsection{Typische geometrische Körper und ihre Volumina}
+\paragraph{Ellipsoid}
+Ein \emph{Ellipsoid} ist -- in kartesischen Koordinaten im $\R^3$ -- gegeben durch
+\[ \frac{x^2}{a^2} + \frac{y^2}{b^2} + \frac{z^2}{c^2} = 1. \]
+$a,b,c$ nennt man dabei die \emph{Halbachsen} der Ellipse.
+
+\paragraph{Volumina und Oberflächen}
+
+\begin{tabular}{lll}
+ \textbf{Körper} & $V$ \\\hline
+ Kugel & $\frac{4\pi}{3}r^3$ \\
+ Ellipsoid & $\frac{4\pi}{3}abc$ \\
+ Zylinder & $\pi r^2h$ \\
+ Pyramide & $\frac{1}{3}Gh$ \\
+ Kegel & $\frac{\pi}{3}r^2h$ \\
+\end{tabular}
 
 \end{document}
