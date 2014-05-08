@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{mathtools}
 
 \usepackage{fancyhdr}
 
@@ -26,6 +27,8 @@
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
+\newcommand{\defeq}{\vcentcolon=}
+\newcommand{\eqdef}{=\vcentcolon}
 
 \begin{document}
 \pagestyle{fancy}
@@ -155,10 +158,10 @@ Wir schreiben dann $a = \lim_{n\rightarrow\infty} a_n$ oder auch $a_n \rightarro
  \item[streng monoton fallend] $a_n > a_{n+1}, \forall{n\in\N}$
  \item[alternierend] $a_n < 0 \implies a_{n+1} > 0, \forall{n\in\N}$
  \item[bestimmt divergent / uneigentlich konvergent] $a = \pm \infty$
- \item[Teilfolge] Durch Weglassen von Gliedern aus $(a_n)_{n\in\N}$ entstandene, unendliche Folge.
+ \item[Teilfolge] Durch Weglassen von Gliedern aus $(a_n)_{n\in\N}$ entstandene, (normalerweise) unendliche Folge.
  \item[Häufungspunkt] $b = \lim_{n\rightarrow\infty} b_n$, $(b_n)_{n\in\N}$ Teilfolge.
- \item[$\limsup$] $\max\{b_n\text{ konvergente Teilfolge } | \lim_{n\rightarrow\infty} b_n\}$.
- \item[$\liminf$] $\min\{b_n\text{ konvergente Teilfolge } | \lim_{n\rightarrow\infty} b_n\}$.
+ \item[$\limsup_{n\to\infty}a_n$]$\defeq\max\{b_n\text{ konvergente Teilfolge } | \lim_{n\rightarrow\infty} b_n\}$
+ \item[$\liminf_{n\to\infty}a_n$]$\defeq\min\{b_n\text{ konvergente Teilfolge } | \lim_{n\rightarrow\infty} b_n\}$
 \end{description}
 
 \subsubsection{Konvergenzkriterien}
