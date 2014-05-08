@@ -145,7 +145,7 @@ Falls nicht anders angegeben, ist $(a_n)_{n\in\N}$ eine Folge.
 wenn 
 \[ \forall \epsilon > 0 \: \exists n_0 \; \forall n > n_0: |a - a_n| < \epsilon \]
 mit $ \epsilon \in \R; n,n_0 \in\N  $. \\
-Wir schreiben dann $a = \lim_{n\rightarrow\infty} a_n$ oder auch $a_n \rightarrow a$.
+Wir schreiben dann $a = \lim_{n\to\infty} a_n$ oder auch $a_n \to a$.
 \begin{description}
  \item[konvergent] Der Grenzwert existiert.
  \item[divergent] Der Grenzwert existiert nicht.
@@ -159,20 +159,20 @@ Wir schreiben dann $a = \lim_{n\rightarrow\infty} a_n$ oder auch $a_n \rightarro
  \item[alternierend] $a_n < 0 \implies a_{n+1} > 0, \forall{n\in\N}$
  \item[bestimmt divergent / uneigentlich konvergent] $a = \pm \infty$
  \item[Teilfolge] Durch Weglassen von Gliedern aus $(a_n)_{n\in\N}$ entstandene, (normalerweise) unendliche Folge.
- \item[Häufungspunkt] $b = \lim_{n\rightarrow\infty} b_n$, $(b_n)_{n\in\N}$ Teilfolge.
- \item[$\limsup_{n\to\infty}a_n$]$\defeq\max\{b_n\text{ konvergente Teilfolge } | \lim_{n\rightarrow\infty} b_n\}$
- \item[$\liminf_{n\to\infty}a_n$]$\defeq\min\{b_n\text{ konvergente Teilfolge } | \lim_{n\rightarrow\infty} b_n\}$
+ \item[Häufungspunkt] $b = \lim_{n\to\infty} b_n$, $(b_n)_{n\in\N}$ Teilfolge.
+ \item[$\limsup_{n\to\infty}a_n$]$\defeq\max\{b_n\text{ konvergente Teilfolge } | \lim_{n\to\infty} b_n\}$
+ \item[$\liminf_{n\to\infty}a_n$]$\defeq\min\{b_n\text{ konvergente Teilfolge } | \lim_{n\to\infty} b_n\}$
 \end{description}
 
 \subsubsection{Konvergenzkriterien}
 \begin{enumerate}[label={(}\arabic*{)}]
-\item $a_n \rightarrow a \implies a_n - a \rightarrow 0 \implies |a_n - a| \rightarrow 0$.
+\item $a_n \to a \implies a_n - a \to 0 \implies |a_n - a| \to 0$.
 \item Jede Teilfolge einer konvergenten Folge konvergiert gegen ihren Grenzwert.
       Eine konvergente Folge hat also genau einen Häufungspunkt.
 \item $(a_n)$ monoton wachsend und nach oben beschränkt $\implies$ $(a_n)$ konvergent.
 \item $(a_n)$ monoton fallend und nach unten beschränkt $\implies$ $(a_n)$ konvergent.
 \item $(\sum_{n=0}^{\infty} a_n)$ konvergent $\implies$ $a = 0$, siehe Reihen.
-\item $\exists f, f(n) = a_n \wedge \lim_{x\rightarrow\infty} f(x) = a \implies \lim_{n\rightarrow\infty} a_n = a$.
+\item $\exists f, f(n) = a_n \wedge \lim_{x\to\infty} f(x) = a \implies \lim_{n\to\infty} a_n = a$.
 \item $\exists (a_n), (b_n), (c_n) \text{ mit } a_n \leq b_n \leq c_n \wedge a = c \implies b = a,$\\
       sogenanntes \textbf{Einschließungskriterium}.
 \end{enumerate}
@@ -190,23 +190,23 @@ Siehe auch \textbf{Tipps an Beispielen} für angewandte Kriterien.
  \item $(a_n), (b_n)$ beschränkt $\implies (a_n + b_n)$ beschränkt.
  \item $(a_n)$ konvergent, $(b_n)$ divergent $\implies (a_n + b_n)$ divergent.
  \item $(a_n)$ beschränkt, $(b_n)$ unbeschränkt $\implies (a_n + b_n)$ unbeschränkt.
- \item $(a_n)$ beschränkt, $(b_n) \rightarrow \pm \infty \implies (a_n + b_n) \rightarrow \pm \infty$.
- \item $(a_n) \rightarrow \pm\infty$, $(b_n) \rightarrow \pm\infty \implies (a_n + b_n) \rightarrow \pm\infty$.
+ \item $(a_n)$ beschränkt, $(b_n) \to \pm \infty \implies (a_n + b_n) \to \pm \infty$.
+ \item $(a_n) \to \pm\infty$, $(b_n) \to \pm\infty \implies (a_n + b_n) \to \pm\infty$.
 \end{enumerate}
 \paragraph{Multiplikation}
 \begin{enumerate}[label={(}\arabic*{)}]
  \item $(a_n)$ Nullfolge, $(b_n)$ beschränkt $\implies (a_n \cdot b_n)$ Nullfolge.
  \item $(a_n), (b_n)$ konvergent $\implies (a_n \cdot b_n)$ konvergent.
  \item $(a_n), (b_n)$ beschränkt $\implies (a_n \cdot b_n)$ beschränkt.
- \item $(a_n) \rightarrow a, a \neq 0$, $(b_n)$ divergent $\implies (a_n \cdot b_n)$ divergent.
+ \item $(a_n) \to a, a \neq 0$, $(b_n)$ divergent $\implies (a_n \cdot b_n)$ divergent.
 \end{enumerate}
-\paragraph{Grenzwerte} Wir setzen $a := \lim_{n\rightarrow\infty} a_n, b := \lim_{n\rightarrow\infty} b_n.$
+\paragraph{Grenzwerte} Wir setzen $a := \lim_{n\to\infty} a_n, b := \lim_{n\to\infty} b_n.$
 \begin{enumerate}[label={(}\arabic*{)}]
- \item $\lim_{n\rightarrow\infty}(a_n \pm b_n) = a \pm b.$
- \item $\lim_{n\rightarrow\infty}(c\cdot a_n) = c\cdot a.$
- \item $\lim_{n\rightarrow\infty}(a_n \cdot b_n) = a \cdot b.$
- \item $\lim_{n\rightarrow\infty}((a_n)^c) = a^c, c$ konstant.
- \item $\lim_{n\rightarrow\infty}(\frac{a_n}{b_n}) = \frac{a}{b}, b \neq 0.$
+ \item $\lim_{n\to\infty}(a_n \pm b_n) = a \pm b.$
+ \item $\lim_{n\to\infty}(c\cdot a_n) = c\cdot a.$
+ \item $\lim_{n\to\infty}(a_n \cdot b_n) = a \cdot b.$
+ \item $\lim_{n\to\infty}((a_n)^c) = a^c, c$ konstant.
+ \item $\lim_{n\to\infty}(\frac{a_n}{b_n}) = \frac{a}{b}, b \neq 0.$
 \end{enumerate}
 
 \subsubsection{Hilfsmethoden}
@@ -236,7 +236,7 @@ $\sqrt{2\pi n}(\frac{n}{e})^n \approx n!$
 \subsubsection{Definitionen}
 Eine \emph{Reihe} $\sum_{k = 1}^\infty a_k$ heißt \emph{konvergent} mit Grenzwert $s$, wenn die Folge der \emph{Partialsummen}
 $(S_n)_{n \in \N}$, $S_n := \sum_{k=1}^n a_k$ gegen $s$ konvergiert. Es gilt also wie folgt.
-\[ \sum_{k=1}^\infty a_k = s \iff \lim_{n\rightarrow\infty} \sum_{k=1}^n a_k = s \]
+\[ \sum_{k=1}^\infty a_k = s \iff \lim_{n\to\infty} \sum_{k=1}^n a_k = s \]
 
 \subsubsection{Konvergenzkriterien}
 
@@ -333,21 +333,21 @@ Eine Funktion heisst \emph{bijektiv}, wenn jedes Element der Zielmenge \emph{gen
 \subsubsection{Grenzwerte}
 
 \subsubsection{Stetigkeit}
-\paragraph{$\epsilon$-$\delta$-Kriterium} $\lim_{x\rightarrow x_0} f(x) = a, $ wenn Folgendes gilt.
+\paragraph{$\epsilon$-$\delta$-Kriterium} $\lim_{x\to x_0} f(x) = a, $ wenn Folgendes gilt.
 \[\forall\epsilon>0:\exists\delta>0: \forall x \in \Omega: |x-x_0| < \delta \implies |f(x) - f(x_0)| < \epsilon \]
 \paragraph{Definition}
 \begin{enumerate}[label={(}\arabic*{)}]
- \item $\lim_{x\rightarrow x_0} f(x) = f(x_0) \implies f(x)$ \emph{stetig} im Punkt $x_0$.
- \item $\lim_{x\rightarrow x_0} f(x) = a \implies f(x)$ \emph{stetig ergänzbar} in $x_0$.
+ \item $\lim_{x\to x_0} f(x) = f(x_0) \implies f(x)$ \emph{stetig} im Punkt $x_0$.
+ \item $\lim_{x\to x_0} f(x) = a \implies f(x)$ \emph{stetig ergänzbar} in $x_0$.
  \item $\forall x_0\in\Omega: f(x) $ stetig in $x_0 \implies f(x)$ \emph{stetig}.
 \end{enumerate}
 
 \paragraph{Sätze über punktweise Stetigkeit}
 Sei $f$ stetig in $x_0$.
 \begin{enumerate}[label={(}\arabic*{)}]
- \item $\lim_{x\rightarrow x_0} f(x) = f(\lim_{x\rightarrow x_0} x)$.
+ \item $\lim_{x\to x_0} f(x) = f(\lim_{x\to x_0} x)$.
  \item $\lim_{x\nearrow x_0} f(x) = f(x_0) = f(\lim_{x\searrow x_0} x)$ wenn existent.
- \item $\lim_{n\rightarrow \infty} x_n = x_0 \implies \lim_{n\rightarrow \infty} f(x_n) = f(x_0)$, für alle Folgen $(x_n)$. -- \emph{Folgenkriterium}.
+ \item $\lim_{n\to \infty} x_n = x_0 \implies \lim_{n\to \infty} f(x_n) = f(x_0)$, für alle Folgen $(x_n)$. -- \emph{Folgenkriterium}.
 \end{enumerate}
 
 \paragraph{Gleichmäßige Stetigkeit}
@@ -844,16 +844,16 @@ $\tan(x)$ & $\frac{1}{\sqrt{3}}$ & $1$ & $\sqrt{3}$ & $0$ & $-\sqrt{3}$ & $-1$ &
 \subsection{Folgen mit Grenzwerten}
 Folgende Folgen sind sortiert nach ``Wachstumsschnelligkeit''.
 \[ (1), (\ln(n)), (n^{a}), (q^n), (n!), (n^n) \text{ mit } a > 0, q > 1.\]
-Im Folgenden ist $a_n \rightarrow a$ gleichbedeutend mit $\lim_{n\rightarrow\infty} a_n = a$.
+Im Folgenden ist $a_n \to a$ gleichbedeutend mit $\lim_{n\to\infty} a_n = a$.
 Außerdem seien $a,k\in\mathbb{R}$ Konstanten.
 \paragraph{Konvergente Folgen}
 \begin{enumerate}[label={(}\arabic*{)}]
- \item $\sqrt[n]{a} \rightarrow 1, \sqrt[n]{n} \rightarrow 1, a \geq 0$
- \item $\frac{n}{\sqrt[n]{n!}} \rightarrow e, \frac{\sqrt[n]{n!}}{n} \rightarrow \frac{1}{e}$
- \item $(\frac{n+1}{n})^n \rightarrow e$
- \item $(1 + \frac{a}{n})^n \rightarrow e^a$
- \item $(a^nn^k)^n \rightarrow 0, |a| < 1$
- \item $n(\sqrt[n]{a}-1) \rightarrow ln(a), a > 0$
+ \item $\sqrt[n]{a} \to 1, \sqrt[n]{n} \to 1, a \geq 0$
+ \item $\frac{n}{\sqrt[n]{n!}} \to e, \frac{\sqrt[n]{n!}}{n} \to \frac{1}{e}$
+ \item $(\frac{n+1}{n})^n \to e$
+ \item $(1 + \frac{a}{n})^n \to e^a$
+ \item $(a^nn^k)^n \to 0, |a| < 1$
+ \item $n(\sqrt[n]{a}-1) \to ln(a), a > 0$
 \end{enumerate}
 \paragraph{Divergente Folgen}
 \[ (\sqrt[n]{n!}), (\frac{n^n}{n!}), (\frac{a^n}{n^k}) \]
