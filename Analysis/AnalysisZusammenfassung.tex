@@ -138,8 +138,10 @@ Sei im Folgenden $\Omega, A \subseteq \R^d$.
 \subsection{Folgen}
 \subsubsection{Definitionen}
 Falls nicht anders angegeben, ist $(a_n)_{n\in\N}$ eine Folge.
-Der \textbf{Grenzwert} $a$ einer Folge existiert genau dann,
-wenn $\forall \epsilon > 0, \epsilon\in\mathbb{R} \exists n_0 \in\N \forall n\in\N: |a - a_n| < \epsilon$
+\paragraph{Grenzwert}Der \emph{Grenzwert} $a$ einer Folge existiert genau dann,
+wenn 
+\[ \forall \epsilon > 0 \: \exists n_0 \; \forall n > n_0: |a - a_n| < \epsilon \]
+mit $ \epsilon \in \R; n,n_0 \in\N  $. \\
 Wir schreiben dann $a = \lim_{n\rightarrow\infty} a_n$ oder auch $a_n \rightarrow a$.
 \begin{description}
  \item[konvergent] Der Grenzwert existiert.
@@ -326,6 +328,7 @@ Eine Funktion heisst \emph{surjektiv}, wenn jedes Element der Zielmenge \emph{mi
 \paragraph{Bijektivität}
 Eine Funktion heisst \emph{bijektiv}, wenn jedes Element der Zielmenge \emph{genau einmal} als Funktionswert angenommen wird. Man kann zu einer Bijektion immer eine Umkehrfunktion finden.
 \subsubsection{Grenzwerte}
+
 \subsubsection{Stetigkeit}
 \paragraph{$\epsilon$-$\delta$-Kriterium} $\lim_{x\rightarrow x_0} f(x) = a, $ wenn Folgendes gilt.
 \[\forall\epsilon>0:\exists\delta>0: \forall x \in \Omega: |x-x_0| < \delta \implies |f(x) - f(x_0)| < \epsilon \]
