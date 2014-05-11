@@ -142,8 +142,8 @@ Sei im Folgenden $\Omega, A \subseteq \R^d$.
 Falls nicht anders angegeben, ist $(a_n)_{n\in\N}$ eine Folge.
 \paragraph{Grenzwert}Der \emph{Grenzwert} $a$ einer Folge existiert genau dann,
 wenn 
-\[ \forall \epsilon > 0 \: \exists n_0 \; \forall n \geq n_0: |a - a_n| < \epsilon \]
-mit $ \epsilon \in \R; n,n_0 \in\N  $. \\
+\[ \forall \varepsilon > 0 \: \exists n_0 \; \forall n \geq n_0: |a - a_n| < \varepsilon \]
+mit $ \varepsilon \in \R; n,n_0 \in\N  $. \\
 Wir schreiben dann $a = \lim_{n\to\infty} a_n$ oder auch $a_n \to a$.
 \begin{description}
  \item[konvergent] Der Grenzwert existiert.
@@ -178,7 +178,7 @@ Wir schreiben dann $a = \lim_{n\to\infty} a_n$ oder auch $a_n \to a$.
 
 \paragraph{Cauchy-Kriterium}
 Eine Folge $(a_n)_{n\in\N}$ heißt \emph{Cauchy-Folge}, falls
- \[ \forall \epsilon > 0: \exists n_0 \in\N: \forall n,l \geq n_0: |a_n - a_l| < \epsilon \]
+ \[ \forall \varepsilon > 0: \exists n_0 \in\N: \forall n,l \geq n_0: |a_n - a_l| < \varepsilon \]
 Insbesondere gilt, $(a_n)_{n\in\N}$ konvergent $\iff (a_n)$ Cauchy-Folge.\\[.2em]
 Siehe auch \textbf{Tipps an Beispielen} für angewandte Kriterien.
 
@@ -229,6 +229,12 @@ $\sqrt{2\pi n}(\frac{n}{e})^n \approx n!$
 
 \paragraph{$n$ im Exponent}
 
+\paragraph{Cauchy-Kriterium}
+Die Folge $a_i = \tfrac{1}{i}$ ist eine Cauchy-Folge. Man kann nämlich zu einem beliebig vorgegebenen $\varepsilon>0$ ein $n_0$ so wählen, dass $n_0 > \tfrac{1}{\varepsilon}$ erfüllt ist. Sind nun $n\geq m>n_0$ beliebig gewählt, dann gilt
+
+\[ | a_m - a_n | = \left|\frac{1}{m} - \frac{1}{n}\right| = \left|\frac{n-m}{mn}\right| \leq \frac{n}{mn} = \frac{1}{m} < \frac{1}{n_0} < \varepsilon\].
+
+
 \subsection{Reihen}
 \subsubsection{Definitionen}
 Eine \emph{Reihe} $\sum_{k = 1}^\infty a_k$ heißt \emph{konvergent} mit Grenzwert $s$, wenn die Folge der \emph{Partialsummen}
@@ -241,8 +247,8 @@ $(S_n)_{n \in \N}$, $S_n := \sum_{k=1}^n a_k$ gegen $s$ konvergiert. Es gilt als
 Falls $(a_n)$ keine Nullfolge, gilt Folgendes nicht und somit konvergiert auch nicht folgende Reihe.
 \[ \sum_{n=1}^\infty a_n \text{ konvergent} \implies \lim_{n \to \infty} a_n = 0 \]
 
-\paragraph{$\epsilon$-Kriterium}
-$\forall \epsilon > 0: \exists n_0 \in \N: \forall n \geq n_0: | \sum_{k=1}^n a_k - s | < \epsilon$
+\paragraph{$\varepsilon$-Kriterium}
+$\forall \varepsilon > 0: \exists n_0 \in \N: \forall n \geq n_0: | \sum_{k=1}^n a_k - s | < \varepsilon$
 
 \paragraph{Absolute Konvergenz}
 Konvergiert $\sum_{n=1}^\infty |a_n|$, so sagen wir die Reihe konvergiert absolut.
@@ -334,8 +340,8 @@ Wenn $\lim_{x \to c}f(x) = \lim_{x \to c}g(x)= 0 $ oder $\pm\infty$ und $g'(x)\n
 \[ \lim_{x\to 0^+} x \ln x =\lim_{x\to 0^+}{\frac{\ln x}{1/x}} \overset{\text{Hospital}}{=}\lim_{x\to 0^+}{\frac{1/x}{-1/x^2}} =\lim_{x\to 0^+} -x= 0 \]
 
 \subsubsection{Stetigkeit}
-\paragraph{$\epsilon$-$\delta$-Kriterium} $\lim_{x\to x_0} f(x) = a, $ wenn Folgendes gilt.
-\[\forall\epsilon>0:\exists\delta>0: \forall x \in \Omega: |x-x_0| < \delta \implies |f(x) - f(x_0)| < \epsilon \]
+\paragraph{$\varepsilon$-$\delta$-Kriterium} $\lim_{x\to x_0} f(x) = a, $ wenn Folgendes gilt.
+\[\forall\varepsilon>0:\exists\delta>0: \forall x \in \Omega: |x-x_0| < \delta \implies |f(x) - f(x_0)| < \varepsilon \]
 \paragraph{Definition}
 \begin{enumerate}[label={(}\arabic*{)}]
  \item $\lim_{x\to x_0} f(x) = f(x_0) \implies f(x)$ \emph{stetig} im Punkt $x_0$.
@@ -353,7 +359,7 @@ Sei $f$ stetig in $x_0$.
 
 \paragraph{Gleichmäßige Stetigkeit}
 $f$ heißt \emph{gleichmäßig stetig}, wenn gilt:
-\[\forall\epsilon>0\exists\delta>0: \forall x,y \in \Omega: |x-y| < \delta \implies |f(x) - f(y)| < \epsilon \]
+\[\forall\varepsilon>0\exists\delta>0: \forall x,y \in \Omega: |x-y| < \delta \implies |f(x) - f(y)| < \varepsilon \]
 Unterschied zur punktweisen Stetigkeit ist, dass $\delta$ unabhängig von der Wahl von $y$ bzw. $x_0$ ist.
 
 \paragraph{Lipschitz-Stetigkeit}
@@ -368,7 +374,7 @@ so dass $f|_U : x \in U \mapsto f(x) \in \R^n$ Lipschitz-stetig ist.
 
 \paragraph{Sätze über gleichmäßige und Lipschitz-Stetigkeit}
 \begin{enumerate}[label={(}\arabic*{)}]
- \item Ist $f$ Lipschitz-stetig mit Konstante $L$, so ist $f$ gleichmäßig stetig, z. B. mit $\delta = \epsilon/L$.
+ \item Ist $f$ Lipschitz-stetig mit Konstante $L$, so ist $f$ gleichmäßig stetig, z. B. mit $\delta = \varepsilon/L$.
  \item Ist $f$ gleichmäßig stetig, dann ist $f$ in $\Omega^C$ stetig ergänzbar.
  \item Ist umgekehrt $\Omega$ beschränkt, $f$ stetig und in $\Omega^C$ stetig ergänzbar, so ist $f$ auch gleichmäßig stetig.
 \end{enumerate}
@@ -380,10 +386,10 @@ Dann existiert zu jedem $u\in [f(a), f(b)]$ (falls $f(a)\leq f(b)$) bzw. $u\in [
 
 \subsubsection{Folgen von Funktionen}
 Eine \emph{Funktionsfolge} $(f_n)_{n\in\N}$ \emph{konvergiert punktweise} auf $I \subseteq \R$ gegen $f$, wenn $\forall x\in I: f_n(x) \rightarrow f(x)$:
-\[ \forall \epsilon > 0: \forall x \in I: \exists n_0 \in \N: n \geq n_0 \implies |f_n(x)-f(x)| < \epsilon \]
+\[ \forall \varepsilon > 0: \forall x \in I: \exists n_0 \in \N: n \geq n_0 \implies |f_n(x)-f(x)| < \varepsilon \]
 Sie \emph{konvergiert gleichmäßig} auf $I$ gegen $f$, wenn $sup_{x\in I} |f_n(x) - f(x)| \rightarrow 0$ gilt.
 Insbesondere ist also das $n_0$ nicht mehr abhängig von einem $x$.
-\[ \forall \epsilon > 0: \exists n_0 \in \N: \forall x \in I: n \geq n_0 \implies |f_n(x)-f(x)| < \epsilon \]
+\[ \forall \varepsilon > 0: \exists n_0 \in \N: \forall x \in I: n \geq n_0 \implies |f_n(x)-f(x)| < \varepsilon \]
 
 \emph{Tipp: } Gleichmäßige Konvergenz kann häufig durch Setzen von $x := n$, oder $x := \frac{1}{n}$ widerlegt werden.
 Denn $|f_n(x) - f(x)|$ muss gegen Null streben, was dann aber nicht der Fall ist.
@@ -752,7 +758,7 @@ Jetzt lösen wir das folgende Gleichungssystem durch Ausmultiplikation.
  \item $a < b \wedge c < 0 \iff \frac{a}{c} > \frac{b}{c}$
  \item $|a+b| \leq |a| + |b|$ -- \emph{Dreiecksungleichung}
  \item $|x\cdot y| \leq \|x\|\cdot\|y\|, x,y \in \mathbb{R}^n$ -- \emph{Cauchy-Schwarz-Ungleichung}
- \item $2|x\cdot y| \leq \epsilon x^2 + \frac{1}{\epsilon}y^2, \epsilon > 0$ -- \emph{Young-Ungleichung}
+ \item $2|x\cdot y| \leq \varepsilon x^2 + \frac{1}{\varepsilon}y^2, \varepsilon > 0$ -- \emph{Young-Ungleichung}
 \end{enumerate}
 
 \subsubsection{Exponentialfunktion und Potenzen}
