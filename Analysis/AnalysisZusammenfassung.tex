@@ -178,7 +178,7 @@ Wir schreiben dann $a = \lim_{n\to\infty} a_n$ oder auch $a_n \to a$.
 
 \paragraph{Cauchy-Kriterium}
 Eine Folge $(a_n)_{n\in\N}$ heißt \emph{Cauchy-Folge}, falls
- \[ \forall \varepsilon > 0: \exists n_0 \in\N: \forall n,l \geq n_0: |a_n - a_l| < \varepsilon \]
+ \[ \forall \varepsilon > 0: \exists n_0 \in\N: \forall n,m \geq n_0: |a_n - a_m| < \varepsilon \]
 Insbesondere gilt, $(a_n)_{n\in\N}$ konvergent $\iff (a_n)$ Cauchy-Folge.\\[.2em]
 Siehe auch \textbf{Tipps an Beispielen} für angewandte Kriterien.
 
@@ -230,10 +230,9 @@ $\sqrt{2\pi n}(\frac{n}{e})^n \approx n!$
 \paragraph{$n$ im Exponent}
 
 \paragraph{Cauchy-Kriterium}
-Die Folge $a_i = \tfrac{1}{i}$ ist eine Cauchy-Folge. Man kann nämlich zu einem beliebig vorgegebenen $\varepsilon>0$ ein $n_0$ so wählen, dass $n_0 > \tfrac{1}{\varepsilon}$ erfüllt ist. Sind nun $n\geq m>n_0$ beliebig gewählt, dann gilt
-
-\[ | a_m - a_n | = \left|\frac{1}{m} - \frac{1}{n}\right| = \left|\frac{n-m}{mn}\right| \leq \frac{n}{mn} = \frac{1}{m} < \frac{1}{n_0} < \varepsilon\].
-
+Seien $l\geq m$ positiv gewählt, dann gilt 
+\[ | a_l - a_m | = \left|\frac{1}{l} - \frac{1}{m}\right| = \left|\frac{m-l}{lm}\right| \leq \frac{m}{lm} = \frac{1}{l} \]
+Also damit $a_n$ Cauchy, muss $\tfrac{1}{l}<\varepsilon$. Wir wählen $n_0 = \tfrac{1}{\varepsilon}$, und fordern $l \geq m > n_0$ so dass gilt $l \geq m > \tfrac{1}{\varepsilon}$ und dann auch $\tfrac{1}{l} < \varepsilon$
 
 \subsection{Reihen}
 \subsubsection{Definitionen}
