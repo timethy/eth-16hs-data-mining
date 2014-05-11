@@ -229,13 +229,6 @@ $\sqrt{2\pi n}(\frac{n}{e})^n \approx n!$
 
 \paragraph{$n$ im Exponent}
 
-\paragraph{Satz von l'Hospital}
-\begin{align*}
-\lim_{x\to 0^+} x \ln x &=\lim_{x\to 0^+}{\frac{\ln x}{1/x}} \\
-&=\lim_{x\to 0^+}{\frac{1/x}{-1/x^2}} \\
-&=\lim_{x\to 0^+} -x= 0
-\end{align*}
-
 \subsection{Reihen}
 \subsubsection{Definitionen}
 Eine \emph{Reihe} $\sum_{k = 1}^\infty a_k$ heißt \emph{konvergent} mit Grenzwert $s$, wenn die Folge der \emph{Partialsummen}
@@ -337,6 +330,8 @@ Eine Funktion heisst \emph{bijektiv}, wenn jedes Element der Zielmenge \emph{gen
 \subsubsection{Grenzwerte}
 \paragraph{Satz von l'Hospital}
 Wenn $\lim_{x \to c}f(x) = \lim_{x \to c}g(x)= 0 $ oder $\pm\infty$ und $g'(x)\neq 0$, dann $\lim_{x\to c}\frac{f(x)}{g(x)} = \lim_{x\to c}\frac{f'(x)}{g'(x)}$
+\paragraph{Beispiel}
+\[ \lim_{x\to 0^+} x \ln x =\lim_{x\to 0^+}{\frac{\ln x}{1/x}} \overset{\text{Hospital}}{=}\lim_{x\to 0^+}{\frac{1/x}{-1/x^2}} =\lim_{x\to 0^+} -x= 0 \]
 
 \subsubsection{Stetigkeit}
 \paragraph{$\epsilon$-$\delta$-Kriterium} $\lim_{x\to x_0} f(x) = a, $ wenn Folgendes gilt.
