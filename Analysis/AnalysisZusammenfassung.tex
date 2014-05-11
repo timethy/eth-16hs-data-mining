@@ -137,7 +137,6 @@ Sei im Folgenden $\Omega, A \subseteq \R^d$.
 \clearpage
 \section{Mittleres}
 
-\subsection{Zwischenwertsatz}
 \subsection{Folgen}
 \subsubsection{Definitionen}
 Falls nicht anders angegeben, ist $(a_n)_{n\in\N}$ eine Folge.
@@ -348,7 +347,7 @@ Wenn $\lim_{x \to c}f(x) = \lim_{x \to c}g(x)= 0 $ oder $\pm\infty$ und $g'(x)\n
  \item $\lim_{x\to x_0} f(x) = a \implies f(x)$ \emph{stetig ergänzbar} in $x_0$.
  \item $\forall x_0\in\Omega: f(x) $ stetig in $x_0 \implies f(x)$ \emph{stetig}.
 \end{enumerate}
-
+ 
 \paragraph{Sätze über punktweise Stetigkeit}
 Sei $f$ stetig in $x_0$.
 \begin{enumerate}[label={(}\arabic*{)}]
@@ -378,6 +377,11 @@ so dass $f|_U : x \in U \mapsto f(x) \in \R^n$ Lipschitz-stetig ist.
  \item Ist $f$ gleichmäßig stetig, dann ist $f$ in $\Omega^C$ stetig ergänzbar.
  \item Ist umgekehrt $\Omega$ beschränkt, $f$ stetig und in $\Omega^C$ stetig ergänzbar, so ist $f$ auch gleichmäßig stetig.
 \end{enumerate}
+
+\subsubsection{Zwischenwertsatz}
+Es sei $f: [a,b] \to \R$ eine stetige reelle Funktion, die auf einem Intervall definiert ist.
+Dann existiert zu jedem $u\in [f(a), f(b)]$ (falls $f(a)\leq f(b)$) bzw. $u\in [f(b), f(a)]$ (falls $f(b)< f(a)$) ein $c\in [a,b]$ mit $f\left(c\right)=u$. \\
+     Jeder Wert zwischen $f(a)$ und $f(b)$ wird berührt! Bei verschiedenen Vorzeichen von $a$ und $b$ gibt es also eine Nullstelle.
 
 \subsubsection{Folgen von Funktionen}
 Eine \emph{Funktionsfolge} $(f_n)_{n\in\N}$ \emph{konvergiert punktweise} auf $I \subseteq \R$ gegen $f$, wenn $\forall x\in I: f_n(x) \rightarrow f(x)$:
