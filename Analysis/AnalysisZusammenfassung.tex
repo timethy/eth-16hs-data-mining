@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{mathtools}
 
 \usepackage{fancyhdr}
 
@@ -26,6 +27,8 @@
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
+\newcommand{\defeq}{\vcentcolon=}
+\newcommand{\eqdef}{=\vcentcolon}
 
 \begin{document}
 \pagestyle{fancy}
@@ -76,9 +79,9 @@ Diese Beweise (und ähnliche) können durch Einsetzen der obigen Definitionen un
  \item $A \cup B = B \cup A, \\ A \cap B = B \cap A.$
  \item $A \cup (B \cup C) = (A \cup B) \cup C, \\ A \cap (B \cap C) = (A \cap B) \cap C.$
  \item $A \cup (B \cap C) = (A \cap B) \cup (A \cap C), \\ A \cap (B \cup C) = (A \cup B) \cap (A \cup C).$
+ \item $(A\backslash B) = A \cap B^C.$
  \item $(A\backslash B) \cup C = (A \cup B) \cap (B^C \cup C), \\ (A\backslash B) \cap C = A \backslash (B \cup C^C).$
  \item $(A \cup B)^C = A^C \cap B^C, \\ (A \cap B)^C = A^C \cup B^C.$
- \item $(A\backslash B) = A \cap B^C.$
  \item $(A\backslash B) \backslash C = A \backslash (B \cup C).$
 \end{enumerate}
 \subsubsection{Wichtige Mengen}
@@ -86,15 +89,15 @@ Diese Beweise (und ähnliche) können durch Einsetzen der obigen Definitionen un
  \item[$\N_0$, natürliche Zahlen mit 0] $\N := \{0,1,2,3,\dots\}.$
  \item[$\N$, natürliche Zahlen] $\N := \{1,2,3,\dots\} = \N\backslash\{0\}.$
  \item[$\mathbb{Z}$, ganze Zahlen] $\mathbb{Z} := \{\dots,-2,-1,0,1,2,\dots\}.$
- \item[$\mathbb{Q}$, rationale Zahlen] $\mathbb{Q} := \{\frac{p}{q}\, |\, p \in \mathbb{Z}, q \in \N_0\}.$
+ \item[$\mathbb{Q}$, rationale Zahlen] $\mathbb{Q} := \{\frac{p}{q}\, |\, p \in \mathbb{Z}, q \in \N \} .$
  \item[$\mathbb{R}$, reelle Zahlen] $\mathbb{R} := $ rationale und irrationale Zahlen, $\mathbb{Q} \subseteq \mathbb{R}$.
- \item[$\mathbb{C}$, reelle Zahlen] $\mathbb{C} := \{a - bi\, |\, a, b \in \mathbb{R}\}, $ mit $i^2 = -1$.
+ \item[$\mathbb{C}$, komplexe/reelle Zahlen] $\mathbb{C} := \{a - bi\, |\, a, b \in \mathbb{R}\}, $ mit $i^2 = -1$.
 \end{description}
 \subsubsection{Intervalle}
 \begin{tabular}{ll}
 $[a,b] := \{x\in\mathbb{R}\, |\, a \leq x \leq b\}$ & abgeschlossen \\
-$]a,b] := \{x\in\mathbb{R}\, |\, a \leq x < b\} := (a,b]$ & halboffen (links) \\
-$[a,b[\ := \{x\in\mathbb{R}\, |\, a < x \leq b\} := [a,b)$ & halboffen (rechts) \\
+$]a,b] := \{x\in\mathbb{R}\, |\, a < x \leq b\} := (a,b]$ & halboffen (links) \\
+$[a,b[\ := \{x\in\mathbb{R}\, |\, a \leq x < b\} := [a,b)$ & halboffen (rechts) \\
 $]a,b[\ := \{x\in\mathbb{R}\, |\, a < x < b\} := (a,b)$ & offen \\
 \end{tabular}
 \begin{enumerate}[label={(}\arabic*{)}]
@@ -134,47 +137,48 @@ Sei im Folgenden $\Omega, A \subseteq \R^d$.
 \clearpage
 \section{Mittleres}
 
-\subsection{Zwischenwertsatz}
 \subsection{Folgen}
 \subsubsection{Definitionen}
 Falls nicht anders angegeben, ist $(a_n)_{n\in\N}$ eine Folge.
-Der \textbf{Grenzwert} $a$ einer Folge existiert genau dann,
-wenn $\forall \epsilon > 0, \epsilon\in\mathbb{R} \exists n_0 \in\N \forall n\in\N: |a - a_n| < \epsilon$
-Wir schreiben dann $a = \lim_{n\rightarrow\infty} a_n$ oder auch $a_n \rightarrow a$.
+\paragraph{Grenzwert}Der \emph{Grenzwert} $a$ einer Folge existiert genau dann,
+wenn 
+\[ \forall \varepsilon > 0 \: \exists n_0 \; \forall n \geq n_0: |a - a_n| < \varepsilon \]
+mit $ \varepsilon \in \R; n,n_0 \in\N  $. \\
+Wir schreiben dann $a = \lim_{n\to\infty} a_n$ oder auch $a_n \to a$.
 \begin{description}
  \item[konvergent] Der Grenzwert existiert.
  \item[divergent] Der Grenzwert existiert nicht.
  \item[Nullfolge] $a = 0$.
- \item[beschränkt] $\exists C\in\mathbb{R}: |a_n| \leq C$.
- \item[unbeschränkt] Falls nicht beschränkt. Immer \emph{divergent}!
- \item[monoton wachsend] $a_n \geq a_{n+1}, \forall{n\in\N}$
- \item[monoton fallend] $a_n \leq a_{n+1}, \forall{n\in\N}$
- \item[streng monoton wachsend] $a_n > a_{n+1}, \forall{n\in\N}$
- \item[streng monoton fallend] $a_n < a_{n+1}, \forall{n\in\N}$
+ \item[beschränkt] $\exists C\in\R: |a_n| \leq C$.
+ \item[unbeschränkt] Falls nicht beschränkt, \emph{immer} divergent!
+ \item[monoton wachsend] $a_n \leq a_{n+1}, \forall{n\in\N}$
+ \item[monoton fallend] $a_n \geq a_{n+1}, \forall{n\in\N}$
+ \item[streng monoton wachsend] $a_n < a_{n+1}, \forall{n\in\N}$
+ \item[streng monoton fallend] $a_n > a_{n+1}, \forall{n\in\N}$
  \item[alternierend] $a_n < 0 \implies a_{n+1} > 0, \forall{n\in\N}$
  \item[bestimmt divergent / uneigentlich konvergent] $a = \pm \infty$
- \item[Teilfolge] Durch Weglassen von Gliedern aus $(a_n)_{n\in\N}$ entstandene, unendliche Folge.
- \item[Häufungspunkt] $b = \lim_{n\rightarrow\infty} b_n$, $(b_n)_{n\in\N}$ Teilfolge.
- \item[$\limsup$] $\max\{b_n\text{ konvergente Teilfolge } | \lim_{n\rightarrow\infty} b_n\}$.
- \item[$\liminf$] $\min\{b_n\text{ konvergente Teilfolge } | \lim_{n\rightarrow\infty} b_n\}$.
+ \item[Teilfolge] Durch Weglassen von Gliedern aus $(a_n)_{n\in\N}$ entstandene, (normalerweise) unendliche Folge.
+ \item[Häufungspunkt] $b = \lim_{n\to\infty} b_n$, $(b_n)_{n\in\N}$ Teilfolge.
+ \item[$\limsup_{n\to\infty}a_n$]$\defeq\max\{b_n\text{ konvergente Teilfolge } | \lim_{n\to\infty} b_n\}$
+ \item[$\liminf_{n\to\infty}a_n$]$\defeq\min\{b_n\text{ konvergente Teilfolge } | \lim_{n\to\infty} b_n\}$
 \end{description}
 
 \subsubsection{Konvergenzkriterien}
 \begin{enumerate}[label={(}\arabic*{)}]
-\item $a_n \rightarrow a \implies a_n - a \rightarrow 0 \implies |a_n - a| \rightarrow 0$.
+\item $a_n \to a \implies a_n - a \to 0 \implies |a_n - a| \to 0$.
 \item Jede Teilfolge einer konvergenten Folge konvergiert gegen ihren Grenzwert.
       Eine konvergente Folge hat also genau einen Häufungspunkt.
 \item $(a_n)$ monoton wachsend und nach oben beschränkt $\implies$ $(a_n)$ konvergent.
 \item $(a_n)$ monoton fallend und nach unten beschränkt $\implies$ $(a_n)$ konvergent.
-\item $(\sum_{n=0}^{\infty} a_n)$ konvergent $\implies$ $a = 0$, siehe Reihen.
-\item $\exists f, f(n) = a_n \wedge \lim_{x\rightarrow\infty} f(x) = a \implies \lim_{n\rightarrow\infty} a_n = a$.
+\item $(\sum_{n=0}^{\infty} a_n)$ konvergent $\implies$ $a_n \to a = 0$, siehe Reihen.
+\item $\exists f, f(n) = a_n \land \lim_{x\to\infty} f(x) = a \implies \lim_{n\to\infty} a_n = a$.
 \item $\exists (a_n), (b_n), (c_n) \text{ mit } a_n \leq b_n \leq c_n \wedge a = c \implies b = a,$\\
       sogenanntes \textbf{Einschließungskriterium}.
 \end{enumerate}
 
 \paragraph{Cauchy-Kriterium}
 Eine Folge $(a_n)_{n\in\N}$ heißt \emph{Cauchy-Folge}, falls
- \[ \forall \epsilon > 0: \exists n_0 \in\N: \forall n,l \geq n_0: |a_n - a_l| < \epsilon \]
+ \[ \forall \varepsilon > 0: \exists n_0 \in\N: \forall n,m \geq n_0: |a_n - a_m| < \varepsilon \]
 Insbesondere gilt, $(a_n)_{n\in\N}$ konvergent $\iff (a_n)$ Cauchy-Folge.\\[.2em]
 Siehe auch \textbf{Tipps an Beispielen} für angewandte Kriterien.
 
@@ -185,23 +189,23 @@ Siehe auch \textbf{Tipps an Beispielen} für angewandte Kriterien.
  \item $(a_n), (b_n)$ beschränkt $\implies (a_n + b_n)$ beschränkt.
  \item $(a_n)$ konvergent, $(b_n)$ divergent $\implies (a_n + b_n)$ divergent.
  \item $(a_n)$ beschränkt, $(b_n)$ unbeschränkt $\implies (a_n + b_n)$ unbeschränkt.
- \item $(a_n)$ beschränkt, $(b_n) \rightarrow \pm \infty \implies (a_n + b_n) \rightarrow \pm \infty$.
- \item $(a_n) \rightarrow \pm\infty$, $(b_n) \rightarrow \pm\infty \implies (a_n + b_n) \rightarrow \pm\infty$.
+ \item $(a_n)$ beschränkt, $(b_n) \to \pm \infty \implies (a_n + b_n) \to \pm \infty$.
+ \item $(a_n) \to \pm\infty$, $(b_n) \to \pm\infty \implies (a_n + b_n) \to \pm\infty$.
 \end{enumerate}
 \paragraph{Multiplikation}
 \begin{enumerate}[label={(}\arabic*{)}]
  \item $(a_n)$ Nullfolge, $(b_n)$ beschränkt $\implies (a_n \cdot b_n)$ Nullfolge.
  \item $(a_n), (b_n)$ konvergent $\implies (a_n \cdot b_n)$ konvergent.
  \item $(a_n), (b_n)$ beschränkt $\implies (a_n \cdot b_n)$ beschränkt.
- \item $(a_n) \rightarrow a, a \neq 0$, $(b_n)$ divergent $\implies (a_n \cdot b_n)$ divergent.
+ \item $(a_n) \to a, a \neq 0$, $(b_n)$ divergent $\implies (a_n \cdot b_n)$ divergent.
 \end{enumerate}
-\paragraph{Grenzwerte} Wir setzen $a := \lim_{n\rightarrow\infty} a_n, b := \lim_{n\rightarrow\infty} b_n.$
+\paragraph{Grenzwerte} Wir setzen $a := \lim_{n\to\infty} a_n, b := \lim_{n\to\infty} b_n.$
 \begin{enumerate}[label={(}\arabic*{)}]
- \item $\lim_{n\rightarrow\infty}(a_n \pm b_n) = a \pm b.$
- \item $\lim_{n\rightarrow\infty}(c\cdot a_n) = c\cdot a.$
- \item $\lim_{n\rightarrow\infty}(a_n \cdot b_n) = a \cdot b.$
- \item $\lim_{n\rightarrow\infty}((a_n)^c) = a^c, c$ konstant.
- \item $\lim_{n\rightarrow\infty}(\frac{a_n}{b_n}) = \frac{a}{b}, b \neq 0.$
+ \item $\lim_{n\to\infty}(a_n \pm b_n) = a \pm b.$
+ \item $\lim_{n\to\infty}(c\cdot a_n) = c\cdot a.$
+ \item $\lim_{n\to\infty}(a_n \cdot b_n) = a \cdot b.$
+ \item $\lim_{n\to\infty}((a_n)^c) = a^c, c$ konstant.
+ \item $\lim_{n\to\infty}(\frac{a_n}{b_n}) = \frac{a}{b}, b \neq 0.$
 \end{enumerate}
 
 \subsubsection{Hilfsmethoden}
@@ -210,7 +214,7 @@ Für folgende Folgen gilt: weiter rechts stehende wachsen schneller gegen $+\inf
 \[1, \ln(n), n^a (a > 0), q^n (q > 1), n!, n^n\]
 
 \paragraph{Bernoullische Ungleichung}
-$(1+x)^n \geq 1 + nx, x \geq -1, n \in \N.$
+$(1+x)^n \geq 1 + nx \quad (x \geq -1, n \in \N)$
 
 \paragraph{Stirlingformel -- Abschätzungen für $n!$}
 \[\sqrt{2\pi n}(\frac{n}{e})^n \leq n! \leq \sqrt{2\pi n}(\frac{n}{e})^n \cdot e^{\frac{1}{12n}}, \] insbesondere gilt 
@@ -225,13 +229,16 @@ $\sqrt{2\pi n}(\frac{n}{e})^n \approx n!$
 
 \paragraph{$n$ im Exponent}
 
-\paragraph{Satz von l'Hospital}
+\paragraph{Cauchy-Kriterium}
+Seien $l\geq m$ positiv gewählt, dann gilt 
+\[ | a_l - a_m | = \left|\frac{1}{l} - \frac{1}{m}\right| = \left|\frac{m-l}{lm}\right| \leq \frac{m}{lm} = \frac{1}{l} \]
+Also damit $a_n$ Cauchy, muss $\tfrac{1}{l}<\varepsilon$. Wir wählen $n_0 = \tfrac{1}{\varepsilon}$, und fordern $l \geq m > n_0$ so dass gilt $l \geq m > \tfrac{1}{\varepsilon}$ und dann auch $\tfrac{1}{l} < \varepsilon$
 
 \subsection{Reihen}
 \subsubsection{Definitionen}
 Eine \emph{Reihe} $\sum_{k = 1}^\infty a_k$ heißt \emph{konvergent} mit Grenzwert $s$, wenn die Folge der \emph{Partialsummen}
 $(S_n)_{n \in \N}$, $S_n := \sum_{k=1}^n a_k$ gegen $s$ konvergiert. Es gilt also wie folgt.
-\[ \sum_{k=1}^\infty a_k = s \iff \lim_{n\rightarrow\infty} \sum_{k=1}^n a_k = s \]
+\[ \sum_{k=1}^\infty a_k = s \iff \lim_{n\to\infty} \sum_{k=1}^n a_k = s \]
 
 \subsubsection{Konvergenzkriterien}
 
@@ -239,8 +246,8 @@ $(S_n)_{n \in \N}$, $S_n := \sum_{k=1}^n a_k$ gegen $s$ konvergiert. Es gilt als
 Falls $(a_n)$ keine Nullfolge, gilt Folgendes nicht und somit konvergiert auch nicht folgende Reihe.
 \[ \sum_{n=1}^\infty a_n \text{ konvergent} \implies \lim_{n \to \infty} a_n = 0 \]
 
-\paragraph{$\epsilon$-Kriterium}
-$\forall \epsilon > 0: \exists n_0 \in \N: \forall n \geq n_0: | \sum_{k=1}^n a_k - s | < \epsilon$
+\paragraph{$\varepsilon$-Kriterium}
+$\forall \varepsilon > 0: \exists n_0 \in \N: \forall n \geq n_0: | \sum_{k=1}^n a_k - s | < \varepsilon$
 
 \paragraph{Absolute Konvergenz}
 Konvergiert $\sum_{n=1}^\infty |a_n|$, so sagen wir die Reihe konvergiert absolut.
@@ -317,29 +324,41 @@ Für \emph{absolut konvergente} Reihen gilt außerdem, dass folgende Reihe absol
 \]
 
 \subsection{Funktionen}
-Falls nicht angegeben, ist $f$ Abkürzung für $f: \Omega \mapsto \R^n$.
+Falls nicht angegeben, ist $f$ Abkürzung für $f: \Omega \mapsto \R^n$. $\Omega$ heisst dann Definitionsmenge, $\R^n$ Zielmenge.
+\subsubsection{Definitionen}
+\paragraph{Injektivität}
+Eine Funktion heisst \emph{injektiv}, wenn jedes Element der Zielmenge \emph{höchstens} einmal als Funktionswert angenommen wird.
+\paragraph{Surjektivität}
+Eine Funktion heisst \emph{surjektiv}, wenn jedes Element der Zielmenge \emph{mindestens} einmal als Funktionswert angenommen wird.
+\paragraph{Bijektivität}
+Eine Funktion heisst \emph{bijektiv}, wenn jedes Element der Zielmenge \emph{genau einmal} als Funktionswert angenommen wird. Man kann zu einer Bijektion immer eine Umkehrfunktion finden.
 \subsubsection{Grenzwerte}
+\paragraph{Satz von l'Hospital}
+Wenn $\lim_{x \to c}f(x) = \lim_{x \to c}g(x)= 0 $ oder $\pm\infty$ und $g'(x)\neq 0$, dann $\lim_{x\to c}\frac{f(x)}{g(x)} = \lim_{x\to c}\frac{f'(x)}{g'(x)}$
+\paragraph{Beispiel}
+\[ \lim_{x\to 0^+} x \ln x =\lim_{x\to 0^+}{\frac{\ln x}{1/x}} \overset{\text{Hospital}}{=}\lim_{x\to 0^+}{\frac{1/x}{-1/x^2}} =\lim_{x\to 0^+} -x= 0 \]
+
 \subsubsection{Stetigkeit}
-\paragraph{$\epsilon$-$\delta$-Kriterium} $\lim_{x\rightarrow x_0} f(x) = a, $ wenn Folgendes gilt.
-\[\forall\epsilon>0:\exists\delta>0: \forall x \in \Omega: |x-x_0| < \delta \implies |f(x) - f(x_0)| < \epsilon \]
+\paragraph{$\varepsilon$-$\delta$-Kriterium} $\lim_{x\to x_0} f(x) = a, $ wenn Folgendes gilt.
+\[\forall\varepsilon>0:\exists\delta>0: \forall x \in \Omega: |x-x_0| < \delta \implies |f(x) - f(x_0)| < \varepsilon \]
 \paragraph{Definition}
 \begin{enumerate}[label={(}\arabic*{)}]
- \item $\lim_{x\rightarrow x_0} f(x) = f(x_0) \implies f(x)$ \emph{stetig} im Punkt $x_0$.
- \item $\lim_{x\rightarrow x_0} f(x) = a \implies f(x)$ \emph{stetig ergänzbar} in $x_0$.
+ \item $\lim_{x\to x_0} f(x) = f(x_0) \implies f(x)$ \emph{stetig} im Punkt $x_0$.
+ \item $\lim_{x\to x_0} f(x) = a \implies f(x)$ \emph{stetig ergänzbar} in $x_0$.
  \item $\forall x_0\in\Omega: f(x) $ stetig in $x_0 \implies f(x)$ \emph{stetig}.
 \end{enumerate}
-
+ 
 \paragraph{Sätze über punktweise Stetigkeit}
 Sei $f$ stetig in $x_0$.
 \begin{enumerate}[label={(}\arabic*{)}]
- \item $\lim_{x\rightarrow x_0} f(x) = f(\lim_{x\rightarrow x_0} x)$.
+ \item $\lim_{x\to x_0} f(x) = f(\lim_{x\to x_0} x)$.
  \item $\lim_{x\nearrow x_0} f(x) = f(x_0) = f(\lim_{x\searrow x_0} x)$ wenn existent.
- \item $\lim_{n\rightarrow \infty} x_n = x_0 \implies \lim_{n\rightarrow \infty} f(x_n) = f(x_0)$, für alle Folgen $(x_n)$. -- \emph{Folgenkriterium}.
+ \item $\lim_{n\to \infty} x_n = x_0 \implies \lim_{n\to \infty} f(x_n) = f(x_0)$, für alle Folgen $(x_n)$. -- \emph{Folgenkriterium}.
 \end{enumerate}
 
 \paragraph{Gleichmäßige Stetigkeit}
 $f$ heißt \emph{gleichmäßig stetig}, wenn gilt:
-\[\forall\epsilon>0\exists\delta>0: \forall x,y \in \Omega: |x-y| < \delta \implies |f(x) - f(y)| < \epsilon \]
+\[\forall\varepsilon>0\exists\delta>0: \forall x,y \in \Omega: |x-y| < \delta \implies |f(x) - f(y)| < \varepsilon \]
 Unterschied zur punktweisen Stetigkeit ist, dass $\delta$ unabhängig von der Wahl von $y$ bzw. $x_0$ ist.
 
 \paragraph{Lipschitz-Stetigkeit}
@@ -354,17 +373,22 @@ so dass $f|_U : x \in U \mapsto f(x) \in \R^n$ Lipschitz-stetig ist.
 
 \paragraph{Sätze über gleichmäßige und Lipschitz-Stetigkeit}
 \begin{enumerate}[label={(}\arabic*{)}]
- \item Ist $f$ Lipschitz-stetig mit Konstante $L$, so ist $f$ gleichmäßig stetig, z. B. mit $\delta = \epsilon/L$.
+ \item Ist $f$ Lipschitz-stetig mit Konstante $L$, so ist $f$ gleichmäßig stetig, z. B. mit $\delta = \varepsilon/L$.
  \item Ist $f$ gleichmäßig stetig, dann ist $f$ in $\Omega^C$ stetig ergänzbar.
  \item Ist umgekehrt $\Omega$ beschränkt, $f$ stetig und in $\Omega^C$ stetig ergänzbar, so ist $f$ auch gleichmäßig stetig.
 \end{enumerate}
 
+\subsubsection{Zwischenwertsatz}
+Es sei $f: [a,b] \to \R$ eine stetige reelle Funktion, die auf einem Intervall definiert ist.
+Dann existiert zu jedem $u\in [f(a), f(b)]$ (falls $f(a)\leq f(b)$) bzw. $u\in [f(b), f(a)]$ (falls $f(b)< f(a)$) ein $c\in [a,b]$ mit $f\left(c\right)=u$. \\
+     Jeder Wert zwischen $f(a)$ und $f(b)$ wird berührt! Bei verschiedenen Vorzeichen von $a$ und $b$ gibt es also eine Nullstelle.
+
 \subsubsection{Folgen von Funktionen}
 Eine \emph{Funktionsfolge} $(f_n)_{n\in\N}$ \emph{konvergiert punktweise} auf $I \subseteq \R$ gegen $f$, wenn $\forall x\in I: f_n(x) \rightarrow f(x)$:
-\[ \forall \epsilon > 0: \forall x \in I: \exists n_0 \in \N: n \geq n_0 \implies |f_n(x)-f(x)| < \epsilon \]
+\[ \forall \varepsilon > 0: \forall x \in I: \exists n_0 \in \N: n \geq n_0 \implies |f_n(x)-f(x)| < \varepsilon \]
 Sie \emph{konvergiert gleichmäßig} auf $I$ gegen $f$, wenn $sup_{x\in I} |f_n(x) - f(x)| \rightarrow 0$ gilt.
 Insbesondere ist also das $n_0$ nicht mehr abhängig von einem $x$.
-\[ \forall \epsilon > 0: \exists n_0 \in \N: \forall x \in I: n \geq n_0 \implies |f_n(x)-f(x)| < \epsilon \]
+\[ \forall \varepsilon > 0: \exists n_0 \in \N: \forall x \in I: n \geq n_0 \implies |f_n(x)-f(x)| < \varepsilon \]
 
 \emph{Tipp: } Gleichmäßige Konvergenz kann häufig durch Setzen von $x := n$, oder $x := \frac{1}{n}$ widerlegt werden.
 Denn $|f_n(x) - f(x)|$ muss gegen Null streben, was dann aber nicht der Fall ist.
@@ -733,7 +757,7 @@ Jetzt lösen wir das folgende Gleichungssystem durch Ausmultiplikation.
  \item $a < b \wedge c < 0 \iff \frac{a}{c} > \frac{b}{c}$
  \item $|a+b| \leq |a| + |b|$ -- \emph{Dreiecksungleichung}
  \item $|x\cdot y| \leq \|x\|\cdot\|y\|, x,y \in \mathbb{R}^n$ -- \emph{Cauchy-Schwarz-Ungleichung}
- \item $2|x\cdot y| \leq \epsilon x^2 + \frac{1}{\epsilon}y^2, \epsilon > 0$ -- \emph{Young-Ungleichung}
+ \item $2|x\cdot y| \leq \varepsilon x^2 + \frac{1}{\varepsilon}y^2, \varepsilon > 0$ -- \emph{Young-Ungleichung}
 \end{enumerate}
 
 \subsubsection{Exponentialfunktion und Potenzen}
@@ -831,16 +855,16 @@ $\tan(x)$ & $\frac{1}{\sqrt{3}}$ & $1$ & $\sqrt{3}$ & $0$ & $-\sqrt{3}$ & $-1$ &
 \subsection{Folgen mit Grenzwerten}
 Folgende Folgen sind sortiert nach ``Wachstumsschnelligkeit''.
 \[ (1), (\ln(n)), (n^{a}), (q^n), (n!), (n^n) \text{ mit } a > 0, q > 1.\]
-Im Folgenden ist $a_n \rightarrow a$ gleichbedeutend mit $\lim_{n\rightarrow\infty} a_n = a$.
+Im Folgenden ist $a_n \to a$ gleichbedeutend mit $\lim_{n\to\infty} a_n = a$.
 Außerdem seien $a,k\in\mathbb{R}$ Konstanten.
 \paragraph{Konvergente Folgen}
 \begin{enumerate}[label={(}\arabic*{)}]
- \item $\sqrt[n]{a} \rightarrow 1, \sqrt[n]{n} \rightarrow 1, a \geq 0$
- \item $\frac{n}{\sqrt[n]{n!}} \rightarrow e, \frac{\sqrt[n]{n!}}{n} \rightarrow \frac{1}{e}$
- \item $(\frac{n+1}{n})^n \rightarrow e$
- \item $(1 + \frac{a}{n})^n \rightarrow e^a$
- \item $(a^nn^k)^n \rightarrow 0, |a| < 1$
- \item $n(\sqrt[n]{a}-1) \rightarrow ln(a), a > 0$
+ \item $\sqrt[n]{a} \to 1, \sqrt[n]{n} \to 1, a \geq 0$
+ \item $\frac{n}{\sqrt[n]{n!}} \to e, \frac{\sqrt[n]{n!}}{n} \to \frac{1}{e}$
+ \item $(\frac{n+1}{n})^n \to e$
+ \item $(1 + \frac{a}{n})^n \to e^a$
+ \item $(a^nn^k)^n \to 0, |a| < 1$
+ \item $n(\sqrt[n]{a}-1) \to ln(a), a > 0$
 \end{enumerate}
 \paragraph{Divergente Folgen}
 \[ (\sqrt[n]{n!}), (\frac{n^n}{n!}), (\frac{a^n}{n^k}) \]
