@@ -33,29 +33,39 @@
 \begin{document}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{Zusammenfassung Analysis I, HS 2012, Analysis II, FS 2013}
-\fancyhead[R]{Tim Taubner, B.\ Sc.\ ETH Informatik, Legi-Nr.: 12-937-546 -- S. \thepage}
+\fancyhead[L]{Analysis I et II (HS12 et FS2013)}
+\fancyhead[R]{Tim Taubner -- S. \thepage}
 
 \begin{twocolumn}
 \tableofcontents
 \end{twocolumn}
 
-\clearpage
+\section{Folgen}
 
-\section{Einfaches}
+\section{Reihen}
 
+\section{Funktionen}
+
+\section{Integration}
+
+\section{Differentialrechnung in $\R^n$}
+
+
+\appendix
+\section{Vorwissen}
 \subsection{Vollständige Induktion}
 Kann für ein Prädikat $P(n)$ bewiesen werden, dass $P(n_0)$ und $\forall n\in\N: n > n_0 \wedge P(n) \rightarrow P(n+1)$ gilt,
 dann folgt daraus $\forall n\in\N: n \geq n_0 \rightarrow P(n)$.
-\paragraph{Induktionannahme (IA)} bezeichnet das Prädikat $P(n)$.
 \paragraph{Induktionsverankerung (IV)} ist der Beweis von $P(n_0)$.
+\paragraph{Induktionannahme (IA)} bezeichnet das Prädikat $P(n)$.
 \paragraph{Induktionsschritt (IS)} ist der Beweis von $P(n) \rightarrow P(n+1)$.
 
 \subsection{Logik}
-\paragraph{Wahrheitstafel als Definition gängiger, bool'scher Operatoren}
+\paragraph{Bool'sche Operatoren}
 \[
 \begin{array}{ccccccc}
-A&B&\neg A&A \wedge B&A \vee B & A \rightarrow B & A \leftrightarrow B \\\hline
+A&B&\neg A&A \wedge B&A \vee B & A \rightarrow B & A \leftrightarrow B \\
+&& \text{`nicht'} & \text{`und'} & \text{`oder'} & \text{`folgt'} & \text{`g.\ d.\ w.'} \\\hline\hline\hspace{.1em}
 0&0&1&0&0&1&1\\\hline
 0&1&1&0&0&1&0\\\hline
 1&0&0&0&1&0&0\\\hline
@@ -63,42 +73,43 @@ A&B&\neg A&A \wedge B&A \vee B & A \rightarrow B & A \leftrightarrow B \\\hline
 \end{array}
 \]
 
-\subsection{Mengen}
+\subsection{Mengenlehre}
 \subsubsection{Definitionen}
-Seien im Folgenden $A, B$ Mengen.
+Seien im Folgenden $A, B, M$ Mengen mit $A, B \subseteq M$.
 \begin{enumerate}[label={(}\arabic*{)}]
  \item $A \cup B := \{x\, |\, x \in A \lor x \in B\}$ -- \emph{Vereinigung}
  \item $A \cap B := \{x\, |\, x \in A \land x \in B\}$ -- \emph{Durchschnitt}
  \item $A \backslash B := A - B := \{x\, |\, x \in A \wedge x \notin B\}$ -- \emph{Differenz}
  \item $A^C := \overline{A} := {x\, |\, x \notin A} = M \backslash A$ -- \emph{Komplement (bzgl. $M$)}
  \item $A \subseteq B := \forall x \in A: x \in B.$ -- \emph{Teilmenge}
+ \item $A \subset B := A \subseteq B \wedge A \neq B.$ -- \emph{echte Teilmenge}
 \end{enumerate}
 \subsubsection{Rechenregeln}
-Diese Beweise (und ähnliche) können durch Einsetzen der obigen Definitionen und logisches Umformen geführt werden.
 \begin{enumerate}[label={(}\arabic*{)}]
- \item $A \cup B = B \cup A, \\ A \cap B = B \cap A.$
- \item $A \cup (B \cup C) = (A \cup B) \cup C, \\ A \cap (B \cap C) = (A \cap B) \cap C.$
+ \item $\cup, \cap$ sind kommutativ:\newline $A \cup B = B \cup A, \\ A \cap B = B \cap A.$
+ \item $\cup, \cap$ sind assoziativ:\newline $A \cup (B \cup C) = (A \cup B) \cup C, \\ A \cap (B \cap C) = (A \cap B) \cap C.$
  \item $A \cup (B \cap C) = (A \cap B) \cup (A \cap C), \\ A \cap (B \cup C) = (A \cup B) \cap (A \cup C).$
- \item $(A\backslash B) = A \cap B^C.$
+ \item $(A\backslash B) = A \cap B^C, $ bzgl.\ $M$.
  \item $(A\backslash B) \cup C = (A \cup B) \cap (B^C \cup C), \\ (A\backslash B) \cap C = A \backslash (B \cup C^C).$
  \item $(A \cup B)^C = A^C \cap B^C, \\ (A \cap B)^C = A^C \cup B^C.$
  \item $(A\backslash B) \backslash C = A \backslash (B \cup C).$
 \end{enumerate}
 \subsubsection{Wichtige Mengen}
 \begin{description}
- \item[$\N_0$, natürliche Zahlen mit 0] $\N := \{0,1,2,3,\dots\}.$
- \item[$\N$, natürliche Zahlen] $\N := \{1,2,3,\dots\} = \N\backslash\{0\}.$
- \item[$\mathbb{Z}$, ganze Zahlen] $\mathbb{Z} := \{\dots,-2,-1,0,1,2,\dots\}.$
- \item[$\mathbb{Q}$, rationale Zahlen] $\mathbb{Q} := \{\frac{p}{q}\, |\, p \in \mathbb{Z}, q \in \N \} .$
- \item[$\mathbb{R}$, reelle Zahlen] $\mathbb{R} := $ rationale und irrationale Zahlen, $\mathbb{Q} \subseteq \mathbb{R}$.
- \item[$\mathbb{C}$, komplexe/reelle Zahlen] $\mathbb{C} := \{a - bi\, |\, a, b \in \mathbb{R}\}, $ mit $i^2 = -1$.
+ \item[$\emptyset$, leere Menge] $\emptyset := \{\}$.
+ \item[$\N$, natürliche Zahlen:] $\N := \{1,2,3,\dots\}$.
+ \item[$\N_0$, natürliche Zahlen mit 0:] $\N_ := \N \cup \{0\}$.
+ \item[$\mathbb{Z}$, ganze Zahlen:] $\mathbb{Z} := \N_0 \cup \{-n\, |\, n \in \N\}$.
+ \item[$\mathbb{Q}$, rationale Zahlen:] $\mathbb{Q} := \{\frac{p}{q}\, |\, p \in \mathbb{Z},\ q \in \N \} .$
+ \item[$\mathbb{R}$, reelle Zahlen:] $\mathbb{R} := $ rationale und irrationale Zahlen, $\mathbb{Q} \subseteq \mathbb{R}$.
+ \item[$\mathbb{C}$, komplexe Zahlen:] $\mathbb{C} := \{a + bi\, |\, a, b \in \mathbb{R}\}, $ mit $i^2 = -1$.
 \end{description}
 \subsubsection{Intervalle}
-\begin{tabular}{ll}
-$[a,b] := \{x\in\mathbb{R}\, |\, a \leq x \leq b\}$ & abgeschlossen \\
-$]a,b] := \{x\in\mathbb{R}\, |\, a < x \leq b\} := (a,b]$ & halboffen (links) \\
-$[a,b[\ := \{x\in\mathbb{R}\, |\, a \leq x < b\} := [a,b)$ & halboffen (rechts) \\
-$]a,b[\ := \{x\in\mathbb{R}\, |\, a < x < b\} := (a,b)$ & offen \\
+\begin{tabular}{llll}
+$]a,b[$ & $:= (a,b)$ & $ := \{x\in\mathbb{R}\, |\, a < x < b\}$ & offen \\
+$]a,b]$ & $:= (a,b]$ & $ := (a,b) \cup \{b\} $ & halboffen (links) \\
+$[a,b[$ & $:= [a,b)$ & $ := (a,b) \cup \{a\} $ & halboffen (rechts) \\
+$[a,b]$ &            & $ := \{x\in\mathbb{R}\, |\, a \leq x \leq b\}$ & abgeschlossen \\
 \end{tabular}
 \begin{enumerate}[label={(}\arabic*{)}]
  \item Offene Intervalle sind offene Mengen
@@ -106,22 +117,21 @@ $]a,b[\ := \{x\in\mathbb{R}\, |\, a < x < b\} := (a,b)$ & offen \\
  \item Abgeschlossene, beschränkte Intervalle ($a,b \neq \infty$) sind kompakt.
 \end{enumerate}
 \subsubsection{Mächtigkeit}
-Zwei Mengen $A, B$ heißen \emph{gleichmächtig}, wenn es eine bijektive Abbildung $f: A \rightarrow B$ gibt.
-Wir schreiben $|A| = |B|$. \\
-Es gilt $|\N| = |\mathbb{Z}| = |\mathbb{Q}| < |\mathbb{R}| = |[a,b]| = |\mathbb{C}|$.
+Zwei Mengen $A, B$ heißen \emph{gleichmächtig} ($|A| = |B|$), wenn es eine bijektive Abbildung $f: A \rightarrow B$ gibt.\\
+Es gilt $|\N| = |\mathbb{Z}| = |\mathbb{Q}| < |\mathbb{R}| = |[a,b]| = |\mathbb{C}|, \forall a, b\in\R, a < b$.
 
 \subsubsection{Topologie}
 Sei im Folgenden $\Omega, A \subseteq \R^d$.
 \paragraph{Definitionen}
 \begin{enumerate}[label={(}\arabic*{)}]
- \item Die Menge $B_r(x_0) = \{x \in \R^d \left| |x-x_0| < r \right.\}$ heißt \emph{offener Ball} mit Radius $r > 0$ um $x_0 \in\R^d$.
- \item $x_0 \in \Omega$ heißt \emph{innerer Punkt} von $\Omega$ falls $\exists r > 0: B_r(x_0) \subseteq \Omega$.
+ \item $B_r(x_0) := \{x \in \R^d \left|\, r > |x-x_0| \right.\}$ heißt \emph{offener Ball} mit Radius $r > 0$ um $x_0 \in\R^d$.
+ \item $x_0$ heißt \emph{innerer Punkt} von $\Omega$ falls $\exists \epsilon > 0: B_{\epsilon}(x_0) \subseteq \Omega$.
  \item $\Omega$ heißt \emph{offen} falls alle $x \in \Omega$ innere Punkte sind.
  \item $A$ heißt \emph{abgeschlossen} falls $\R^d\backslash A$ offen ist.
- \item $\Omega^{o} := \Int(\Omega) = \bigcup_{U\subseteq\Omega,U \text{offen}} U$ heißt \emph{offener Kern} von $\Omega$.
+ \item $\Omega^{o} := \Int(\Omega) := \bigcup_{U\subseteq\Omega,U \text{offen}} U$ heißt \emph{offener Kern} von $\Omega$.
  \item $\clos(\Omega) := \bigcap_{A\supseteq \Omega}, A \text{abgeschlossen} A$ heißt \emph{Abschluss} von $\Omega$.
- \item $\partial\Omega := \clos(\Omega)\backslash\Int(\Omega)$ heißt \emph{Rand} von $\Omega$.
- \item $\Omega$ heißt \emph{kompakt}, falls alle Folgen $(x_n) \subseteq \Omega$ ein Häufungs\-punkt (s. u.) in $K$ haben.
+ \item $\partial\Omega := \clos(\Omega)\backslash\Int(\Omega)$ heißt \emph{Rand} von $\Omega$ (nicht verwechseln mit dem Operator der partiellen-Integration $\frac{\partial}{\partial x}$).
+ \item $\Omega$ heißt \emph{kompakt}, falls alle Folgen $(x_n)$ mit $\forall n: x_n \in \Omega$ einen Häufungs\-punkt (s.\ u.) in $K$ haben.
 \end{enumerate}
 
 \paragraph{Sätze}
@@ -135,6 +145,16 @@ Sei im Folgenden $\Omega, A \subseteq \R^d$.
 
 
 \clearpage
+
+
+\section{Formeln}
+
+\section{Tafeln}
+
+
+\clearpage
+
+\section{Einfaches}
 \section{Mittleres}
 
 \subsection{Folgen}

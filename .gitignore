@@ -1,2 +1,6 @@
-
-Analysis/AnalysisZusammenfassung.synctex.gz
+*.toc
+*.aux
+*.log
+*.backup
+*.swp
+*.synctex.gz
