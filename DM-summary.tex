@@ -1,7 +1,7 @@
 \documentclass[a4paper, 9pt, DIV=24]{scrartcl}
 \usepackage[utf8]{inputenc}
 
-\usepackage[ngerman]{babel}
+\usepackage[english]{babel}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -47,6 +47,23 @@
 \fancyhead[L]{\title}
 \fancyhead[R]{Tim Taubner -- S. \thepage}
 
+\pagenumbering{roman}
+\begin{centering}
+\vspace*{1em}
+\vfill
+\textbf{Disclaimer} \\
+I wrote this to my best knowledge, however, no guarantees are given whatsoever.
+\vfill
+\textbf{Sources} \\
+If not noted differently, the source is the lecture slides and/or the accompanying book.
+\vfill
+\end{centering}
+
+\pagenumbering{arabic}
+\setcounter{page}{0}
+
+\clearpage
+
 \begin{twocolumn}
 
 \section{Approximate Retrieval}
@@ -74,9 +91,9 @@ $ d_J(A,B) = 1 - \Sim_J(A,B) = 1 - \dfrac{|A \cap B|}{|A \cup B|}.$
 
 \subsection{LSH -- local sensitive hashing}
 \emph{Key Idea:} Similiar documents have similiar hash. \\
-\emph{Note:} Trivial for exact duplicates (hash-collisions $\rightarrow$ candidate pair).\\
+\emph{Note:} Trivial for exact duplicates (hash-collisions $\rightarrow$ candidate pair).
 \paragraph{Min-hash $h_\pi(C)$}
-Hash is the \emph{minimum (i.\ e.\ first) row index} after permutation with a one: $h_\pi(C) = \min_{i, C(i) = 1} \pi(i)$,
+Hash is the \emph{minimum (i.\ e.\ first) row index} with a one after permutation: $h_\pi(C) = \min_{i, C(i) = 1} \pi(i)$,
 given binary vector $C$ and (random) permutation $\pi$. \\
 \emph{Note:} $\Pr_\pi[h_\pi(C_1) = h_\pi(C_2)] = \Sim_J(C_1,C_2)$ if $\pi \inuar S_{|C|}$.
 \paragraph{Min-hash signature matrix $M_S \in [N]^{n\times C}$}
@@ -86,11 +103,15 @@ given $n$ hash-fns $h_i$ drawn randomly from a universal hash family.
 \paragraph{Pseudo permutation}
 $h_\pi$ with $\pi(i) = (a\cdot i + b) \mod\ p \mod\ N$, $N$ number of shingles, $p\geq N$ prime and $a,b \inuar [p]$ with $a \neq 0$. \\
 Instead of real permutations (slow, inefficient, large storage) use pseudo permutations as hash family. Pseudo permutations only need to store $a$ and $b$.
+% hash family for cosine: sign(w^Tv), from ex. 1
 
 \paragraph{Compute Min-hash signature matix $M_S$}
 For all columns $c \in [C]$ and rows $r \in [N]$ with $C_c(r) = 1$, set $M_S(i,c) = \min\{h_i(C_c), M_S(i,c)\}$ for all hash functions $h_i$.
 
-\paragraph{Boosting} Reduce FP/FN by AND/OR-boosting, respectively. \newline
+% r-way AND
+% b-way OR
+
+\paragraph{Banding as boosting} Reduce FP/FN by AND/OR-boosting, respectively. \newline
 This is done by grouping the signature matrix into $b$ bands of $r$ rows each.
 A candidate pair matches in at least one band completely. This corresponds to a $b$-way OR after a $r$-way AND boosting.
 
