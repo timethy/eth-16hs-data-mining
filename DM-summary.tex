@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{bm}
 \usepackage{mathtools}
 
 \usepackage{fancyhdr}
@@ -15,7 +16,7 @@
 \setkomafont{subsection}{}
 \setkomafont{subsubsection}{}
 \setkomafont{paragraph}{}
-\setkomafont{subparagraph}{}
+\setkomafont{subparagraph}{\normalfont\itshape}
 
 \usepackage[extreme]{savetrees}
 
@@ -23,7 +24,9 @@
 \title{Data Mining (FS 2016)}
 \author{Tim Taubner}
 
+\DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator{\clos}{clos}
+\DeclareMathOperator{\sign}{sign}
 \DeclareMathOperator{\Int}{int}
 \DeclareMathOperator{\argmin}{argmin}
 \DeclareMathOperator{\arcsinh}{arcsinh}
@@ -33,10 +36,13 @@
 \DeclareMathOperator{\rot}{rot}
 \DeclareMathOperator{\Div}{div}
 \DeclareMathOperator{\Sim}{Sim}
+\DeclareMathOperator{\Proj}{Proj}
 
+\newcommand{\eps}{\epsilon}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
+\newcommand{\E}{\mathbb{E}}
 \newcommand{\defeq}{\vcentcolon=}
 \newcommand{\eqdef}{=\vcentcolon}
 \newcommand{\inuar}{\in_{\text{u.a.r.}}}
@@ -70,7 +76,7 @@ If not noted differently, the source is the lecture slides and/or the accompanyi
 \paragraph{Nearest-Neighbor} Find $x^* = \argmin_{x \in X} \ d(x,y)$
 given $S,\ y \in S,\ X\subseteq S$.
 \paragraph{Near-Duplicate detection}
-Find all $x, x'\in X$ with $d(x,x') \leq \epsilon$.
+Find all $x, x'\in X$ with $d(x,x') \leq \eps$.
 \subsection{$k$-Shingling}
 Represent documents (or videos) as set of $k$-shingles (a.\ k.\ a.\ $k$-grams).
 \emph{$k$-shingle} is a consecutive appearance of $k$ characters/words.
@@ -81,8 +87,8 @@ Binary \emph{shingle matrix} $M \in \{0,1\}^{CxN}$ where $M_{i,j} = 1$ iff docum
 \paragraph{General}
 $d: S \times S \rightarrow \R$ is a \emph{distance function} iff $\forall x,x',x''\in S$ it's positive definite except for $x=x'$ ($d(x,x') > 0 \iff x \neq x'$ and $d(x,x) = 0$), symmetric ($d(x,x') = d(x',x)$) and satisfies the Cauchy-Schwartz triangle inequality ($d(x,x'') \leq d(x,x') + d(x',x'')$).
 \paragraph{$L_r$-norm}
-$d_r(x,y) = (\sum_i |x_i - y_i|^r)^{1/r}$. $L_2$-norm also called \emph{Euclidean}.
-\paragraph{Cosine similarity} $\Sim_c(A,B) = \dfrac{A \cdot B}{|A|\cdot|B|}.$ 
+$d_r(x,y) = ||x-y||_r = (\sum_i |x_i - y_i|^r)^{1/r}$. $L_2$ is \emph{Euclidean}.
+\paragraph{Cosine similarity} $\Sim_c(A,B) = \dfrac{A \cdot B}{||A||\cdot||B||}.$ 
 \paragraph{Cosine distance} $d_c(A,B) = \dfrac{\arccos(\Sim_c(A,B))}{\pi}.$
 \paragraph{Jaccard similarity} $\Sim_J(A,B) = \dfrac{|A \cap B|}{|A \cup B|}.$ 
 \paragraph{Jaccard distance}
@@ -113,9 +119,100 @@ For all columns $c \in [C]$ and rows $r \in [N]$ with $C_c(r) = 1$, set $M_S(i,c
 
 \paragraph{Banding as boosting} Reduce FP/FN by AND/OR-boosting, respectively. \newline
 This is done by grouping the signature matrix into $b$ bands of $r$ rows each.
-A candidate pair matches in at least one band completely. This corresponds to a $b$-way OR after a $r$-way AND boosting.
+A candidate pair matches in at least one band completely (check through normal hashing). This corresponds to a $b$-way OR after a $r$-way AND boosting.
 
-\section{More stuff to come}
+\paragraph{Tradeoff FP/FN} Favor false positives (more work) over false negatives (wrong result).
+Filter out false positives by checking signature matrix, shingles or even whole documents.
+
+% TODO: Tradeoff-formulae
+
+\section{Supervised Learning}
+\paragraph{Linear classifier} $y_i = \sign(\bm w^T\bm x_i)$ assuming $w$ goes through origin.
+\paragraph{Homogeneous transform} $\tilde x = [x, 1]; \tilde w = [w, b]$, now $w$ passes origin.
+\paragraph{Kernels}
+\paragraph{Convex functin} $f: S \rightarrow \R$ is convex iff $\forall x,x'\in S, \lambda \in [0,1], \lambda f(x) + (1-\lambda)f(x') \geq f(\lambda x + (1-\lambda)x')$, i.\ e.\ every segment lies above function. Equiv.\ bounded by linear fn at every point.
+%\subparagraph{Concave} $f$ concave, iff $-f$ convex.
+\subparagraph{$H$-strongly convex} $f$ $H$-strongly convex iff $f(x') \geq f(x) + \nabla f(x)^T(x'-x)+\frac{H}{2}||x'-x|_2^2$, i.\ e.\ bounded by quadratic fn (at every point).
+% Bonus: Lagrangian
+\subsection{SVM and its forms}
+\paragraph{SVM primal}
+\subparagraph{Quadratic} $\min_{\bm w} \bm w^T \bm w + C\sum_{i}\xi_i$,
+s.\ t.\ $\forall i: \bm y_i\bm w^T x_i \geq 1 - \xi_i$, slack $C$.
+\subparagraph{Hinge loss} $\min_{\bm w} \bm w^T \bm w + C\sum_{i}\max(0,1-y_i\bm w^T\bm x_i)$,\newline
+where $l(\bm w; \bm x_i, y_i) = \max(0,1-y_i\bm w^T \bm x_i)$ is the \emph{hinge loss}. \\
+Also written $\min_{\bm w} \lambda \bm w^T \bm w + C\sum_{i}l(\bm w; \bm x_i, y_i)$ with $\lambda = \frac{1}{C}$.
+\subparagraph{Norm-constrained}
+$\min_{\bm w} \sum_{i}\max(0,1-y_i\bm w^T\bm x_i)$ s.\ t.\ $||\bm w||_2 \leq \frac{1}{\sqrt \lambda}$.
+\paragraph{Lagrangian dual}
+$\max_{\bm \alpha} \sum_{i}\alpha_i + \frac{1}{2}\sum_{i,j}\alpha_i\alpha_j y_i y_j \bm x_i^T\bm x_j,\ \alpha_i \in [0,C]$.
+Apply kernel trick: 
+$\max_{\bm \alpha} \sum_{i}\alpha_i + \frac{1}{2}\sum_{i,j}\alpha_i\alpha_j y_i y_j k(\bm x_i, \bm x_j),\ \alpha_i \in [0,C]$, prediction becomes $y = \sign(\sum_{i=1}^{n}\alpha_i y_i k(x_i,x))$.
+
+\subsection{Convex Programming}
+\paragraph{Convex program} $\min_{\bm x} f(\bm x)$, s.\ t.\ $\bm x \in S$.
+\paragraph{Online convex program (OCP)} $\min_{\bm w} \sum_{t=1}^{T} f_t(\bm w)$, s.\ t.\ $\bm w \in S$.
+\paragraph{General regularized form} $\min_{\bm w} \sum_{i=1}^{n} l(\bm w; \bm x_i, y_i) + \lambda R(\bm w)$, where $l$ is a (convex) loss function and $R$ is the (convex) regularizer.
+\paragraph{General norm-constrained form} $\min_{\bm w} \sum_{i=1}^{n} l(\bm w; \bm x_i, y_i)$, s.\ t.\ $\bm w \in S_\lambda$, where $l$ is the loss function and $S_\lambda$ some (norm-)constraint. Note how this is a OCP.
+
+\paragraph{Solving OCP}
+Input \emph{feasible set} $S \subseteq \R^d$ and \emph{starting point} $\bm w_0 \in S$, given OCP $\min_{\bm w}\sum_{t=1}^{T}f_t(\bm w)$, s.\ t.\ $\bm w \in S$.
+For round $t \in [T]$, pick (feasible pt) $\bm w_t \in S$, receive (convex) fn $f_t: S \rightarrow \R$, incur loss $l_t = f_t(\bm w_t)$. \\
+Regret $R_T = (\sum_{t=1}^{T} l_t) - \min_{\bm w \in S}\sum_{t=1}^{T}f_t(\bm w)$.
+
+\paragraph{Online SVM}
+$||\bm w||_2 \leq \frac{1}{\lambda}$ (norm-constrained). For new point $\bm x_t$ classify $y_t = \sign(\bm w_t^T \bm x_t)$,
+incur loss $l_t = \max(0,1-y_t \bm w_t^T \bm x_t)$, update $\bm w_t$ (see later).
+Best possible $L^* = \min_{\bm w}\sum_{t=1}^{T}\max(0,1-y_t \bm w^T \bm x_t)$, regret $R_t = \sum_{t=1}^{T} l_t - L^*$.
+
+\paragraph{Online proj.\ gradient descent (OPGD)}
+Update for online SVM: \\
+$w_{t+1} = \Proj_S(w_t-\eta_t\nabla f_t(\bm w_t))$ with $\Proj_S(\bm w) = \argmin_{w'\in S} ||w'-w||_2$, gives regret bound $\frac{R_T}{T}\leq\frac{1}{\sqrt{T}}(||\bm w_0-\bm w^*||_2^2+||\nabla f||_2^2)$. \\
+For $H$-strongly convex fn set $\eta_t = \frac{1}{Ht}$ gives $R_t \leq \frac{||\nabla f||^2}{2H}(1+\log T)$.
+
+\paragraph{Stochastic PGD (SGD)}
+Online-to-batch. Compute $\tilde{\bm w} = \frac{1}{T}\sum_{t=1}^{T} \bm w_t$.
+If data i.\ i.\ d.: exp.\ \emph{error (risk)} $\E[L(\tilde{\bm w})] \leq L(\bm w^*) + R_T/T$, $L(\bm w^*)$ is best error (risk) possible.
+
+\paragraph{PEGASOS}
+OPGD w/ mini-batches on strongly convex SVM form. \\
+$\min_w \sum_{t=1}^{T} g_t(\bm w)$, s.t. $||w||_2 \leq \frac{1}{\sqrt t}$, $g_t(\bm w) = \frac{\lambda}{2}||\bm w||_2^2 + f_t(\bm w)$. \\
+$g_t$ is $\lambda$-strongly convex, $\nabla g_t(\bm w) = \lambda \bm w + \nabla f_t(\bm w)$.
+\subparagraph{Performance} $\eps$-accurate sol.\ with prob.\ $\geq 1-\delta$ in runtime $O^*(\frac{d\cdot\log\frac{1}{\delta}}{\lambda\eps}).$
+
+\paragraph{ADAGrad}
+Adapt to geometry.
+\emph{Mahalanobis norm} $||\bm w||_{\bm G} = ||\bm G\bm w||_2$. \\
+$w_{t+1}=\argmin_{\bm w\in S}||\bm w - (\bm w_t - \eta \bm G_t^{-1}\nabla f_t(\bm w))||_{\bm G_t}$.
+Min. regret with $G_t = (\sum_{\tau = 1}^{t} \nabla f_\tau(\bm w_\tau)\nabla f_\tau(\bm w_\tau)^T)^{1/2}.$
+Easily inv'able matrix with $G_t = \diag(\dots).$
+$R_t \in O(\frac{||\bm w^*||_\infty}{\sqrt T}\sqrt d)$, even better for sparse data.
+%for sparse data (non-zero feature with prob.\  even
+%$O(\frac{||\bm w^*||_\inf}{\sqrt T}\max\{\log d, d^{1-c/2} \})$
+% Bonus: Pseudo-code
+
+\paragraph{ADAM}
+Add `momentum' term: $\bm w_{t+1} = \bm w_t - \mu\bar g_t$, $g_t = \nabla f_t(\bm w)$, $\bar g_t = (1-\beta)g_t + \beta \bar g_{t-1}$, $\bar g_0 = 0$.
+% Bonus: Pseudo-code
+Helps for dense gradients.
+
+\paragraph{Parallel SGD (PSGD)}
+Randomly partition to $k$ (indep.) machines. Comp.\ $\bm w = \frac{1}{k}\sum_{i=1}^k \bm w_i$.
+$\E[\text{err}] \in O(\eps(\frac{1}{k\sqrt\lambda}+1))$ if $T \in \Omega(\frac{\log \frac{k\lambda}{\eps}}{\eps\lambda})$.
+Suitable for MapReduce cluster, multi.\ passes possible.
+
+\paragraph{Hogwild!}
+Shared mem., no sync., sparse data. [\dots]
+
+\paragraph{Implicit kernel trick}
+Map $x \in \R^d \rightarrow \phi(x) \in \R^D \rightarrow z(x) \in \R^m$, $d \ll D, m \ll D$.
+Where $\phi(x)$ corresponds to a kernel $k(x,x') = \phi(x)^T\phi(x')$.
+
+\paragraph{Random fourier features}
+!TODO!
+\paragraph{Nyström features}
+!TODO!
+
+\section{Active Learning}
 
 \end{twocolumn}
 
