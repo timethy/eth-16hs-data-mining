@@ -25,15 +25,10 @@
 \author{Tim Taubner}
 
 \DeclareMathOperator{\diag}{diag}
-\DeclareMathOperator{\clos}{clos}
-\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\sign}{sgn}
 \DeclareMathOperator{\Int}{int}
 \DeclareMathOperator{\argmin}{argmin}
-\DeclareMathOperator{\arcsinh}{arcsinh}
-\DeclareMathOperator{\arccosh}{arccosh}
-\DeclareMathOperator{\arctanh}{arctanh}
-\DeclareMathOperator{\grad}{grad}
-\DeclareMathOperator{\rot}{rot}
+\DeclareMathOperator{\argmax}{argmax}
 \DeclareMathOperator{\Div}{div}
 \DeclareMathOperator{\Sim}{Sim}
 \DeclareMathOperator{\Proj}{Proj}
@@ -218,12 +213,32 @@ Where $\phi(x)$ corresponds to a kernel $k(x,x') = \phi(x)^T\phi(x')$.
 %\paragraph{Stream-based*} Data point arrives online, decide if label needed.
 %\paragraph{Pool-based} Unlabeled data-set given, (sequentially) request labels.
 
-\paragraph{Uncertainty sampling}
+\paragraph{Uncertainty sampl.}
+$U_t(x) = U(x | x_{1:t-1}, y_{1:t-1})$, request $y_t$ for $x_t = \argmax_x U_t(x)$.
+\textbf{SVM:} $x_t = \argmin_{x_i}|\bm w^T\bm x_i|$, i.e.\ $U_t(\bm x) = \frac{1}{|\bm w_t^T \bm x|}$.
+
+\paragraph{Sub-linear time w/ LSH}
+$|\bm w^T\bm x_i|$ small if $\angle_{\bm w,\bm x_i}$ close to $\pi$.\\
+Hash hyperplane:
+$h_{\bm u,\bm v}(\bm a,\bm b) = [h_{\bm u}(\bm a), h_{\bm v}(\bm b)] = [\sign(\bm u^T\bm a),\sign(\bm v^T\bm b)]$.
+LSH hash family: $h_H(z) = h_{u,v}(\bm z,\bm z)$ if $z$ datapoint, $h_H(z) = h_{u,v}(\bm z,-\bm z)$ if $z$ query hyperplane.
+$\Pr[h_H(\bm w) = h_H(\bm x)] = \Pr[h_{\bm u}(\bm w) = h_{\bm u}(\bm x)]\Pr[h_{\bm v}(-\bm w) = h_{\bm v}(\bm x)] = \frac{1}{4} - \frac{1}{\pi^2}(\angle_{\bm x,\bm w} - \frac{pi}{2})^2$.\\
+Hash all unlabeled. Loop: Hash $\bm w$, req.\ labels for hash-coll., update.
 
 \paragraph{Informativeness}
+Metric of “information” gainable; $\neq$ uncertainty.
 \paragraph{Version Space}
-\paragraph{Relevant version space}
+$\mathcal{V}(D) = \{\bm w\ |\ \forall(\bm x,y)\in D\ \sign(\bm w^T\bm x) = y)\}$
+
+\paragraph{Relevant version space} given unlabeled pool $U = \{x'_1,\dots,x'_n\}$.
+$\tilde{\mathcal{V}}(D;U) = \{h: U\rightarrow\{\pm 1\}\ |\ \exists\bm w \in \mathcal{V}(D)\ \forall x\in U\ \sign(\bm w^T \bm x) = h(\bm x)\}.$
+
 \paragraph{Generalized binary search}
+Init $D \leftarrow \{\}$.
+While $|\tilde{\mathcal{V}}(D;U)| > 1$, comp.\ $v^\pm(x) = |\tilde{\mathcal{V}}(D \cup \{(x,\pm)\};U)|$, label of $\argmin_x \max\{v^-(x),v^+(x)\}$.
+
+\paragraph{Approx. $|\mathcal{V}|$}
+Margins of SVM $m^\pm(x)$ for labels $\{+,-\}, \forall x$. \emph{Max-min} $\max_x \min\{m^+(x),m^-(x))\}$ or \emph{ratio} $\max_x \min\{\frac{m^+(x)}{m^-(x)},\frac{m^-(x)}{m^+(x)}\}$.
 
 \section{Model-based clustering -- Unsupervised learning}
 \paragraph{k-means problem}
@@ -240,15 +255,15 @@ Always converge to \emph{local minimum}.
 \paragraph{Online k-means} Init $\mu$ somehow.
 For $t \in [n]$ find $z = \argmin_j||\mu_j-\bm x_t||_2$, set $\mu_c \leftarrow \mu_c + \eta_t(\bm x_t - \mu_c)$. For local optimum: $\sum_t \eta_t = \infty \wedge \sum_t \eta_t^2 < \infty$ suffices, e.g.\ $\eta_t = \frac{c}{t}$.
 
-\paragraph{Weighted rep. $C$} of large $D$: $L_k(\mu;C) = \sum_{(w,\bm x)\in C}w\cdot\min_j||\mu_j - \bm x||_2^2$.
+\paragraph{Weighted rep. $C$} $L_k(\mu;C) = \sum_{(w,\bm x)\in C}w\cdot\min_j||\mu_j - \bm x||_2^2$.
 
-\paragraph{$(k,\eps)$-coreset $C$ of $D$} iff $\forall\mu: (1-\eps)L_k(\mu;D) \leq L_k(\mu;C) \leq (1+\eps)L_k(\mu;D)$.
+\paragraph{$(k,\eps)$-coreset} iff $\forall\mu: (1-\eps)L_k(\mu;D) \leq L_k(\mu;C) \leq (1+\eps)L_k(\mu;D)$.
 
 \paragraph{Step 1: $D^2$-sampling}
 Sample prob.\ $p(x) = \frac{d(x,B)^2}{\sum_{x' \in X} d(x', B)^2}$.
 
 \paragraph{Step 2: Importance sampling}
-$B_i = \{\bm x\in D: i \in \argmin d(\bm x,b_i)\}$ ?? what is i ??
+$B_i = \{\bm x\in D: i \in \argmin\ d(\bm x,b_i)\}$ ?? what is i ??
 Sample $q(\bm x) \propto \frac{\alpha d(\bm x,B)^2}{c_\phi} + \frac{2\alpha\sum_{\bm x'\in B_i} d(\bm x',B)^2}{|B_i|c_\phi} + \frac{4|X|}{|B_i|}$, $c_\phi = \frac{1}{|X|}\sum_{x\in X}d(x,B)^2$, $\alpha = \log_2 k + 1$.
 Coreset size $O(\frac{dk^3}{\eps^2})$.
 
