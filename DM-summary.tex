@@ -76,7 +76,7 @@ If not noted differently, the source is the lecture slides and/or the accompanyi
 \paragraph{Nearest-Neighbor} Find $x^* = \argmin_{x \in X} \ d(x,y)$
 given $S,\ y \in S,\ X\subseteq S$.
 \paragraph{Near-Duplicate detection}
-Find all $x, x'\in X$ with $d(x,x') \leq \eps$.
+Find all $\bm x, \bm x'\in X$ with $d(\bm x,\bm x') \leq \eps$.
 \subsection{$k$-Shingling}
 Documents (or videos) as set of $k$-shingles (a.\ k.\ a.\ $k$-grams).
 \emph{$k$-shingle} is consecutive appearance of $k$ chars/words. \\
@@ -129,7 +129,7 @@ Filter FP by checking signature matrix, shingles or even whole documents.
 \paragraph{Linear classifier} $y_i = \sign(\bm w^T\bm x_i)$ assuming $\bm w$ goes through origin.
 \paragraph{Homogeneous transform} $\tilde{\bm x} = [\bm x, 1]; \tilde{\bm w} = [\bm w, b]$, now $\bm w$ passes origin.
 \paragraph{Kernels}
-\paragraph{Convex functin} $f: S \rightarrow \R$ is convex iff $\forall x,x'\in S, \lambda \in [0,1], \lambda f(x) + (1-\lambda)f(x') \geq f(\lambda x + (1-\lambda)x')$, i.\ e.\ every segment lies above function. Equiv.\ bounded by linear fn.\ at every point.
+\paragraph{Convex function} $f: S \rightarrow \R$ is convex iff $\forall x,x'\in S, \lambda \in [0,1], \lambda f(x) + (1-\lambda)f(x') \geq f(\lambda x + (1-\lambda)x')$, i.\ e.\ every segment lies above function. Equiv.\ bounded by linear fn.\ at every point.
 %\subparagraph{Concave} $f$ concave, iff $-f$ convex.
 \subparagraph{$H$-strongly convex} $f$ $H$-strongly convex iff $f(x') \geq f(x) + \nabla f(x)^T(x'-x)+\frac{H}{2}||x'-x|_2^2$, i.\ e.\ bounded by quadratic fn (at every point).
 % Bonus: Lagrangian
@@ -214,14 +214,51 @@ Where $\phi(x)$ corresponds to a kernel $k(x,x') = \phi(x)^T\phi(x')$.
 \paragraph{Nyström features}
 !TODO!
 
-\section{Active Learning (semi-supervised)}
-\paragraph{Stream-based*} Data point arrives online, decide if label needed.
-\paragraph{Pool-based} Unlabeled data-set given, (sequentially) request labels.
+\section{Pool-based active Learning (semi-supervised)}
+%\paragraph{Stream-based*} Data point arrives online, decide if label needed.
+%\paragraph{Pool-based} Unlabeled data-set given, (sequentially) request labels.
 
 \paragraph{Uncertainty sampling}
 
-\section{Unsupervised learning}
+\paragraph{Informativeness}
+\paragraph{Version Space}
+\paragraph{Relevant version space}
+\paragraph{Generalized binary search}
 
+\section{Model-based clustering -- Unsupervised learning}
+\paragraph{k-means problem}
+$\min_\mu L(\mu)$ with
+$L(\mu) = \sum_{i=1}^{N}\min_j||\bm x_i-\mu_j||_2^2$ and \emph{cluster centers} $\mu = \mu_1,\dots,\mu_k$.
+Non-convex! NP-hard in general!
+
+\paragraph{LLoyd's}
+Init $\mu^{(0)}$ (somehow).
+\emph{Assign} all $\bm x_i$ to closest center $z_i \leftarrow \argmin_{j \in [k]} ||\bm x_i - \mu_j^{(t-1)}||_2^2$,
+\emph{Update} to mean: $\mu_j^{(t)} \leftarrow \frac{1}{n_j}\sum_{i:z_i = j}\bm x_i$.
+Always converge to \emph{local minimum}.
+
+\paragraph{Online k-means} Init $\mu$ somehow.
+For $t \in [n]$ find $z = \argmin_j||\mu_j-\bm x_t||_2$, set $\mu_c \leftarrow \mu_c + \eta_t(\bm x_t - \mu_c)$. For local optimum: $\sum_t \eta_t = \infty \wedge \sum_t \eta_t^2 < \infty$ suffices, e.g.\ $\eta_t = \frac{c}{t}$.
+
+\paragraph{Weighted rep. $C$} of large $D$: $L_k(\mu;C) = \sum_{(w,\bm x)\in C}w\cdot\min_j||\mu_j - \bm x||_2^2$.
+
+\paragraph{$(k,\eps)$-coreset $C$ of $D$} iff $\forall\mu: (1-\eps)L_k(\mu;D) \leq L_k(\mu;C) \leq (1+\eps)L_k(\mu;D)$.
+
+\paragraph{Step 1: $D^2$-sampling}
+Sample prob.\ $p(x) = \frac{d(x,B)^2}{\sum_{x' \in X} d(x', B)^2}$.
+
+\paragraph{Step 2: Importance sampling}
+$B_i = \{\bm x\in D: i \in \argmin d(\bm x,b_i)\}$ ?? what is i ??
+Sample $q(\bm x) \propto \frac{\alpha d(\bm x,B)^2}{c_\phi} + \frac{2\alpha\sum_{\bm x'\in B_i} d(\bm x',B)^2}{|B_i|c_\phi} + \frac{4|X|}{|B_i|}$, $c_\phi = \frac{1}{|X|}\sum_{x\in X}d(x,B)^2$, $\alpha = \log_2 k + 1$.
+Coreset size $O(\frac{dk^3}{\eps^2})$.
+
+\paragraph{Merge coresets} union of $(k,\eps)$-coreset is also $(k,\eps)$-coreset.
+
+\paragraph{Compress} a $(k,\delta)$-coreset of a $(k,\eps)$-coreset is a $(k,\eps+\delta+\eps\delta)$-coreset.
+
+\paragraph{Coresets on streams} Bin.\ tree of merge-compress. Error $\propto$ height.
+
+\paragraph{Mapreduce k-means} Construct $(k,\eps)$-coreset C, solve k-means (w/ many restarts) on coreset. (Repeat.) Near-optimal solution.
 
 \section{Bandits}
 
