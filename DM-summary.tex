@@ -78,29 +78,26 @@ given $S,\ y \in S,\ X\subseteq S$.
 \paragraph{Near-Duplicate detection}
 Find all $x, x'\in X$ with $d(x,x') \leq \eps$.
 \subsection{$k$-Shingling}
-Represent documents (or videos) as set of $k$-shingles (a.\ k.\ a.\ $k$-grams).
-\emph{$k$-shingle} is a consecutive appearance of $k$ characters/words.
-
-Let there be $N$ documents and $C$ $k$-shingles. \\
-Binary \emph{shingle matrix} $M \in \{0,1\}^{CxN}$ where $M_{i,j} = 1$ iff document $j$ contains shingle $i$.
+Documents (or videos) as set of $k$-shingles (a.\ k.\ a.\ $k$-grams).
+\emph{$k$-shingle} is consecutive appearance of $k$ chars/words. \\
+Binary \emph{shingle matrix} $M \in \{0,1\}^{CxN}$ where $M_{i,j} = 1$ iff document $j$ contains shingle $i$, $N$ documents, $C$ $k$-shingles.
 \subsection{Distance functions}
-\paragraph{General}
-$d: S \times S \rightarrow \R$ is a \emph{distance function} iff $\forall x,x',x''\in S$ it's positive definite except for $x=x'$ ($d(x,x') > 0 \iff x \neq x'$ and $d(x,x) = 0$), symmetric ($d(x,x') = d(x',x)$) and satisfies the Cauchy-Schwartz triangle inequality ($d(x,x'') \leq d(x,x') + d(x',x'')$).
+\paragraph{Def.}
+$d: S \times S \rightarrow \R$ is \emph{distance function} iff pos.\ definite except $d(x,x) = 0$ ($d(x,x') > 0 \iff x \neq x'$), symmetric ($d(x,x') = d(x',x)$) and triangle inequality holds ($d(x,x'') \leq d(x,x') + d(x',x'')$).
 \paragraph{$L_r$-norm}
 $d_r(x,y) = ||x-y||_r = (\sum_i |x_i - y_i|^r)^{1/r}$. $L_2$ is \emph{Euclidean}.
-\paragraph{Cosine similarity} $\Sim_c(A,B) = \dfrac{A \cdot B}{||A||\cdot||B||}.$ 
-\paragraph{Cosine distance} $d_c(A,B) = \dfrac{\arccos(\Sim_c(A,B))}{\pi}.$
-\paragraph{Jaccard similarity} $\Sim_J(A,B) = \dfrac{|A \cap B|}{|A \cup B|}.$ 
-\paragraph{Jaccard distance}
-$ d_J(A,B) = 1 - \Sim_J(A,B) = 1 - \dfrac{|A \cap B|}{|A \cup B|}.$
+\paragraph{Cosine}
+$\Sim_c(A,B) = \dfrac{A \cdot B}{||A||\cdot||B||},\ d_c(A,B) = \dfrac{\arccos(\Sim_c(A,B))}{\pi}.$
+\paragraph{Jaccard sim., d.}
+$\Sim_J(A,B) = \dfrac{|A \cap B|}{|A \cup B|},\ d_J(A,B) = 1 - \Sim_J(A,B).$
 % Potentially edit distance and/or hamming distance
 
 \subsection{LSH -- local sensitive hashing}
 \emph{Key Idea:} Similiar documents have similiar hash. \\
-\emph{Note:} Trivial for exact duplicates (hash-collisions $\rightarrow$ candidate pair).
+\emph{Note:} Trivial for exact duplicates (hash-collision $\rightarrow$ candidate pair).
 \paragraph{Min-hash $h_\pi(C)$}
-Hash is the \emph{minimum (i.\ e.\ first) row index} with a one after permutation: $h_\pi(C) = \min_{i, C(i) = 1} \pi(i)$,
-given binary vector $C$ and (random) permutation $\pi$. \\
+Hash is the \emph{min (i.e.\ first) non-zero permutated row index}: $h_\pi(C) = \min_{i, C(i) = 1} \pi(i)$,
+bin.\ vec.\ $C$, rand.\ perm.\ $\pi$. \\
 \emph{Note:} $\Pr_\pi[h_\pi(C_1) = h_\pi(C_2)] = \Sim_J(C_1,C_2)$ if $\pi \inuar S_{|C|}$.
 \paragraph{Min-hash signature matrix $M_S \in [N]^{n\times C}$}
 with $M_S(i,c) = h_i(C_c)$
@@ -108,21 +105,23 @@ given $n$ hash-fns $h_i$ drawn randomly from a universal hash family.
 
 \paragraph{Pseudo permutation}
 $h_\pi$ with $\pi(i) = (a\cdot i + b) \mod\ p \mod\ N$, $N$ number of shingles, $p\geq N$ prime and $a,b \inuar [p]$ with $a \neq 0$. \\
-Instead of real permutations (slow, inefficient, large storage) use pseudo permutations as hash family. Pseudo permutations only need to store $a$ and $b$.
+Use as universal hash family. Only store $a$ and $b$. Much more efficient.
 % hash family for cosine: sign(w^Tv), from ex. 1
 
 \paragraph{Compute Min-hash signature matix $M_S$}
-For all columns $c \in [C]$ and rows $r \in [N]$ with $C_c(r) = 1$, set $M_S(i,c) = \min\{h_i(C_c), M_S(i,c)\}$ for all hash functions $h_i$.
+For column $c \in [C]$, row $r \in [N]$ with $C_c(r) = 1$, $M_S(i,c) \leftarrow \min\{h_i(C_c), M_S(i,c)\}$ for all $h_i$.
 
-% r-way AND
-% b-way OR
+\paragraph{r-way AND}
+\paragraph{b-way OR}
 
-\paragraph{Banding as boosting} Reduce FP/FN by AND/OR-boosting, respectively. \newline
-This is done by grouping the signature matrix into $b$ bands of $r$ rows each.
-A candidate pair matches in at least one band completely (check through normal hashing). This corresponds to a $b$-way OR after a $r$-way AND boosting.
+\paragraph{Banding as boosting}
+Reduce FP/FN by $b$-way OR after $r$-way AND.
+Group signature matrix into $b$ bands of $r$ rows.
+Candidate pairs match in at least one band (check by hashing).
 
-\paragraph{Tradeoff FP/FN} Favor false positives (more work) over false negatives (wrong result).
-Filter out false positives by checking signature matrix, shingles or even whole documents.
+\paragraph{Tradeoff FP/FN}
+Favor FP (work) over FN (wrong).
+Filter FP by checking signature matrix, shingles or even whole documents.
 
 % TODO: Tradeoff-formulae
 
