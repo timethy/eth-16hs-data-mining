@@ -134,7 +134,7 @@ Filter out false positives by checking signature matrix, shingles or even whole 
 %\subparagraph{Concave} $f$ concave, iff $-f$ convex.
 \subparagraph{$H$-strongly convex} $f$ $H$-strongly convex iff $f(x') \geq f(x) + \nabla f(x)^T(x'-x)+\frac{H}{2}||x'-x|_2^2$, i.\ e.\ bounded by quadratic fn (at every point).
 % Bonus: Lagrangian
-\subsection{SVM and its forms}
+\subsection{Support vector machine (SVM)}
 \paragraph{SVM primal}
 \subparagraph{Quadratic} $\min_{\bm w} \bm w^T \bm w + C\sum_{i}\xi_i$,
 s.\ t.\ $\forall i: \bm y_i\bm w^T x_i \geq 1 - \xi_i$, slack $C$.
@@ -212,7 +212,16 @@ Where $\phi(x)$ corresponds to a kernel $k(x,x') = \phi(x)^T\phi(x')$.
 \paragraph{Nyström features}
 !TODO!
 
-\section{Active Learning}
+\section{Active Learning (semi-supervised)}
+\paragraph{Stream-based*} Data point arrives online, decide if label needed.
+\paragraph{Pool-based} Unlabeled data-set given, (sequentially) request labels.
+
+\paragraph{Uncertainty sampling}
+
+\section{Unsupervised learning}
+
+
+\section{Bandits}
 
 \end{twocolumn}
 
