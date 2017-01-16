@@ -8,9 +8,10 @@
 \usepackage{bm}
 \usepackage{mathtools}
 
-\usepackage{fancyhdr}
-
 \usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{cclicenses}
+\usepackage{textcomp}
 
 \setkomafont{section}{}
 \setkomafont{subsection}{}
@@ -18,6 +19,7 @@
 \setkomafont{paragraph}{}
 \setkomafont{subparagraph}{\normalfont\itshape}
 
+\usepackage[portrait,paper=a4paper,left=2mm,right=2mm,top=2mm,bottom=4mm,footskip=2mm]{geometry}
 \usepackage[extreme]{savetrees}
 
 %opening
@@ -42,11 +44,14 @@
 \newcommand{\eqdef}{=\vcentcolon}
 \newcommand{\inuar}{\in_{\text{u.a.r.}}}
 
+\setlength{\columnsep}{2mm}
+
 \begin{document}
 \pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\title}
-\fancyhead[R]{Tim Taubner -- S. \thepage}
+\fancyhead{}
+\fancyfoot{}
+\fancyfoot[L]{\footnotesize Data Mining Summary for exam use. HS 2016, \textcopyright Tim Taubner. Creative Commons 2.0 \byncsa}
+\fancyfoot[R]{\footnotesize \thepage}
 
 \pagenumbering{roman}
 \begin{centering}
@@ -106,13 +111,17 @@ Use as universal hash family. Only store $a$ and $b$. Much more efficient.
 \paragraph{Compute Min-hash signature matix $M_S$}
 For column $c \in [C]$, row $r \in [N]$ with $C_c(r) = 1$, $M_S(i,c) \leftarrow \min\{h_i(C_c), M_S(i,c)\}$ for all $h_i$.
 
-\paragraph{r-way AND}
-\paragraph{b-way OR}
+\paragraph{$(d_1,d_2,p_1,p_2)$-sensitivity} of a hash family $F = \{h_1,\dots,h_n\}$: $\forall x,y \in S: d(x,y) \leq d_1 \implies P[h(x)=h(y)] \geq p_1$ and $d(x,y) \geq d_2 \implies P[h(x)=h(y)] \leq p_2.$
+\paragraph{$r$-way AND}
+$h = [h_1,\dots,h_r],\ h(x) = h(y) \Leftrightarrow \forall i\ h_i(x) = h_i(y)$ is $(d_1,d_2,p_1^r,p_2^r)$-sensitive.
+\paragraph{$b$-way OR}
+$h = [h_1,\dots,h_b],\ h(x) = h(y) \Leftrightarrow \exists i\ h_i(x) = h_i(y)$ is $(d_1,d_2,1-(1-p_1)^b,1-(1-p_2)^b)$-sensitive.
 
 \paragraph{Banding as boosting}
 Reduce FP/FN by $b$-way OR after $r$-way AND.
-Group signature matrix into $b$ bands of $r$ rows.
-Candidate pairs match in at least one band (check by hashing).
+Group sig.\ matrix into $b$ bands of $r$ rows.
+CP match in at least one band (check by hashing).
+Result is $(d_1,d_2,1-(1-p_1^r)^b,1-(1-p_2^r)^b)$-sensitive.
 
 \paragraph{Tradeoff FP/FN}
 Favor FP (work) over FN (wrong).
@@ -279,7 +288,35 @@ Sample prob.\ $p(x) = \frac{d(x,B)^2}{\sum_{x' \in X} d(x', B)^2}$.
 
 \paragraph{Mapreduce k-means} Construct $(k,\eps)$-coreset C, solve k-means (w/ many restarts) on coreset. (Repeat.) Near-optimal solution.
 
-\section{Bandits}
+\section{$k$-armed bandits as recommender systems}
+\paragraph{$k$-armed bandit}
+$k$ arms. $T$ rounds, pick $i_t\in[k]$, sample $y_t \in P_i$. Max.\ $\sum_{t=1}^{T} y_t$.
+\paragraph{Regret} $\mu_i$ mean of $P_i$, $\mu^* = \max_i \mu_i$. Regret $r_t = \mu^* - \mu_{i_t}, R_T = \sum_{t=1}^{T} r_t$.
+\paragraph{$\eps$-greedy} \emph{Explore} u.a.r.\ prob. $\eps_t$, \emph{exploit} with prob.\ $1-\eps_t$): choose $\argmax_i\hat\mu_i$.
+Suitable $\eps_t \in O(1/t)$ gives $R_T \in O(k\log T)$. Clearly unoptimal.
+\paragraph{UCB1}
+Init $\hat\mu_i \leftarrow 0$; try all arms.
+Round $t\in (k+1) \dots T$: $UCB(i) \leftarrow \hat\mu_i+\sqrt{\frac{2\log t}{n_i}}$, $i_t \leftarrow \argmax_i UCB(i)$, obs.\ $y_t$. Upd.\ $n_{i_t} \leftarrow n_{i_t}+1, \hat\mu_{i_t}\leftarrow\hat\mu_{i_t}+\frac{y_t-\hat\mu_{i_t}}{n_{i_t}}$.
+% Maybe perf. of UCB1 ?
+\paragraph{contextual bandits} Round $t$: Obs.\ \emph{context} $\bm z_t \in\mathcal Z$; \emph{recommend} $\bm x_t \in \mathcal A_t$. Reward $y_t = f(\bm x_t,\bm z_t) + \eps_t$. $r_t = \max_{\bm x}f(\bm x, \bm z_t) - f(\bm x_t,\bm z_t)$. Often $f(\bm x,\bm z) = \bm w_{\bm x}^T\bm z$.
+
+\paragraph{LinUCB}
+Estimate $\hat{\bm w}_{i} = \argmin_{\bm w}\sum_{t=1}^{m}(y_t-\bm w^T\bm z_t) + ||\bm w||_2^2$.
+Closed form: $\hat{\bm w}_{i} = M_{i}^{-1}D_{i}^Ty_{i}$,
+$M_{i} = D_{i}^TD_{i} + I$,
+$D_{i} = [z_1|\dots|z_m], y_{i} = (y_1|\dots|y_m)^T$.\\
+Confidence: $\Pr\left [|\hat{\bm w}_{i}^T\bm z_t - \bm w_{i}^T\bm z_t| \leq \alpha\sqrt{\bm z_t^T M_{i}^{-1}\bm z_t}\right ] \geq 1-\delta$ if $\alpha = 1 + \sqrt{\ln(2/\delta)/2}$.
+
+% Algorithm LinUCB
+
+\paragraph{Hybrid Model}
+$y_t = \bm w_i^T \bm z_t + \beta^T \phi(\bm x_i,\bm z_t) + \eps_t$
+captures sep.\ and shared effects.
+
+\paragraph{Rejection Sampling}
+Evaluate bandit: For $t \in \N$ read log $(\bm x_1^{(t)},\dots,\bm x_k^{(t)},\bm z_t,a_t,y_t)$.
+Pick $a'_t$ by algo. If $a'_t = a_t$ feed $y_t$ to algo., else ignore line. Stop after $T$ feedbacks.
+
 
 \section{Submodularity}
 
