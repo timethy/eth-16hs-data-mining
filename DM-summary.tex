@@ -34,6 +34,7 @@
 \DeclareMathOperator{\Div}{div}
 \DeclareMathOperator{\Sim}{Sim}
 \DeclareMathOperator{\Proj}{Proj}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
 
 \newcommand{\eps}{\epsilon}
 \newcommand{\N}{\mathbb{N}}
@@ -133,7 +134,9 @@ Filter FP by checking signature matrix, shingles or even whole documents.
 \paragraph{Linear classifier} $y_i = \sign(\bm w^T\bm x_i)$ assuming $\bm w$ goes through origin.
 \paragraph{Homogeneous transform} $\tilde{\bm x} = [\bm x, 1]; \tilde{\bm w} = [\bm w, b]$, now $\bm w$ passes origin.
 \paragraph{Kernels}
-$k: \mathcal{X}\times\mathcal{X} \rightarrow \R$ is an inner product in high-dim.\ lin.\ space, i.e.\ $k(x,x') = <\phi(x),\phi(x')>$.
+$k: \mathcal{X}\times\mathcal{X} \rightarrow \R$ is an inner product in high-dim.\ lin.\ space, i.e.\ $k(\bm x,\bm x') = <\phi(\bm x),\phi(\bm x')>$.\\
+\emph{shift-invariance} $k(\bm x,\bm y) = k(\bm x - \bm y)$.
+\emph{Gaussian} $k(\bm x - \bm y) = $
 % TODO: More about kernels
 
 \paragraph{Convex function} $f: S \rightarrow \R$ is convex iff $\forall x,x'\in S, \lambda \in [0,1], \lambda f(x) + (1-\lambda)f(x') \geq f(\lambda x + (1-\lambda)x')$, i.\ e.\ every segment lies above function. Equiv.\ bounded by linear fn.\ at every point.
@@ -143,7 +146,7 @@ $k: \mathcal{X}\times\mathcal{X} \rightarrow \R$ is an inner product in high-dim
 \subsection{Support vector machine (SVM)}
 \paragraph{SVM primal}
 \subparagraph{Quadratic} $\min_{\bm w} \bm w^T \bm w + C\sum_{i}\xi_i$,
-s.\ t.\ $\forall i: \bm y_i\bm w^T x_i \geq 1 - \xi_i$, slack $C$.
+s.t.\ $\forall i: y_i\bm w^T \bm x_i \geq 1 - \xi_i$, slack $C$.
 \subparagraph{Hinge loss}
 %$\min_{\bm w} \bm w^T \bm w + C\sum_{i}\max(0,1-y_i\bm w^T\bm x_i)$,\newline
 %Also written
@@ -155,7 +158,7 @@ $\min_{\bm w} \sum_{i}\max(0,1-y_i\bm w^T\bm x_i)$ s.t.\ $||\bm w||_2 \leq \frac
 \paragraph{Lagrangian dual}
 $\max_{\bm \alpha} \sum_{i}\alpha_i + \frac{1}{2}\sum_{i,j}\alpha_i\alpha_j y_i y_j \bm x_i^T\bm x_j,\ \alpha_i \in [0,C]$.
 Apply kernel trick: 
-$\max_{\bm \alpha} \sum_{i}\alpha_i + \frac{1}{2}\sum_{i,j}\alpha_i\alpha_j y_i y_j k(\bm x_i, \bm x_j),\ \alpha_i \in [0,C]$, prediction becomes $y = \sign(\sum_{i=1}^{n}\alpha_i y_i k(x_i,x))$.
+$\max_{\bm \alpha} \sum_{i}\alpha_i + \frac{1}{2}\sum_{i,j}\alpha_i\alpha_j y_i y_j k(\bm x_i, \bm x_j),\ \alpha_i \in [0,C]$, prediction becomes $y = \sign(\sum_{i=1}^{n}\alpha_i y_i k(\bm x_i,\bm x))$.
 
 \subsection{Convex Programming}
 \paragraph{Convex program} $\min_{\bm x} f(\bm x)$, s.\ t.\ $\bm x \in S$, $f$ convex.
@@ -217,7 +220,14 @@ Map $x \in \R^d \rightarrow \phi(x) \in \R^D \rightarrow z(x) \in \R^m$, $d \ll 
 Where $\phi(x)$ corresponds to a kernel $k(x,x') = \phi(x)^T\phi(x')$.
 
 \paragraph{Random fourier features}
-!TODO!
+For shift-invariant kernels ($k(x, y) = k(x -y)$) \\
+$p(\omega)=\frac{1}{2\pi}\int e^{-j\omega'\delta}k(\delta) \diff\Delta$ \\
+$\omega_i \sim p, b_i \sim U(0, 2\pi) $\\
+$\bm z(\bm x) \equiv \sqrt{2/m}[cos(\omega_1'\bm x+b_1) \dots cos(\omega_m'\bm x+b_m)]$ \\
+In practice: pick random samples $S = \{\hat{x}_1 \dots \hat{x}_n\} \subseteq X$ \\
+$\bm K_{SXij} = k(\hat{x_i}, x_j)$, $\bm K_{SSij} = k(\hat{x_i}, \hat{x_j})$ \\
+approximate $\bm K = \bm K_{XS}\bm K_{SS}^{-1}\bm K_{SX}$.
+
 \paragraph{Nyström features}
 !TODO!
 
