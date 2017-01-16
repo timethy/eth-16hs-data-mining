@@ -18,7 +18,7 @@
 \setkomafont{paragraph}{}
 \setkomafont{subparagraph}{\normalfont\itshape}
 
-\usepackage[extreme,margins=tight]{savetrees}
+\usepackage[extreme]{savetrees}
 
 %opening
 \title{Data Mining (FS 2016)}
@@ -124,6 +124,9 @@ Filter FP by checking signature matrix, shingles or even whole documents.
 \paragraph{Linear classifier} $y_i = \sign(\bm w^T\bm x_i)$ assuming $\bm w$ goes through origin.
 \paragraph{Homogeneous transform} $\tilde{\bm x} = [\bm x, 1]; \tilde{\bm w} = [\bm w, b]$, now $\bm w$ passes origin.
 \paragraph{Kernels}
+$k: \mathcal{X}\times\mathcal{X} \rightarrow \R$ is an inner product in high-dim.\ lin.\ space, i.e.\ $k(x,x') = <\phi(x),\phi(x')>$.
+% TODO: More about kernels
+
 \paragraph{Convex function} $f: S \rightarrow \R$ is convex iff $\forall x,x'\in S, \lambda \in [0,1], \lambda f(x) + (1-\lambda)f(x') \geq f(\lambda x + (1-\lambda)x')$, i.\ e.\ every segment lies above function. Equiv.\ bounded by linear fn.\ at every point.
 %\subparagraph{Concave} $f$ concave, iff $-f$ convex.
 \subparagraph{$H$-strongly convex} $f$ $H$-strongly convex iff $f(x') \geq f(x) + \nabla f(x)^T(x'-x)+\frac{H}{2}||x'-x|_2^2$, i.\ e.\ bounded by quadratic fn (at every point).
@@ -259,13 +262,14 @@ For $t \in [n]$ find $z = \argmin_j||\mu_j-\bm x_t||_2$, set $\mu_c \leftarrow \
 
 \paragraph{$(k,\eps)$-coreset} iff $\forall\mu: (1-\eps)L_k(\mu;D) \leq L_k(\mu;C) \leq (1+\eps)L_k(\mu;D)$.
 
-\paragraph{Step 1: $D^2$-sampling}
+\paragraph{$D^2$-sampling}
 Sample prob.\ $p(x) = \frac{d(x,B)^2}{\sum_{x' \in X} d(x', B)^2}$.
 
-\paragraph{Step 2: Importance sampling}
-$B_i = \{\bm x\in D: i \in \argmin\ d(\bm x,b_i)\}$ ?? what is i ??
-Sample $q(\bm x) \propto \frac{\alpha d(\bm x,B)^2}{c_\phi} + \frac{2\alpha\sum_{\bm x'\in B_i} d(\bm x',B)^2}{|B_i|c_\phi} + \frac{4|X|}{|B_i|}$, $c_\phi = \frac{1}{|X|}\sum_{x\in X}d(x,B)^2$, $\alpha = \log_2 k + 1$.
-Coreset size $O(\frac{dk^3}{\eps^2})$.
+% Maybe include importance sampling?
+%\paragraph{Step 2: Importance sampling}
+%$B_i = \{\bm x\in D: i \in \argmin\ d(\bm x,b_i)\}$ ?? what is i ??
+%Sample $q(\bm x) \propto \frac{\alpha d(\bm x,B)^2}{c_\phi} + \frac{2\alpha\sum_{\bm x'\in B_i} d(\bm x',B)^2}{|B_i|c_\phi} + \frac{4|X|}{|B_i|}$, $c_\phi = \frac{1}{|X|}\sum_{x\in X}d(x,B)^2$, $\alpha = \log_2 k + 1$.
+%Coreset size $O(\frac{dk^3}{\eps^2})$.
 
 \paragraph{Merge coresets} union of $(k,\eps)$-coreset is also $(k,\eps)$-coreset.
 
@@ -276,6 +280,8 @@ Coreset size $O(\frac{dk^3}{\eps^2})$.
 \paragraph{Mapreduce k-means} Construct $(k,\eps)$-coreset C, solve k-means (w/ many restarts) on coreset. (Repeat.) Near-optimal solution.
 
 \section{Bandits}
+
+\section{Submodularity}
 
 \end{twocolumn}
 
