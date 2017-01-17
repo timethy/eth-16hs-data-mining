@@ -1,4 +1,4 @@
-\documentclass[9pt]{scrartcl}
+\documentclass[10pt]{scrartcl}
 \usepackage[utf8]{inputenc}
 
 \usepackage[english]{babel}
@@ -8,6 +8,7 @@
 \usepackage{bm}
 \usepackage{mathtools}
 
+\usepackage{multicol}
 \usepackage{enumitem}
 \usepackage{fancyhdr}
 \usepackage{cclicenses}
@@ -19,7 +20,7 @@
 \setkomafont{paragraph}{}
 \setkomafont{subparagraph}{\normalfont\itshape}
 
-\usepackage[portrait,paper=a4paper,left=2mm,right=2mm,top=2mm,bottom=4mm,footskip=2mm]{geometry}
+\usepackage[landscape,paper=a4paper,left=2mm,right=2mm,top=2mm,bottom=4mm,footskip=2mm]{geometry}
 \usepackage[extreme]{savetrees}
 
 %opening
@@ -71,7 +72,7 @@ If not noted differently, the source is the lecture slides and/or the accompanyi
 
 \clearpage
 
-\begin{twocolumn}
+\begin{multicols}{3}
 
 \section{Approximate Retrieval}
 \paragraph{Nearest-Neighbor} Find $x^* = \argmin_{x \in X} \ d(x,y)$
@@ -133,10 +134,11 @@ Filter FP by checking signature matrix, shingles or even whole documents.
 \section{Supervised Learning}
 \paragraph{Linear classifier} $y_i = \sign(\bm w^T\bm x_i)$ assuming $\bm w$ goes through origin.
 \paragraph{Homogeneous transform} $\tilde{\bm x} = [\bm x, 1]; \tilde{\bm w} = [\bm w, b]$, now $\bm w$ passes origin.
-\paragraph{Kernels}
-$k: \mathcal{X}\times\mathcal{X} \rightarrow \R$ is an inner product in high-dim.\ lin.\ space, i.e.\ $k(\bm x,\bm x') = <\phi(\bm x),\phi(\bm x')>$.\\
-\emph{shift-invariance} $k(\bm x,\bm y) = k(\bm x - \bm y)$.
-\emph{Gaussian} $k(\bm x - \bm y) = $
+\paragraph{Kernel}
+$k$ is inner product in high-dim.\ lin.\ space: $k(\bm x,\bm y) = \langle\phi(\bm x),\phi(\bm y)\rangle$.\\
+%\emph{Kernel/Gram-matrix} .\\
+\emph{shift-invariance} $k(\bm x,\bm y) = k(\bm x - \bm y)$. \\
+\emph{Gaussian} $k(\bm x - \bm y) = \exp(-||\bm x - \bm y||_2^2/h^2)$.
 % TODO: More about kernels
 
 \paragraph{Convex function} $f: S \rightarrow \R$ is convex iff $\forall x,x'\in S, \lambda \in [0,1], \lambda f(x) + (1-\lambda)f(x') \geq f(\lambda x + (1-\lambda)x')$, i.\ e.\ every segment lies above function. Equiv.\ bounded by linear fn.\ at every point.
@@ -330,7 +332,7 @@ Pick $a'_t$ by algo. If $a'_t = a_t$ feed $y_t$ to algo., else ignore line. Stop
 
 \section{Submodularity}
 
-\end{twocolumn}
+\end{multicols}
 
 \appendix
 
