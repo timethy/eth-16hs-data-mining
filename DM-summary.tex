@@ -20,8 +20,33 @@
 \setkomafont{paragraph}{}
 \setkomafont{subparagraph}{\normalfont\itshape}
 
-\usepackage[landscape,paper=a4paper,left=2mm,right=2mm,top=2mm,bottom=4mm,footskip=2mm]{geometry}
+\usepackage[landscape,paper=a4paper,left=2mm,right=2mm,top=5mm,bottom=5mm,footskip=2mm]{geometry}
 \usepackage[extreme]{savetrees}
+
+\renewcommand\familydefault{\rmdefault}
+\let\oldenumerate\enumerate
+\renewcommand{\enumerate}{
+	\oldenumerate
+	\setlength{\itemsep}{0pt}
+	\setlength{\parskip}{2pt plus1pt minus1pt}
+	\setlength{\parsep}{0pt}
+}
+\let\olditemize\itemize
+\renewcommand{\itemize}{
+	\olditemize
+	\setlength{\itemsep}{0pt}
+	\setlength{\parskip}{2pt plus1pt minus1pt}
+	\setlength{\parsep}{0pt}
+}
+\setlength{\parskip}{3pt plus2pt minus1pt}
+\setlength{\parsep}{0pt}
+
+\usepackage[]{titlesec} % SPACING überall definieren
+\titlespacing*{\section}{0pt}{0pt}{0pt} %indent,space befor, space after
+\titlespacing*{\subsection}{0pt}{0pt}{0pt}
+\titlespacing*{\subsubsection}{0pt}{0pt}{0pt}
+\titlespacing*{\paragraph}{0pt}{0pt}{5pt}
+\titlespacing*{\subparagraph}{0pt}{0pt}{5pt}
 
 %opening
 \title{Data Mining (FS 2016)}
@@ -47,13 +72,15 @@
 \newcommand{\inuar}{\in_{\text{u.a.r.}}}
 
 \setlength{\columnsep}{2mm}
+\setlength{\jot}{1pt}
 
 \begin{document}
+
 \pagestyle{fancy}
 \fancyhead{}
 \fancyfoot{}
-\fancyfoot[L]{\footnotesize Data Mining Summary for exam use. HS 2016, \textcopyright Tim Taubner. Creative Commons 2.0 \byncsa}
-\fancyfoot[R]{\footnotesize \thepage}
+%\fancyfoot[L]{\footnotesize Data Mining Summary for exam use. HS 2016, \textcopyright Tim Taubner. Creative Commons 2.0 \byncsa}
+%\fancyfoot[R]{\footnotesize \thepage}
 
 \pagenumbering{roman}
 \begin{centering}
@@ -75,21 +102,21 @@ If not noted differently, the source is the lecture slides and/or the accompanyi
 \begin{multicols}{3}
 
 \section{Approximate Retrieval}
-\paragraph{Nearest-Neighbor} Find $x^* = \argmin_{x \in X} \ d(x,y)$
-given $S,\ y \in S,\ X\subseteq S$.
+\paragraph{Nearest-Neighbor} Find $\bm x^* = \argmin_{\bm x \in X} \ d(\bm x,\bm y)$
+given $S,\ \bm y \in S,\ X\subseteq S$.
 \paragraph{Near-Duplicate detection}
 Find all $\bm x, \bm x'\in X$ with $d(\bm x,\bm x') \leq \eps$.
 \subsection{$k$-Shingling}
 Documents (or videos) as set of $k$-shingles (a.\ k.\ a.\ $k$-grams).
 \emph{$k$-shingle} is consecutive appearance of $k$ chars/words. \\
-Binary \emph{shingle matrix} $M \in \{0,1\}^{CxN}$ where $M_{i,j} = 1$ iff document $j$ contains shingle $i$, $N$ documents, $C$ $k$-shingles.
+Binary \emph{shingle matrix} $M \in \{0,1\}^{C \times N}$ where $M_{i,j} = 1$ iff document $j$ contains shingle $i$, $N$ documents, $C$ $k$-shingles.
 \subsection{Distance functions}
 \paragraph{Def.}
 $d: S \times S \rightarrow \R$ is \emph{distance function} iff pos.\ definite except $d(x,x) = 0$ ($d(x,x') > 0 \iff x \neq x'$), symmetric ($d(x,x') = d(x',x)$) and triangle inequality holds ($d(x,x'') \leq d(x,x') + d(x',x'')$).
-\paragraph{$L_r$-norm}
-$d_r(x,y) = ||x-y||_r = (\sum_i |x_i - y_i|^r)^{1/r}$. $L_2$ is \emph{Euclidean}.
+\paragraph{Euclidean $L_r$}
+$d_r(x,y) = ||x-y||_r = (\sum_i |x_i - y_i|^r)^{1/r}$.
 \paragraph{Cosine}
-$\Sim_c(A,B) = \dfrac{A \cdot B}{||A||\cdot||B||},\ d_c(A,B) = \dfrac{\arccos(\Sim_c(A,B))}{\pi}.$
+$\Sim_c(A,B) = \dfrac{A \cdot B}{||A||\cdot||B||},\ d_c(A,B) = \dfrac{\cos^{-1}(\Sim_c(A,B))}{\pi}.$
 \paragraph{Jaccard sim., d.}
 $\Sim_J(A,B) = \dfrac{|A \cap B|}{|A \cup B|},\ d_J(A,B) = 1 - \Sim_J(A,B).$
 % Potentially edit distance and/or hamming distance
@@ -97,10 +124,17 @@ $\Sim_J(A,B) = \dfrac{|A \cap B|}{|A \cup B|},\ d_J(A,B) = 1 - \Sim_J(A,B).$
 \subsection{LSH -- local sensitive hashing}
 \emph{Key Idea:} Similiar documents have similiar hash. \\
 \emph{Note:} Trivial for exact duplicates (hash-collision $\rightarrow$ candidate pair).
-\paragraph{Min-hash $h_\pi(C)$}
+\paragraph{Min-hash-family $h_\pi(C)$ for Jaccard}
 Hash is the \emph{min (i.e.\ first) non-zero permutated row index}: $h_\pi(C) = \min_{i, C(i) = 1} \pi(i)$,
 bin.\ vec.\ $C$, rand.\ perm.\ $\pi$. \\
 \emph{Note:} $\Pr_\pi[h_\pi(C_1) = h_\pi(C_2)] = \Sim_J(C_1,C_2)$ if $\pi \inuar S_{|C|}$.
+\paragraph{Min-hash $L_r$-norm:}
+Fix $a \in \R$.
+Random line $\bm w$ paritioned in buckets of length $a$.
+Project $\bm x, \bm y$ onto $\bm w$, if in same bucket, $h_{\bm w}(x) = h_{\bm w}(y)$.
+In 2-dim. forms a $(a/2, 2\cdot a, 1/2, 1/3)$-sensitive hash-family.
+In d-dim. there exists a $(d1, d2, p1, p2)$-sensitive family $\forall d1 < d2$ with $p1 > p2$.
+\paragraph{Min-hash cos.} $h_{\bm w}(\bm x) = \sign(\bm w^T\bm x)$. $\Pr_{\bm w}[h_{\bm w}(x) = h_{\bm w}(y)] = 1 - \frac{\theta_{\bm x, \bm y}}{\pi}$.
 \paragraph{Min-hash signature matrix $M_S \in [N]^{n\times C}$}
 with $M_S(i,c) = h_i(C_c)$
 given $n$ hash-fns $h_i$ drawn randomly from a universal hash family.
@@ -110,10 +144,10 @@ $h_\pi$ with $\pi(i) = (a\cdot i + b) \mod\ p \mod\ N$, $N$ number of shingles, 
 Use as universal hash family. Only store $a$ and $b$. Much more efficient.
 % hash family for cosine: sign(w^Tv), from ex. 1
 
-\paragraph{Compute Min-hash signature matix $M_S$}
+\paragraph{Compute signature matix $M_S$}
 For column $c \in [C]$, row $r \in [N]$ with $C_c(r) = 1$, $M_S(i,c) \leftarrow \min\{h_i(C_c), M_S(i,c)\}$ for all $h_i$.
 
-\paragraph{$(d_1,d_2,p_1,p_2)$-sensitivity} of a hash family $F = \{h_1,\dots,h_n\}$: $\forall x,y \in S: d(x,y) \leq d_1 \implies P[h(x)=h(y)] \geq p_1$ and $d(x,y) \geq d_2 \implies P[h(x)=h(y)] \leq p_2.$
+\paragraph{$(d_1,d_2,p_1,p_2)$-sensitivity} of $F = \{h_1,\dots,h_n\}$: $\forall x,y \in S: d(x,y) \leq d_1 \implies P[h(x)=h(y)] \geq p_1$ and $d(x,y) \geq d_2 \implies P[h(x)=h(y)] \leq p_2.$
 \paragraph{$r$-way AND}
 $h = [h_1,\dots,h_r],\ h(x) = h(y) \Leftrightarrow \forall i\ h_i(x) = h_i(y)$ is $(d_1,d_2,p_1^r,p_2^r)$-sensitive.
 \paragraph{$b$-way OR}
@@ -135,7 +169,7 @@ Filter FP by checking signature matrix, shingles or even whole documents.
 \paragraph{Linear classifier} $y_i = \sign(\bm w^T\bm x_i)$ assuming $\bm w$ goes through origin.
 \paragraph{Homogeneous transform} $\tilde{\bm x} = [\bm x, 1]; \tilde{\bm w} = [\bm w, b]$, now $\bm w$ passes origin.
 \paragraph{Kernel}
-$k$ is inner product in high-dim.\ lin.\ space: $k(\bm x,\bm y) = \langle\phi(\bm x),\phi(\bm y)\rangle$.\\
+$k$ is inner product in high-dim.\ space: $k(\bm x,\bm y) = \langle\phi(\bm x),\phi(\bm y)\rangle$.\\
 %\emph{Kernel/Gram-matrix} .\\
 \emph{shift-invariance} $k(\bm x,\bm y) = k(\bm x - \bm y)$. \\
 \emph{Gaussian} $k(\bm x - \bm y) = \exp(-||\bm x - \bm y||_2^2/h^2)$.
@@ -181,7 +215,7 @@ Best $L^* = \min_{\bm w}\sum_{t=1}^{T}\max(0,1-y_t \bm w^T \bm x_t)$, regret $R_
 \paragraph{Online proj.\ gradient descent (OPGD)}
 Update for online SVM: \\
 $\bm w_{t+1} = \Proj_S(\bm w_t-\eta_t\nabla f_t(\bm w_t))$ with $\Proj_S(\bm w) = \argmin_{w'\in S} ||\bm w'-\bm w||_2$, gives regret bound $\frac{R_T}{T}\leq\frac{1}{\sqrt{T}}(||\bm w_0-\bm w^*||_2^2+||\nabla f||_2^2)$. \\
-For $H$-strongly convex fn\. set $\eta_t = \frac{1}{Ht}$ gives $R_t \leq \frac{||\nabla f||^2}{2H}(1+\log T)$.
+For $H$-strongly convex fn, $\eta_t = \frac{1}{Ht}$ gives $R_t \leq \frac{||\nabla f||^2}{2H}(1+\log T)$.
 
 \paragraph{Stochastic PGD (SGD)}
 Online-to-batch. Compute $\tilde{\bm w} = \frac{1}{T}\sum_{t=1}^{T} \bm w_t$.
@@ -222,16 +256,17 @@ Map $x \in \R^d \rightarrow \phi(x) \in \R^D \rightarrow z(x) \in \R^m$, $d \ll 
 Where $\phi(x)$ corresponds to a kernel $k(x,x') = \phi(x)^T\phi(x')$.
 
 \paragraph{Random fourier features}
-For shift-invariant kernels ($k(x, y) = k(x -y)$) \\
+Given shift-invariant kernel $k$.\\
 $p(\omega)=\frac{1}{2\pi}\int e^{-j\omega'\delta}k(\delta) \diff\Delta$ \\
-$\omega_i \sim p, b_i \sim U(0, 2\pi) $\\
-$\bm z(\bm x) \equiv \sqrt{2/m}[cos(\omega_1'\bm x+b_1) \dots cos(\omega_m'\bm x+b_m)]$ \\
-In practice: pick random samples $S = \{\hat{x}_1 \dots \hat{x}_n\} \subseteq X$ \\
-$\bm K_{SXij} = k(\hat{x_i}, x_j)$, $\bm K_{SSij} = k(\hat{x_i}, \hat{x_j})$ \\
-approximate $\bm K = \bm K_{XS}\bm K_{SS}^{-1}\bm K_{SX}$.
+$\omega_i \sim p =$ eg Gaussian, $b_i \sim U(0, 2\pi)$\\
+$\bm z(\bm x) \equiv \sqrt{2/m}[cos(\omega_1'\bm x+b_1) \dots cos(\omega_m'\bm x+b_m)]$ 
 
-\paragraph{Nyström features}
-!TODO!
+\paragraph{Nyström features (need entire dataset)}
+In practice: pick random samples $S = \{\hat{\bm x}_1 \dots \hat{\bm x}_n\} \subseteq X$ \\
+${\bm K_{SX}}_{i,j} = k(\hat{\bm x}_i, \hat{\bm x}_j)$, ${\bm K_{SS}}_{i,j} = k(\hat{\bm x}_i, \hat{\bm x}_j)$\\
+approximate $\bm K = \bm K_{XS}\bm K_{SS}^{-1}\bm K_{SX}$,$\bm K_{SS}=\bm V \bm D \bm V^T$.\\
+new point $\bm x'$: $\bm z(\bm x') = \bm D^{-1/2} \bm V^T [k(\bm x', \hat{\bm x}_1),...,k(\bm x', \hat{\bm x}_m)]$
+
 
 \section{Pool-based active Learning (semi-supervised)}
 %\paragraph{Stream-based*} Data point arrives online, decide if label needed.
@@ -277,7 +312,7 @@ Init $\mu^{(0)}$ (somehow).
 Always converge to \emph{local minimum}.
 
 \paragraph{Online k-means} Init $\mu$ somehow.
-For $t \in [n]$ find $z = \argmin_j||\mu_j-\bm x_t||_2$, set $\mu_c \leftarrow \mu_c + \eta_t(\bm x_t - \mu_c)$. For local optimum: $\sum_t \eta_t = \infty \wedge \sum_t \eta_t^2 < \infty$ suffices, e.g.\ $\eta_t = \frac{c}{t}$.
+For $t \in [n]$ find $z = \argmin_j||\mu_j-\bm x_t||_2$, set $\mu_c \leftarrow \mu_c + \eta_t(\bm x_t - \mu_c)$. For local optimum: $\sum_t \eta_t = \infty \wedge \sum_t \eta_t^2 < \infty$ suffices, e.g.\ $\eta_t = \frac{c}{t}$, $c \in \R$.
 
 \paragraph{Weighted rep. $C$} $L_k(\mu;C) = \sum_{(w,\bm x)\in C}w\cdot\min_j||\mu_j - \bm x||_2^2$.
 
@@ -302,24 +337,38 @@ Sample prob.\ $p(x) = \frac{d(x,B)^2}{\sum_{x' \in X} d(x', B)^2}$.
 
 \section{$k$-armed bandits as recommender systems}
 \paragraph{$k$-armed bandit}
-$k$ arms. $T$ rounds, pick $i_t\in[k]$, sample $y_t \in P_i$. Max.\ $\sum_{t=1}^{T} y_t$.
-\paragraph{Regret} $\mu_i$ mean of $P_i$, $\mu^* = \max_i \mu_i$. Regret $r_t = \mu^* - \mu_{i_t}, R_T = \sum_{t=1}^{T} r_t$.
-\paragraph{$\eps$-greedy} \emph{Explore} u.a.r.\ prob. $\eps_t$, \emph{exploit} with prob.\ $1-\eps_t$): choose $\argmax_i\hat\mu_i$.
-Suitable $\eps_t \in O(1/t)$ gives $R_T \in O(k\log T)$. Clearly unoptimal.
+$k$ arms with diff.\ prob.\ dist. For $t \in [T]$ rounds, pick $i_t\in[k]$, sample $y_t \in P_i$ (indep.\ of other rounds). Max.\ $\sum_{t=1}^{T} y_t$.
+\paragraph{Regret}
+$\mu_i$ mean of $P_i$ (arm $i$), $\mu^* = \max_i \mu_i$.
+Regret $r_t = \mu^* - \mu_{i_t}$.
+Total regret $R_T = \sum_{t=1}^{T} r_t$.
+\paragraph{$\eps$-greedy} \emph{Explore} u.a.r.\ with prob. $\eps_t$, \emph{exploit} with prob.\ $1-\eps_t$: choose $\argmax_i\hat\mu_i$.
+Suitable $\eps_t \in O(1/t)$ gives $R_T \in O(k\log T)$.
+Clearly unoptimal: !TODO! Why?
 \paragraph{UCB1}
-Init $\hat\mu_i \leftarrow 0$; try all arms.
-Round $t\in (k+1) \dots T$: $UCB(i) \leftarrow \hat\mu_i+\sqrt{\frac{2\log t}{n_i}}$, $i_t \leftarrow \argmax_i UCB(i)$, obs.\ $y_t$. Upd.\ $n_{i_t} \leftarrow n_{i_t}+1, \hat\mu_{i_t}\leftarrow\hat\mu_{i_t}+\frac{y_t-\hat\mu_{i_t}}{n_{i_t}}$.
+Init $\hat\mu_i \leftarrow 0$; try all arms once.
+Following $t \in [T-k]$ rounds: $UCB(i) \leftarrow \hat\mu_i+\sqrt{\frac{2\log t}{n_i}}$, pick $i_t \leftarrow \argmax_i UCB(i)$, observe $y_t$. Update $n_{i_t} \leftarrow n_{i_t}+1, \hat\mu_{i_t}\leftarrow\hat\mu_{i_t}+\frac{y_t-\hat\mu_{i_t}}{n_{i_t}}$.
 % Maybe perf. of UCB1 ?
-\paragraph{contextual bandits} Round $t$: Obs.\ \emph{context} $\bm z_t \in\mathcal Z$; \emph{recommend} $\bm x_t \in \mathcal A_t$. Reward $y_t = f(\bm x_t,\bm z_t) + \eps_t$. $r_t = \max_{\bm x}f(\bm x, \bm z_t) - f(\bm x_t,\bm z_t)$. Often $f(\bm x,\bm z) = \bm w_{\bm x}^T\bm z$.
+\paragraph{Contextual bandits}
+Round $t$: Obs.\ \emph{context} $\bm z_t \in\mathcal Z \subseteq \R^d$; \emph{recommend} $\bm x_t \in \mathcal A_t$.
+Reward $y_t = f(\bm x_t,\bm z_t) + \eps_t$.
+Regret $r_t = \max_{\bm x}f(\bm x, \bm z_t) - f(\bm x_t,\bm z_t)$.
+Often $f(\bm x,\bm z) = \bm w_{\bm x}^T\bm z$ linear.
 
-\paragraph{LinUCB}
+\paragraph{Idea behind LinUCB}
 Estimate $\hat{\bm w}_{i} = \argmin_{\bm w}\sum_{t=1}^{m}(y_t-\bm w^T\bm z_t) + ||\bm w||_2^2$.
-Closed form: $\hat{\bm w}_{i} = M_{i}^{-1}D_{i}^Ty_{i}$,
+Closed form: $\hat{\bm w}_{i} = M_{i}^{-1}D_{i}^T\bm y_{i}$,
 $M_{i} = D_{i}^TD_{i} + I$,
-$D_{i} = [z_1|\dots|z_m], y_{i} = (y_1|\dots|y_m)^T$.\\
-Confidence: $\Pr\left [|\hat{\bm w}_{i}^T\bm z_t - \bm w_{i}^T\bm z_t| \leq \alpha\sqrt{\bm z_t^T M_{i}^{-1}\bm z_t}\right ] \geq 1-\delta$ if $\alpha = 1 + \sqrt{\ln(2/\delta)/2}$.
+$D_{i} = [\bm z_1|\dots|\bm z_m], \bm y_{i} = (y_1|\dots|y_m)^T$.
+\subparagraph{Confidence} If $\alpha = 1 + \sqrt{\ln(\frac{2}{\delta})/2}$: \newline
+$\Pr\left [|\hat{\bm w}_{i}^T\bm z_t - \bm w_{i}^T\bm z_t| \leq \alpha\sqrt{\bm z_t^T M_{i}^{-1}\bm z_t}\right ] \geq 1-\delta$.
 
-% Algorithm LinUCB
+\paragraph{LinUCB (Algorithm)}
+For $t = [T]$ receive \emph{action set} $A_t$ and features $\bm z_t$. For all $\bm x \in A_t$: if $\bm x$ new, set $M_{\bm x} \leftarrow \mathbb{I}$ and $b_x \leftarrow 0$;
+set $\hat w_{\bm x} \leftarrow M_{\bm x}^{-1}b_{\bm x}$;
+set $UCB_{\bm x} \leftarrow \hat w_{\bm x}^T \bm z_t + \alpha\sqrt{\bm z_t^T M_{\bm x}^{-1} \bm z_t}$.
+Recommend action $\bm x_t = \argmax_{\bm x \in A_t} UCB_{\bm x}$; observe $y_t$.
+Set $M_{\bm x} \leftarrow M_{\bm x} + \bm z_t \bm z_t^T$ and $b_{\bm x} \leftarrow b_{\bm x} + y_t \bm z_t$.
 
 \paragraph{Hybrid Model}
 $y_t = \bm w_i^T \bm z_t + \beta^T \phi(\bm x_i,\bm z_t) + \eps_t$
@@ -329,11 +378,30 @@ captures sep.\ and shared effects.
 Evaluate bandit: For $t \in \N$ read log $(\bm x_1^{(t)},\dots,\bm x_k^{(t)},\bm z_t,a_t,y_t)$.
 Pick $a'_t$ by algo. If $a'_t = a_t$ feed $y_t$ to algo., else ignore line. Stop after $T$ feedbacks.
 
-
 \section{Submodularity}
+$F:2^V \rightarrow \R$ \emph{subm.} iff $F(A \cup \{s \})-F(A) \geq F(B\cup \{s\})-F(B)$,\\
+$\forall A \subseteq B \subseteq V, s \in V$ with $s \notin B$.
+
+\paragraph{Closedness:}
+If $F_{1,\dots,m}(A)$ subm.\ then $\lambda_i>0:$ $F'(A) := \sum_i \lambda_i F_i(A)$ subm.
+
+\paragraph{Other properties:}
+If $F(S)$ subm.\ on $V$, then $F(S \cap W), F(S \cup W), F(V \setminus S)$ subm.\ where $W \subseteq V$.
+
+\paragraph{Marginal gain:}
+$\Delta_F(s|A)=F(\{s\} \cup A)-F(A)$
+
+\paragraph{Greedy algo:}
+In round $i+1$, previously picked $A_i=\{s_1,\dots,s_i\}$; pick $s_{i+1} = \argmax_{s} \Delta_F(s|A_i) = \argmax_{s} (F(\{s\}\cup A_i)-F(A_i))$.
+
+\paragraph{Lazy Greedy:}
+\emph{Observation:} Submodularity implies $\Delta(s|A_i) \geq \Delta(s|A_{i+1})$.
+Algo.: $A_0 \leftarrow \{\}$; first iteration as usual.
+Then keep ordered list of $\Delta_i$ from prev.\ iteration.
+For $i \in [k]$ do: $\Delta_i=F(A_{i-1}\cup \{s^*\})$, $s^*=\argmax_s\Delta_F(s|A_{i-1})$ (\emph{top element}).
+If $s^*$ is still top, then $A_i \leftarrow A_{i-1}\cup \{s^*\}$ else resort and pick top element (as in Greedy). 
 
 \end{multicols}
 
-\appendix
 
 \end{document}
