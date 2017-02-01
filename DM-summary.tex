@@ -149,15 +149,18 @@ For column $c \in [C]$, row $r \in [N]$ with $C_c(r) = 1$, $M_S(i,c) \leftarrow 
 
 \paragraph{$(d_1,d_2,p_1,p_2)$-sensitivity} of $F = \{h_1,\dots,h_n\}$: $\forall x,y \in S: d(x,y) \leq d_1 \implies P[h(x)=h(y)] \geq p_1$ and $d(x,y) \geq d_2 \implies P[h(x)=h(y)] \leq p_2.$
 \paragraph{$r$-way AND}
-$h = [h_1,\dots,h_r],\ h(x) = h(y) \Leftrightarrow \forall i\ h_i(x) = h_i(y)$ is $(d_1,d_2,p_1^r,p_2^r)$-sensitive.
+$h = [h_1,\dots,h_r],\ h(x) = h(y) \Leftrightarrow \forall i\ h_i(x) = h_i(y)$ is $(d_1,d_2,p_1^r,p_2^r)$-sensitive. Decreases FP.
 \paragraph{$b$-way OR}
-$h = [h_1,\dots,h_b],\ h(x) = h(y) \Leftrightarrow \exists i\ h_i(x) = h_i(y)$ is $(d_1,d_2,1-(1-p_1)^b,1-(1-p_2)^b)$-sensitive.
+$h = [h_1,\dots,h_b],\ h(x) = h(y) \Leftrightarrow \exists i\ h_i(x) = h_i(y)$ is $(d_1,d_2,1-(1-p_1)^b,1-(1-p_2)^b)$-sensitive. Decreases FN.
 
-\paragraph{Banding as boosting}
-Reduce FP/FN by $b$-way OR after $r$-way AND.
+\paragraph{Boosting by composition}
+$b$-way OR after $r$-way AND.
 Group sig.\ matrix into $b$ bands of $r$ rows.
 CP match in at least one band (check by hashing).
-Result is $(d_1,d_2,1-(1-p_1^r)^b,1-(1-p_2^r)^b)$-sensitive.
+Result is $(d_1,d_2,1-(1-p_1^r)^b,1-(1-p_2^r)^b)$-sensitive. $r$ pulls stronger than $b$. $r$ pulls down.
+\\
+$r$-way AND after $b$-way OR.
+Result is $(d_1,d_2,(1-(1-p_1)^b)^r,(1-(1-p_2)^b)^r$-sensitive. $b$ pulls stronger than $r$. $b$ pulls up.
 
 \paragraph{Tradeoff FP/FN}
 Favor FP (work) over FN (wrong).
@@ -182,7 +185,7 @@ $k$ is inner product in high-dim.\ space: $k(\bm x,\bm y) = \langle\phi(\bm x),\
 \subsection{Support vector machine (SVM)}
 \paragraph{SVM primal}
 \subparagraph{Quadratic} $\min_{\bm w} \bm w^T \bm w + C\sum_{i}\xi_i$,
-s.t.\ $\forall i: y_i\bm w^T \bm x_i \geq 1 - \xi_i$, slack $C$.
+s.t.\ $\forall i: y_i\bm w^T \bm x_i \geq 1 - \xi_i$, $\forall i: \xi_i\geq 0$.
 \subparagraph{Hinge loss}
 %$\min_{\bm w} \bm w^T \bm w + C\sum_{i}\max(0,1-y_i\bm w^T\bm x_i)$,\newline
 %Also written
@@ -217,7 +220,10 @@ Update for online SVM: \\
 $\bm w_{t+1} = \Proj_S(\bm w_t-\eta_t\nabla f_t(\bm w_t))$ with $\Proj_S(\bm w) = \argmin_{w'\in S} ||\bm w'-\bm w||_2$, gives regret bound $\frac{R_T}{T}\leq\frac{1}{\sqrt{T}}(||\bm w_0-\bm w^*||_2^2+||\nabla f||_2^2)$. \\
 For $H$-strongly convex fn, $\eta_t = \frac{1}{Ht}$ gives $R_t \leq \frac{||\nabla f||^2}{2H}(1+\log T)$.
 
-\paragraph{Stochastic PGD (SGD)}
+\paragraph{Stochastic Gradient Descent (SGD)}
+Convex program is unconstrained and decomposes $f(w)=\sum_{i}^n{g(w; i)}$. In SVM $g(w; i) = \frac{\lambda w^Tw}{n} + l_h(w; x_i, y_i)$. \emph{Algo:} $w \leftarrow 0$ and choose $\beta_t$. until convergence: $(x_i,y_i)\in_{u.a.r}X$. $w\leftarrow w - \beta_t \cdot \nabla_w(g(w; i))$.
+
+\paragraph{Stochastic PGD (SPGD)}
 Online-to-batch. Compute $\tilde{\bm w} = \frac{1}{T}\sum_{t=1}^{T} \bm w_t$.
 If data i.\ i.\ d.: exp.\ \emph{error (risk)} $\E[L(\tilde{\bm w})] \leq L(\bm w^*) + R_T/T$, $L(\bm w^*)$ is best error (risk) possible.
 
@@ -312,7 +318,7 @@ Init $\mu^{(0)}$ (somehow).
 Always converge to \emph{local minimum}.
 
 \paragraph{Online k-means} Init $\mu$ somehow.
-For $t \in [n]$ find $z = \argmin_j||\mu_j-\bm x_t||_2$, set $\mu_c \leftarrow \mu_c + \eta_t(\bm x_t - \mu_c)$. For local optimum: $\sum_t \eta_t = \infty \wedge \sum_t \eta_t^2 < \infty$ suffices, e.g.\ $\eta_t = \frac{c}{t}$, $c \in \R$.
+For $t \in [n]$ find $c = \argmin_j||\mu_j-\bm x_t||_2$, set $\mu_c \leftarrow \mu_c + \eta_t(\bm x_t - \mu_c)$. For local optimum: $\sum_t \eta_t = \infty \wedge \sum_t \eta_t^2 < \infty$ suffices, e.g.\ $\eta_t = \frac{c}{t}$, $c \in \R$.
 
 \paragraph{Weighted rep. $C$} $L_k(\mu;C) = \sum_{(w,\bm x)\in C}w\cdot\min_j||\mu_j - \bm x||_2^2$.
 
@@ -382,11 +388,10 @@ Pick $a'_t$ by algo. If $a'_t = a_t$ feed $y_t$ to algo., else ignore line. Stop
 $F:2^V \rightarrow \R$ \emph{subm.} iff $F(A \cup \{s \})-F(A) \geq F(B\cup \{s\})-F(B)$,\\
 $\forall A \subseteq B \subseteq V, s \in V$ with $s \notin B$.
 
-\paragraph{Closedness:}
+\paragraph{Closedness of non-negative linear combination:}
 If $F_{1,\dots,m}(A)$ subm.\ then $\lambda_i>0:$ $F'(A) := \sum_i \lambda_i F_i(A)$ subm.
 
-\paragraph{Other properties:}
-If $F(S)$ subm.\ on $V$, then $F(S \cap W), F(S \cup W), F(V \setminus S)$ subm.\ where $W \subseteq V$.
+\paragraph{Other closedness:} $F(S)$ is subm.\ on $V$ and $W\subseteq V$. \emph{Restriction} $F(S \cap W)$. \emph{Conditioning}  $F(S \cup W)$, \emph{Reflection} $F(V \setminus S)$, are submodular.
 
 \paragraph{Marginal gain:}
 $\Delta_F(s|A)=F(\{s\} \cup A)-F(A)$
@@ -400,6 +405,17 @@ Algo.: $A_0 \leftarrow \{\}$; first iteration as usual.
 Then keep ordered list of $\Delta_i$ from prev.\ iteration.
 For $i \in [k]$ do: $\Delta_i=F(A_{i-1}\cup \{s^*\})$, $s^*=\argmax_s\Delta_F(s|A_{i-1})$ (\emph{top element}).
 If $s^*$ is still top, then $A_i \leftarrow A_{i-1}\cup \{s^*\}$ else resort and pick top element (as in Greedy). 
+
+
+\section{Tips}
+
+$\sum{||y_i - w^Tx_i||^2} = \sum{(y_i - w^Tx_i)^T(y_i - w^Tx_i)} = (y - Xw)^T(y-Xw)$
+
+\paragraph{Showing active learning needs n labels} Assume points are all distinct and algo has returned $-1$ for the first $n-1$ labels. Choose x s.t. algo can not distinguish between $-1,+1$.
+
+\paragraph{Sublinear strategy approach} Sort and rename points. Cleverly search witnesses (points determining interval).
+
+\paragraph{Deriving Dual} Start with quadratic. Rewrite constraints $c_{1,i},c_{2,i}$ s.t. $c_i(w)\geq0$. Get Lagrangian $L(w,\xi,\alpha,\gamma )$: $f(w) - \sum_i{\alpha_ic_{1,i}} - \sum_i{\gamma_ic_{2,i}}$. Set derivatives $\frac{\partial L}{\partial w}$ and $\frac{\partial L}{\partial \xi_i}$ to $0$ and get $w$, $C$. Insert into $L(w)$. Result is max. qp with constraint $\alpha_i \in [0,C]$
 
 \end{multicols}
 
