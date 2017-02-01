@@ -1,4 +1,4 @@
-\documentclass[10pt]{scrartcl}
+\documentclass[11pt]{scrartcl}
 \usepackage[utf8]{inputenc}
 
 \usepackage[english]{babel}
@@ -20,7 +20,7 @@
 \setkomafont{paragraph}{}
 \setkomafont{subparagraph}{\normalfont\itshape}
 
-\usepackage[landscape,paper=a4paper,left=4mm,right=4mm,top=5mm,bottom=5mm,footskip=0mm]{geometry}
+\usepackage[landscape,paper=a4paper,left=4mm,right=4mm,top=5mm,bottom=8mm,footskip=0mm]{geometry}
 \usepackage[extreme]{savetrees}
 
 \renewcommand\familydefault{\rmdefault}
@@ -60,6 +60,8 @@
 \DeclareMathOperator{\Div}{div}
 \DeclareMathOperator{\Sim}{Sim}
 \DeclareMathOperator{\Proj}{Proj}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
 \newcommand*\diff{\mathop{}\!\mathrm{d}}
 
 \newcommand{\eps}{\epsilon}
@@ -217,7 +219,8 @@ Best $L^* = \min_{\bm w}\sum_{t=1}^{T}\max(0,1-y_t \bm w^T \bm x_t)$, regret $R_
 
 \paragraph{Online proj.\ gradient descent (OPGD)}
 Update for online SVM: \\
-$\bm w_{t+1} = \Proj_S(\bm w_t-\eta_t\nabla f_t(\bm w_t))$ with $\Proj_S(\bm w) = \argmin_{w'\in S} ||\bm w'-\bm w||_2$, gives regret bound $\frac{R_T}{T}\leq\frac{1}{\sqrt{T}}(||\bm w_0-\bm w^*||_2^2+||\nabla f||_2^2)$. \\
+$\bm w_{t+1} = \Proj_S(\bm w_t-\eta_t\nabla f_t(\bm w_t))$ with $\Proj_S(\bm w) = \argmin_{w'\in S} ||\bm w'-\bm w||_2$, gives regret bound $\frac{R_T}{T}\leq\frac{1}{\sqrt{T}}(||\bm w_0-\bm w^*||_2^2+||\nabla f||_2^2)$, $\nabla f_t(\bm w_t) = -y_t\bm x_t$, if $y_t\bm w_t^T\bm x_t \leq 1$, else $0$;
+$\eta_t = \frac{1}{\sqrt{t}}$ and $\Proj_s(\bm w') =  \bm w'\cdot\min\left (1, 1/(\sqrt{\lambda}||\bm w'||_2) \right )$.\\
 For $H$-strongly convex fn, $\eta_t = \frac{1}{Ht}$ gives $R_t \leq \frac{||\nabla f||^2}{2H}(1+\log T)$.
 
 \paragraph{Stochastic Gradient Descent (SGD)}
@@ -279,15 +282,16 @@ new point $\bm x'$: $\bm z(\bm x') = \bm D^{-1/2} \bm V^T [k(\bm x', \hat{\bm x}
 %\paragraph{Pool-based} Unlabeled data-set given, (sequentially) request labels.
 
 \paragraph{Uncertainty sampl.}
+Until all labels can be inferred (or until a \emph{label budget});
 $U_t(x) = U(x | x_{1:t-1}, y_{1:t-1})$, request $y_t$ for $x_t = \argmax_x U_t(x)$.
 \textbf{SVM:} $x_t = \argmin_{x_i}|\bm w^T\bm x_i|$, i.e.\ $U_t(\bm x) = \frac{1}{|\bm w_t^T \bm x|}$.
 
 \paragraph{Sub-linear time w/ LSH}
-$|\bm w^T\bm x_i|$ small if $\angle_{\bm w,\bm x_i}$ close to $\pi$.\\
+$|\bm w^T\bm x_i|$ small if $\angle_{\bm w,\bm x_i}$ close to $\frac{\pi}{2}$ (90°).\\
 Hash hyperplane:
 $h_{\bm u,\bm v}(\bm a,\bm b) = [h_{\bm u}(\bm a), h_{\bm v}(\bm b)] = [\sign(\bm u^T\bm a),\sign(\bm v^T\bm b)]$.
 LSH hash family: $h_H(z) = h_{u,v}(\bm z,\bm z)$ if $z$ datapoint, $h_H(z) = h_{u,v}(\bm z,-\bm z)$ if $z$ query hyperplane.
-$\Pr[h_H(\bm w) = h_H(\bm x)] = \Pr[h_{\bm u}(\bm w) = h_{\bm u}(\bm x)]\Pr[h_{\bm v}(-\bm w) = h_{\bm v}(\bm x)] = \frac{1}{4} - \frac{1}{\pi^2}(\angle_{\bm x,\bm w} - \frac{pi}{2})^2$.\\
+$\Pr[h_H(\bm w) = h_H(\bm x)] = \Pr[h_{\bm u}(\bm w) = h_{\bm u}(\bm x)]\Pr[h_{\bm v}(-\bm w) = h_{\bm v}(\bm x)] = \frac{1}{4} - \frac{1}{\pi^2}(\angle_{\bm x,\bm w} - \frac{\pi}{2})^2$.\\
 Hash all unlabeled. Loop: Hash $\bm w$, req.\ labels for hash-coll., update.
 
 \paragraph{Informativeness}
@@ -312,12 +316,12 @@ $L(\mu) = \sum_{i=1}^{N}\min_j||\bm x_i-\mu_j||_2^2$ and \emph{cluster centers} 
 Non-convex! NP-hard in general!
 
 \paragraph{LLoyd's}
-Init $\mu^{(0)}$ (somehow).
+Init $\mu^{(0)}$ (somehow/randomly).
 \emph{Assign} all $\bm x_i$ to closest center $z_i \leftarrow \argmin_{j \in [k]} ||\bm x_i - \mu_j^{(t-1)}||_2^2$,
 \emph{Update} to mean: $\mu_j^{(t)} \leftarrow \frac{1}{n_j}\sum_{i:z_i = j}\bm x_i$.
 Always converge to \emph{local minimum}.
 
-\paragraph{Online k-means} Init $\mu$ somehow.
+\paragraph{Online k-means} Init $\mu$ somehow/randomly.
 For $t \in [n]$ find $c = \argmin_j||\mu_j-\bm x_t||_2$, set $\mu_c \leftarrow \mu_c + \eta_t(\bm x_t - \mu_c)$. For local optimum: $\sum_t \eta_t = \infty \wedge \sum_t \eta_t^2 < \infty$ suffices, e.g.\ $\eta_t = \frac{c}{t}$, $c \in \R$.
 
 \paragraph{Weighted rep. $C$} $L_k(\mu;C) = \sum_{(w,\bm x)\in C}w\cdot\min_j||\mu_j - \bm x||_2^2$.
@@ -350,7 +354,7 @@ Regret $r_t = \mu^* - \mu_{i_t}$.
 Total regret $R_T = \sum_{t=1}^{T} r_t$.
 \paragraph{$\eps$-greedy} \emph{Explore} u.a.r.\ with prob. $\eps_t$, \emph{exploit} with prob.\ $1-\eps_t$: choose $\argmax_i\hat\mu_i$.
 Suitable $\eps_t \in O(1/t)$ gives $R_T \in O(k\log T)$.
-Clearly unoptimal: !TODO! Why?
+Clearly unoptimal.
 \paragraph{UCB1}
 Init $\hat\mu_i \leftarrow 0$; try all arms once.
 Following $t \in [T-k]$ rounds: $UCB(i) \leftarrow \hat\mu_i+\sqrt{\frac{2\log t}{n_i}}$, pick $i_t \leftarrow \argmax_i UCB(i)$, observe $y_t$. Update $n_{i_t} \leftarrow n_{i_t}+1, \hat\mu_{i_t}\leftarrow\hat\mu_{i_t}+\frac{y_t-\hat\mu_{i_t}}{n_{i_t}}$.
@@ -389,15 +393,20 @@ $F:2^V \rightarrow \R$ \emph{subm.} iff $F(A \cup \{s \})-F(A) \geq F(B\cup \{s\
 $\forall A \subseteq B \subseteq V, s \in V$ with $s \notin B$.
 
 \paragraph{Closedness of non-negative linear combination:}
-If $F_{1,\dots,m}(A)$ subm.\ then $\lambda_i>0:$ $F'(A) := \sum_i \lambda_i F_i(A)$ subm.
+If $F_{1,\dots,m}(A)$ subm.\ then $\lambda_i \geq 0:$ $F'(A) := \sum_i \lambda_i F_i(A)$ subm.
 
-\paragraph{Other closedness:} $F(S)$ is subm.\ on $V$ and $W\subseteq V$. \emph{Restriction} $F(S \cap W)$. \emph{Conditioning}  $F(S \cup W)$, \emph{Reflection} $F(V \setminus S)$, are submodular.
+\paragraph{Other closedness:}
+If $F(S)$ is subm.\ on $V$ and $W\subseteq V$, then
+\emph{Restriction} $F(S \cap W)$,
+\emph{Conditioning} $F(S \cup W)$,
+\emph{Reflection} $F(V \setminus S)$ are submodular.
 
 \paragraph{Marginal gain:}
 $\Delta_F(s|A)=F(\{s\} \cup A)-F(A)$
 
 \paragraph{Greedy algo:}
 In round $i+1$, previously picked $A_i=\{s_1,\dots,s_i\}$; pick $s_{i+1} = \argmax_{s} \Delta_F(s|A_i) = \argmax_{s} (F(\{s\}\cup A_i)-F(A_i))$.
+This gives a $(1-1/e) \approx 0.63$-approximation.
 
 \paragraph{Lazy Greedy:}
 \emph{Observation:} Submodularity implies $\Delta(s|A_i) \geq \Delta(s|A_{i+1})$.
@@ -417,7 +426,37 @@ $\sum{||y_i - w^Tx_i||^2} = \sum{(y_i - w^Tx_i)^T(y_i - w^Tx_i)} = (y - Xw)^T(y-
 
 \paragraph{Deriving Dual} Start with quadratic. Rewrite constraints $c_{1,i},c_{2,i}$ s.t. $c_i(w)\geq0$. Get Lagrangian $L(w,\xi,\alpha,\gamma )$: $f(w) - \sum_i{\alpha_ic_{1,i}} - \sum_i{\gamma_ic_{2,i}}$. Set derivatives $\frac{\partial L}{\partial w}$ and $\frac{\partial L}{\partial \xi_i}$ to $0$ and get $w$, $C$. Insert into $L(w)$. Result is max. qp with constraint $\alpha_i \in [0,C]$
 
+\section{Probability}
+\begin{align*}
+	\E[X] & = \sum_x \Pr(x) \cdot x \\
+	\E[aX + aY] & = a\cdot\E[x]+b\cdot\E[y] \\
+	\Var[X] & = \sum_x p(x)\cdot(x-\E[X])^2 \\
+	        & = \E[(X-\E[X])^2] = \E[X^2] - (\E[X])^2 \\
+	\Cov[X,Y] & = \E[(X-\E[X])(Y-\E[Y])] = \E[X\cdot Y] - \E[X]\cdot\E[Y] \\
+	\Var[\alpha X + \beta Y] & = \alpha \Var[X] + 2\alpha\beta Cov[X,Y] + \beta \Cov[Y] \\
+	\Cov[X,X] & = \Var[X] \\
+	\Cov[A+B, X] & = \Cov[A, X] + \Cov[B, X] \\
+	\Pr(A\cup B) & = \Pr(A)+P(B) - \Pr(A\cap B) \\
+	\Pr(A\cup B) & = \Pr(A)+P(B)\ \ \mbox{if A, B mutually exclusive} \\
+	\Pr(A\cap B) & = \Pr(A|B)P(B) = \Pr(B|A)P(A)\\
+	\Pr(A\cap B) & = \Pr(A)P(B)\ \ \mbox{if A, B independent}\\
+	\Pr(A \mid B) & = \dfrac{P(A \cap B)}{P(B)} = \dfrac{P(B|A)P(A)}{P(B)}
+\end{align*}
+
+\paragraph{Hoeffding's Inequality}
+\begin{align*}
+\Pr \left(\overline X - \mathrm{E}\left [\overline X \right] \geq t \right) &\leq \exp \left(-\frac{2n^2t^2}{\sum_{i=1}^n (b_i - a_i)^2} \right) \\
+\Pr \left(\left |\overline X - \mathrm{E}\left [\overline X \right] \right | \geq t \right) &\leq 2\exp \left(-\frac{2n^2t^2}{\sum_{i=1}^n(b_i - a_i)^2} \right)
+\end{align*}
+\paragraph{Markov's Inequality}
+$\mathbb{P}(X \geq a) \leq \frac{\mathbb{E}(X)}{a}$.
+
+\paragraph{Gaussian $~ \mathcal{N}(\mu, \sigma^2):$}
+$\dfrac{1}{\sqrt{2\sigma^2\pi} } \; e^{ -\frac{(x-\mu)^2}{2\sigma^2} }$
+
 \end{multicols}
 
 
 \end{document}
+
+
